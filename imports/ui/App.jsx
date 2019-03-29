@@ -1,13 +1,16 @@
-import React from 'react';
-import Hello from './Hello.jsx';
-import Info from './Info.jsx';
+import React, { Component } from "react";
+import Game from "./Game.jsx";
+import NavBar from "./NavBar.jsx"
 
-const App = () => (
-  <div>
-    <h1>Welcome to Meteor!</h1>
-    <Hello />
-    <Info />
-  </div>
-);
+class App extends Component {
+	render() {
+		return (
+			<div>
+			<NavBar />
+			<Game />
+			</div>
+		)
+	}
+}
 
 export default App;
