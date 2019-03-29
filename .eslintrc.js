@@ -35,6 +35,8 @@ module.exports = {
             "error",
             "always"
         ],
+<<<<<<< HEAD
         "no-console": "off"
     }
+
 };
