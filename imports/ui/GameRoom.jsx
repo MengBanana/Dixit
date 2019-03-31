@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Meteor } from "meteor/meteor";
 import { Games } from "../api/games.js";
+import { UsersGames } from "../api/usersGames.js";
 import { withTracker } from "meteor/react-meteor-data";
 import PropTypes from "prop-types";
 import Pagination from "./Pagination";
@@ -12,6 +13,7 @@ class GameRoom extends Component {
     super(props);
     this.state = {
       newGameName: "",
+      numberOfPlayers:0,
       pageSize: 12,
       currentPage: 1,
       search: ""
@@ -40,13 +42,21 @@ class GameRoom extends Component {
   }
 
   onSubmit(e) {
-    let name = this.state.newGameName;
+    let info = {
+      name: e.target.id === "joinGame"? e.target.name : this.state.newGameName,
+      number: this.state.numberOfPlayers
+    };
     this.setState({
       newGameName: "",
-      search:""
+      numberOfPlayers: 0,
+      search: ""
     });
+
     if (e.target.id === "newGame") {
-      Meteor.call("games.insert",name, (err, res) => {
+      if (info.number < 3 || info.number > 6) {
+        return alert("Please enter a number between 3 and 6");
+      }
+      Meteor.call("games.insert",info, (err, res) => {
         if (err) {
           alert("Name already taken!");
           console.log(err);
@@ -54,7 +64,17 @@ class GameRoom extends Component {
         console.log("succeed",res);
       });
     }
-    Meteor.call("games.addPlayer",name,(err, res) => {
+
+    Meteor.call("games.addPlayer",info.name,(err, res) => {
+      if (err) {
+        alert("There was error updating check the console");
+        console.log(err);
+      }
+      console.log("succeed",res);
+    });
+
+    //for both newGame and join Game
+    Meteor.call("usersGames.join",info.name,(err, res) => {
       if (err) {
         alert("There was error updating check the console");
         console.log(err);
@@ -102,6 +122,10 @@ class GameRoom extends Component {
                       <label>Name</label>
                       <input type="text" className="form-control" id="newGameName" onChange= {this.onChange.bind(this)}/>
                     </div>
+                    <div className = "form-group">
+                      <label>Number Of Players (3~6)</label>
+                      <input type="text" className="form-control" id="numberOfPlayers" onChange= {this.onChange.bind(this)}/>
+                    </div>
                   </form>
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
@@ -119,7 +143,8 @@ class GameRoom extends Component {
                 <div className ="container img-box"><img className="card-img-top img-rounded" src="" alt=""/></div>
                 <div className="card-body">
                   <h5 className = "card-text text-center">{game.name}</h5>
-                  <button type="button" className="btn btn-outline-dark" id="joinGame" name={game._id} onClick = {this.onSubmit.bind(this)}>Join</button>
+                  <h5 className = "card-text text-center"> {game.players.length}/{game.numberOfPlayers}</h5>
+                  <button type="button" className="btn btn-outline-dark" id="joinGame" name={game.name} onClick = {this.onSubmit.bind(this)}>Join</button>
                   <button type="button" className="btn btn-outline-dark" disabled>Now Playing</button>
                 </div>
               </div>
@@ -140,15 +165,18 @@ class GameRoom extends Component {
 
 GameRoom.propTypes = {
   games: PropTypes.arrayOf(PropTypes.object).isRequired,
+  usersGames: PropTypes.arrayOf(PropTypes.object).isRequired,
   ready: PropTypes.bool.isRequired
 };
 
 export default withTracker(() => {
   const handle = Meteor.subscribe("games");
+  const handle2 = Meteor.subscribe("usersGames");
   
   return {
     games: Games.find({}).fetch(), 
+    usersGames: UsersGames.find({}).fetch(),
     user: Meteor.user(),
-    ready : handle.ready()
+    ready : handle.ready() && handle2.ready()
   };
 })(GameRoom);

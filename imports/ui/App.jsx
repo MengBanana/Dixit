@@ -30,6 +30,6 @@ class App extends Component {
 
 export default withTracker(() => {
   return {
-    user: Meteor.user(),
+    user: Meteor.user()
   };
 })(App);

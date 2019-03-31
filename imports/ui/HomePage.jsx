@@ -5,7 +5,7 @@ class HomePage extends Component {
     return (
       <div className="container"id="HomePage" >
         <div className = "row">
-       	  <h1>DIXIT HomePage</h1>
+          <h1>DIXIT HomePage</h1>
         </div>
       </div>
 

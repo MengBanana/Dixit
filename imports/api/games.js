@@ -9,36 +9,40 @@ if (Meteor.isServer) {
     return Games.find({}, {
       limit: 50,
       sort: {
-        amount: -1
+        createdAt: -1
       }
     });
   });
 }
 
 Meteor.methods({
-  "games.insert"(name) {
-    check(name, String);
+  "games.insert"(info) {
+    check(info.name, String);
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     }
     let res = Games.findOne({
-      name: name
+      name: info.name
     });
     if (res!= null) {
-      throw new Meteor.Error("nameTaken");//TODO: duplicate names ??
+      throw new Meteor.Error("nameTaken");
     }
     Games.insert({
-      name: name,
+      name: info.name,
+      numberOfPlayers: info.number,
       createdAt: Date.now()
     });
   },
 
   "games.addPlayer"(name) {
-    let res = Games.find({
-      name:name,
-      player: {$contains:this.userId}
+    check(name, String);
+    if (!this.userId) {
+      throw new Meteor.Error("not-authorized");
+    }
+    let res = Games.findOne({
+      name:name
     });
-    if (res != null) {
+    if (res.players.includes(this.userId)){
       return;
     }
     Games.update(
