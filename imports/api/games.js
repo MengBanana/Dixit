@@ -5,12 +5,15 @@ import { check } from "meteor/check";
 export const Games = new Mongo.Collection("games");
 
 if (Meteor.isServer) {
-  Meteor.publish("games", function giftsPublication() {
+  Meteor.publish("games", function gamesPublication() {
+    return Games.find({});
+  });
+  Meteor.publish("myGame", function f() {
+    if (!Meteor.userId()) {
+      return this.ready();
+    }
     return Games.find({}, {
-      limit: 50,
-      sort: {
-        createdAt: -1
-      }
+      players:[this.userId]
     });
   });
 }
@@ -30,7 +33,7 @@ Meteor.methods({
     Games.insert({
       name: info.name,
       numberOfPlayers: info.number,
-      stage: 0,
+      okToJoin: true,
       players:[],
       createdAt: Date.now()
     });
@@ -51,7 +54,32 @@ Meteor.methods({
       {name: name}, 
       {$push:{players: this.userId}}
     );
-  }
+    if (res.players.length === res.numberOfPlayers) {
+      console.log("full?");
+      Games.update(
+        {name: name}, 
+        {okToJoin: false}
+      );
+    }
+  },
+
+  "games.removePlayer"(name) {
+    check(name, String);
+    if (!this.userId) {
+      throw new Meteor.Error("not-authorized");
+    }
+    let res = Games.findOne({
+      name:name
+    });
+    if (!res.players.includes(this.userId)){
+      return;
+    }
+    Games.update(
+      {name: name}, 
+      {$pull:{players: this.userId}}
+    );
+  },
+
 });
 
 

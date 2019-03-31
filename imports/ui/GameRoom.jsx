@@ -64,22 +64,19 @@ class GameRoom extends Component {
         console.log("succeed",res);
       });
     }
-
-    Meteor.call("games.addPlayer",info.name,(err, res) => {
-      if (err) {
-        alert("There was error updating check the console");
-        console.log(err);
-      }
-      console.log("succeed",res);
-    });
-
-    //for both newGame and join Game
     Meteor.call("usersGames.join",info.name,(err, res) => {
       if (err) {
         alert("There was error updating check the console");
         console.log(err);
+      } else {
+        Meteor.call("games.addPlayer",info.name,(err, res) => {
+          if (err) {
+            alert("There was error updating check the console");
+            console.log(err);
+          }
+          console.log("succeed",res);
+        });
       }
-      console.log("succeed",res);
     });
   }
 
@@ -144,8 +141,8 @@ class GameRoom extends Component {
                 <div className="card-body">
                   <h5 className = "card-text text-center">{game.name}</h5>
                   <h5 className = "card-text text-center"> {game.players.length}/{game.numberOfPlayers}</h5>
-                  <button type="button" className="btn btn-outline-dark" id="joinGame" name={game.name} onClick = {this.onSubmit.bind(this)}>Join</button>
-                  <button type="button" className="btn btn-outline-dark" disabled>Now Playing</button>
+                  {game.okToJoin === true ? <button type="button" className="btn btn-outline-dark" id="joinGame" name={game.name} onClick = {this.onSubmit.bind(this)}>Join</button>
+                    : <button type="button" className="btn btn-outline-dark" disabled>Now Playing</button>}
                 </div>
               </div>
             </div>
@@ -165,18 +162,15 @@ class GameRoom extends Component {
 
 GameRoom.propTypes = {
   games: PropTypes.arrayOf(PropTypes.object).isRequired,
-  usersGames: PropTypes.arrayOf(PropTypes.object).isRequired,
   ready: PropTypes.bool.isRequired
 };
 
 export default withTracker(() => {
   const handle = Meteor.subscribe("games");
-  const handle2 = Meteor.subscribe("usersGames");
   
   return {
     games: Games.find({}).fetch(), 
-    usersGames: UsersGames.find({}).fetch(),
     user: Meteor.user(),
-    ready : handle.ready() && handle2.ready()
+    ready : handle.ready()
   };
 })(GameRoom);

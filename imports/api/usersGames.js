@@ -6,14 +6,23 @@ export const UsersGames = new Mongo.Collection("usersGames");
 
 if (Meteor.isServer) {
   Meteor.publish("usersGames", function gamesPublication() {
-    return UsersGames.find({});
+    return UsersGames.find({
+    },{
+      limit: 50,
+      sort: {
+        createdAt: -1
+      }
+    });
   });
   Meteor.publish("myGame", function gamePublication() {
     if (!this.userId) {
       return this.ready();
     }
     return UsersGames.find({}, {
-      _id: Meteor.userId()
+      _id: Meteor.userId(),
+      sort: {
+        createdAt: -1
+      }
     });
   });
 }
@@ -49,8 +58,21 @@ Meteor.methods({
     }
   },
 
-  "usersGames.exit"() { //upate points, round++, exit game
-    
+  "usersGames.exit"(points) { //upate points, round++, exit game
+    if (!this.userId) {
+      throw new Meteor.Error("not-authorized");
+    }
+
+    UsersGames.update ({
+      _id: this.userId
+    }, {
+      ingame: false,
+      gameName: "",
+      $inc: {
+        totalPoints: points,
+        totalRounds: 1
+      }
+    });
   }
 });
 

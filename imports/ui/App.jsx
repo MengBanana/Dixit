@@ -20,6 +20,9 @@ class App extends Component {
   //NOT WORKING <Route exact path="/" component={HomePage} />
   //               {this.props.myGame[0].ingame ? <Route exact path="/GameRoom" component={MyGame} /> :
   //                 <Route exact path="/GameRoom" component= {GameRoom} />};
+  // {this.props.myGame.map(game => (<div key = {game._id}>
+  //                     {game.ingame === ? <Route exact path="/GameRoom" component={MyGame} /> :
+  //                       <Route exact path="/GameRoom" component= {GameRoom} />}</div>))}
   render() {
 
     return (
@@ -30,16 +33,8 @@ class App extends Component {
             <div className = "col-12">
               <Switch>
                 <Route exact path="/HomePage" component={HomePage} />
-                <Fragment>
-                  {this.props.myGame.length === 0 ? <Route exact path="/GameRoom" component= {GameRoom} /> : null}
-                  {this.props.myGame.map(game => (
-                    <div key = {game._id}>
-                      {game.ingame ? <Route exact path="/GameRoom" component={MyGame} /> :
-                        <Route exact path="/GameRoom" component= {GameRoom} />}</div>
-                  ))}
-                </Fragment>
-                <Route exact path="/MyGame" component={MyGame} />
-                <Route exact path="/GameRoom" component={GameRoom} />
+                <Route exact path="/testMyGame" component={MyGame} />
+                <Route exact path="/testGameRoom" component={GameRoom} />
 
               </Switch>
             </div>
@@ -59,7 +54,7 @@ export default withTracker(() => {
   const handle = Meteor.subscribe("myGame");
   return {
     user: Meteor.user(),
-    myGame: UsersGames.find({}).fetch(),
+    myGame: UsersGames.find({_id:this.userId}).fetch(),
     ready: handle.ready()
   };
 })(App);
