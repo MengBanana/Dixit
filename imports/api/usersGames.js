@@ -5,8 +5,16 @@ import { check } from "meteor/check";
 export const UsersGames = new Mongo.Collection("usersGames");
 
 if (Meteor.isServer) {
-  Meteor.publish("usersGames", function giftsPublication() {
+  Meteor.publish("usersGames", function gamesPublication() {
     return UsersGames.find({});
+  });
+  Meteor.publish("myGame", function gamePublication() {
+    if (!this.userId) {
+      return this.ready();
+    }
+    return UsersGames.find({}, {
+      _id: Meteor.userId()
+    });
   });
 }
 

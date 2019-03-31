@@ -30,6 +30,8 @@ Meteor.methods({
     Games.insert({
       name: info.name,
       numberOfPlayers: info.number,
+      stage: 0,
+      players:[],
       createdAt: Date.now()
     });
   },
