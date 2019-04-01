@@ -31,7 +31,7 @@ class MyGame extends Component {
     this.onChange = this.onChange.bind(this);
   }
 
-  static getDerivedStateFromProps() {
+  ComponentDidMount() {
     this.props.myGame.map(game=>{
       this.setState({
         gameName: game.name,
@@ -228,7 +228,7 @@ MyGame.propTypes = {
 export default withTracker(() => {
   const handle = Meteor.subscribe("myGame");
   return {
-    myGame: Games.find({}).fetch(),
+    myGame: Games.find({ "name": "wow" }).fetch(),
     user: Meteor.user(),
     ready : handle.ready()
   };
