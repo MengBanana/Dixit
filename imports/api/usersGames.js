@@ -50,6 +50,16 @@ Meteor.methods({
     }
   },
 
+  "usersGames.getGame"(joinedGame) {
+    check(joinedGame, String);
+    if (!this.userId) {
+      throw new Meteor.Error("not-authorized");
+    }
+    UsersGames.findOne({
+      gameName: joinedGame
+  });
+},
+
 
   "usersGames.exit"() { //upate points, round++, exit game
     

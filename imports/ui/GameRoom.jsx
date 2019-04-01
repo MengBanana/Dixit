@@ -73,7 +73,7 @@ class GameRoom extends Component {
       console.log("succeed",res);
     });
 
-    // delete me from the game i joined if i want to join a new room
+        // delete me from the game i joined if i want to join a new room
     if(this.props.joinedGame.gameName !== null) {
       console.log(this.props.joinedGame.gameName);
       Meteor.call("games.removePlayer", this.props.joinedGame.gameName, (err, res) => {
@@ -190,9 +190,9 @@ export default withTracker(() => {
   return {
     games: Games.find({}).fetch(), 
     usersGames: UsersGames.find({}).fetch(),
-    joinedGame : UsersGames.find({
+    joinedGame : UsersGames.findOne({
       _id: Meteor.userId()
-    }).fetch(),
+    }),
     user: Meteor.user(),
     ready : handle.ready() && handle2.ready()
   };
