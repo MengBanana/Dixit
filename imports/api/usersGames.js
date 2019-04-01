@@ -46,6 +46,7 @@ Meteor.methods({
           ingame: true,
           gameName: name
         });
+
       }
     } else {
       UsersGames.insert({
@@ -56,13 +57,22 @@ Meteor.methods({
         totalRounds: 0
       });
     }
-  },
+  },  
+  //   "usersGames.getGame"(joinedGame) {
+  //     check(joinedGame, String);
+  //     if (!this.userId) {
+  //       throw new Meteor.Error("not-authorized");
+  //     }
+  //     UsersGames.findOne({
+  //       gameName: joinedGame
+  //   });
+  // },
 
-  "usersGames.exit"(points) { //upate points, round++, exit game
+
+  "usersGames.exit"(points) {//upate points, round++, exit game
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     }
-
     UsersGames.update ({
       _id: this.userId
     }, {
@@ -72,7 +82,7 @@ Meteor.methods({
         totalPoints: points,
         totalRounds: 1
       }
-    });
+    }); 
   }
 });
 

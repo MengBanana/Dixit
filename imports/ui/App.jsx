@@ -6,6 +6,7 @@ import MyGame from "./MyGame.jsx";
 import NavBar from "./NavBar.jsx";
 import GameRoom from "./GameRoom.jsx";
 import HomePage from "./HomePage.jsx";
+import GameBoard from "./GameBoard.jsx";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -33,8 +34,22 @@ class App extends Component {
             <div className = "col-12">
               <Switch>
                 <Route exact path="/HomePage" component={HomePage} />
+<<<<<<< HEAD
                 <Route exact path="/testMyGame" component={MyGame} />
                 <Route exact path="/testGameRoom" component={GameRoom} />
+=======
+{/*                <Fragment>
+                  {this.props.myGame.length === 0 ? <Route exact path="/GameRoom" component= {GameRoom} /> : null}
+                  {this.props.myGame.map(game => (
+                    <div key = {game._id}>
+                      {game.ingame ? <Route exact path="/MyGame" component={MyGame} /> :
+                        <Route exact path="/GameRoom" component= {GameRoom} />}</div>
+                  ))}
+                </Fragment>*/}
+                <Route exact path="/MyGame" component={MyGame} />
+                <Route exact path="/GameRoom" component={GameRoom} />
+                <Route exact path="/GameBoard" component={GameBoard} />
+>>>>>>> de1d13b8a7bae936e5f87c02acaab90d0280dd6c
 
               </Switch>
             </div>

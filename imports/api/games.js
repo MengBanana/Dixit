@@ -19,6 +19,16 @@ if (Meteor.isServer) {
 }
 
 Meteor.methods({
+  "games.start"(randomCards) {
+    check(randomCards.name, Array);
+    if (!this.userId) {
+      throw new Meteor.Error("not-authorized");
+    }
+    Games.insert({
+      randomCards : randomCards
+    });
+  },
+
   "games.insert"(info) {
     check(info.name, String);
     if (!this.userId) {
@@ -35,7 +45,8 @@ Meteor.methods({
       numberOfPlayers: info.number,
       okToJoin: true,
       players:[],
-      createdAt: Date.now()
+      createdAt: Date.now(),
+      owner: Meteor.user().username
     });
   },
 
@@ -47,12 +58,12 @@ Meteor.methods({
     let res = Games.findOne({
       name:name
     });
-    if (res.players.includes(this.userId)){
+    if (res.players.includes(Meteor.user().username)){
       return;
     }
     Games.update(
       {name: name}, 
-      {$push:{players: this.userId}}
+      {$push:{players: Meteor.user().username}}
     );
     if (res.players.length === res.numberOfPlayers) {
       console.log("full?");
@@ -71,15 +82,32 @@ Meteor.methods({
     let res = Games.findOne({
       name:name
     });
-    if (!res.players.includes(this.userId)){
+    if (!res.players.includes(this.username)){
       return;
     }
     Games.update(
       {name: name}, 
-      {$pull:{players: this.userId}}
+      {$pull: {players: Meteor.user().username}}
     );
   },
 
+  // "games.removePlayer"(gameName) {
+  //   if (!this.userId) {
+  //     throw new Meteor.Error("not-authorized");
+  //   }
+  //   Games.update(
+  //     {name: gameName}, 
+  //     {$pull: {players: Meteor.user().username}}
+  //   );
+  // },
+  //   "games.getGame"(gameName) {
+  //   check(gameName, String);
+  //   if (!this.userId) {
+  //     throw new Meteor.Error("not-authorized");
+  //   }
+  //   Games.findOne({
+  //     gameName: gameName
+  // });
 });
 
 
