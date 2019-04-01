@@ -11,7 +11,7 @@ if (Meteor.isServer) {
 }
 
 
-Meteor.Methods({
+Meteor.methods({
 	"cards.getOne"(cardId) {
     check(cardId, String);
     if (!this.userId) {

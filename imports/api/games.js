@@ -62,7 +62,19 @@ Meteor.methods({
       {name: gameName}, 
       {$pull: {players: Meteor.user().username}}
     );
-  }
+  },
+
+    "games.getGame"(gameName) {
+    check(gameName, String);
+    if (!this.userId) {
+      throw new Meteor.Error("not-authorized");
+    }
+    Games.findOne({
+      gameName: gameName
+  });
+}
+
+
 });
 
 
