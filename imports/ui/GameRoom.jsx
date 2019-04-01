@@ -56,28 +56,28 @@ class GameRoom extends Component {
       if (info.number < 3 || info.number > 6) {
         return alert("Please enter a number between 3 and 6");
       }
-      Meteor.call("games.insert",info, (err, res) => {
+      Meteor.call("usersGames.join",info.name,(err, res) => {
         if (err) {
-          alert("Name already taken!");
+          alert("There was error updating check the console");
           console.log(err);
+        } else {
+          Meteor.call("games.insert",info, (err, res) => {
+            if (err) {
+              alert("Name already taken!");
+              console.log(err);
+            }
+            console.log("succeed",res);
+          });
+          Meteor.call("games.addPlayer",info.name,(err, res) => {
+            if (err) {
+              alert("There was error updating check the console");
+              console.log(err);
+            }
+            console.log("succeed",res);
+          });
         }
-        console.log("succeed",res);
       });
     }
-    Meteor.call("usersGames.join",info.name,(err, res) => {
-      if (err) {
-        alert("There was error updating check the console");
-        console.log(err);
-      } else {
-        Meteor.call("games.addPlayer",info.name,(err, res) => {
-          if (err) {
-            alert("There was error updating check the console");
-            console.log(err);
-          }
-          console.log("succeed",res);
-        });
-      }
-    });
   }
 
   render() {
