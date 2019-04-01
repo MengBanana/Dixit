@@ -16,7 +16,7 @@ export class GameBoard extends Component {
     		gameName: "wow",
     		description : "",
     		finalDescription : "",
-    		randomCards: random(this.props.cards),
+    		randomCards: random(this.state.cards),
     	};
     	this.onChange = this.onChange.bind(this);
     	this.onSubmit = this.onSubmit.bind(this);
