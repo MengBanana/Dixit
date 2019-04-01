@@ -12,9 +12,7 @@ if (Meteor.isServer) {
     if (!Meteor.userId()) {
       return this.ready();
     }
-    return Games.find({}, {
-      players:[this.userId]
-    });
+    return Games.find({players:[Meteor.user().username]});
   });
 }
 

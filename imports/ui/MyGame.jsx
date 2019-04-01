@@ -9,24 +9,42 @@ class MyGame extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      points: 0,
       gameName : "",
-      description:"",
       stage:0,
       count:0,
-      hostIdx:0,
-      answer:null,//{card, userId}
-      cardOnDesk:[],//[{card, userId},...]
-      voteResult:[],//[{card, userId},...]
+      clicked: false,
+      targetCard:null,//{card, userId}
+      description:"",
+
       players:[],
-      cards:[]
+      hostIdx:0,
+      playerIdx:0,
+
+      
+      winners:[],//people who guess right
+      points: 0,
+
+      cardsOnDesk:[],//[{card, userId},...]
+      cards:[]//all cards
     };     
     this.onSubmit = this.onSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
-  ComponentDidMount() {
-    this.setState ({
-      gameName : this.props.myGame.name
+  static getDerivedStateFromProps() {
+    this.props.myGame.map(game=>{
+      this.setState({
+        gameName: game.name,
+        stage:game.stage,
+        count:game.count,
+        targetCard:game.targetCard,
+        description:game.description,
+        hostIdx:game.hostIdx,
+        players:game.players,
+        Winners:game.winners,
+        cardsOnDesk:game.cardsOnDesk,
+        cards:game.cards
+      });
     });
   }
 
@@ -39,12 +57,38 @@ class MyGame extends Component {
   }
 
   onSubmit(e) {
+
+    if (e.target.id === "exitGame") {//update user status, remove player from game, can exit only on stage 0(before game started)
+      Meteor.call("usersGames.exit",this.state.points, (err, res) => {
+        if (err) {
+          alert("There was error updating check the console");
+          console.log(err);
+        }
+        console.log("succeed",res);
+      });
+      Meteor.call("games.removePlayer", this.state.gameName, (err, res) => {
+        if (err) {
+          alert("There was error updating check the console");
+          console.log(err);
+        }
+        console.log("succeed",res);
+      });
+    }
+
+
     if (e.target.id === "readyToStart") {
+      if (this.state.clicked) {
+        return;
+      }
+
       let ct = this.state.count + 1;
       this.setState({
-        count:ct
+        count:ct,
+        clicked: true
       });
-      //if ct == players.length - 1, stage++
+      if (this.state.count == this.state.players.length) {
+        this.stage = 1;
+      }
       //update db
     }
 
@@ -108,11 +152,15 @@ class MyGame extends Component {
   // </div>
   
   render() {
+
     const stage0 = (
       <div className="container"id="HomePage" >
         <div className = "row">
+          {this.props.myGame.length}
+          {this.state.gameName}
           <p>Stage0, game created, click start game, wait for enough players</p>
           <button type="button" className="btn btn-outline-dark" id = "readyToStart" onClick = {this.onSubmit.bind(this)}>Ready!</button>
+          {this.stage === 0 ? <button type="button" className="btn btn-outline-dark" id = "exitGame" onClick = {this.onSubmit.bind(this)}>Ready!</button> :null}
         </div>
       </div>
     );
@@ -156,6 +204,9 @@ class MyGame extends Component {
    
     return (
       <div>
+        { 
+          !this.props.ready ?<div>Rendering</div>:
+        
         <div className="row">
           {stage0}
           {stage1}
@@ -163,6 +214,7 @@ class MyGame extends Component {
           {stage3}
           {stage4}
         </div>
+      }
       </div>
     );
   }
@@ -176,9 +228,7 @@ MyGame.propTypes = {
 export default withTracker(() => {
   const handle = Meteor.subscribe("myGame");
   return {
-    myGame: Games.find({
-      players: {$all: [this.userId]}
-    }).fetch(),
+    myGame: Games.find({}).fetch(),
     user: Meteor.user(),
     ready : handle.ready()
   };
