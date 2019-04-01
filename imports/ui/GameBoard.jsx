@@ -18,7 +18,6 @@ export class GameBoard extends Component {
     	};
     	this.onChange = this.onChange.bind(this);
     	this.onSubmit = this.onSubmit.bind(this);
-    	this.getPlayers = this.getPlayers.bind(this);
 	}
 
 	onChange(e){
@@ -37,17 +36,34 @@ export class GameBoard extends Component {
   		)
   	}
 
-  	getPlayers() {
-  		return Games.findOne({"gameName": this.state.gameName}).players;
+  	getGame() {
+  		return Games.findOne({"name": this.state.gameName });
   	}
 
 	render() {
-		let players = this.state.getPlayers();
+		// let players = this.getGame().players;
+		// let numberOfPlayers = this.getGame().numberOfPlayers;
+		let players = ["meng", "ines"];
+		let numberOfPlayers = 6;
+		let cardsInPool = [];
+		for (let i=0; i<numberOfPlayers; i++) {
+			cardsInPool.push(0);
+		}
 		return (
 			<div className="container">
-				<div className="col-9" id="gameBoard">
-					<div className="container" id="cardPool">
-
+			<div className="row">
+				<div className="col-10" id="gameBoard">
+					<div className="row" id="cardPool">
+					{cardsInPool.map(cardInPool => (
+			            <div key={cardInPool} className="card col-xs-4 col-s-3">
+			              <div className = "container">
+			                <div className ="container img-box"><img className="card-img-top img-rounded"/></div>
+			                <div className="card-body">
+			                  <h5 className = "card-text text-center">name</h5>
+			                </div>
+			              </div>
+			            </div>
+			          ))}
 					</div>
 					<div className="row" id="displayDescrition">
 					{this.state.finalDescription}
@@ -65,10 +81,11 @@ export class GameBoard extends Component {
 					<div classNmae="container" id="userHand">
 					</div>
 				</div>
-				<div className="col-3" id="scoreBoard">
-				{players.map(player => (<span>player:{player}</span>))}
+				<div className="col-2 ml-auto" id="scoreBoard">
+				{players.map(player => (<div class="row">{player}:score</div>))}
 				</div>
 				
+			</div>
 			</div>
 		);
 	}
