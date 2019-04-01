@@ -5,6 +5,7 @@ import { UsersGames } from "../api/usersGames.js";
 import { Cards } from "../api/cards.js";
 import { withTracker } from "meteor/react-meteor-data";
 import PropTypes from "prop-types";
+import { random } from "../utils/random";
 
 
 export class GameBoard extends Component {
@@ -14,11 +15,22 @@ export class GameBoard extends Component {
     		// gameName : this.props.match.params.gameName,
     		gameName: "wow",
     		description : "",
-    		finalDescription : ""
+    		finalDescription : "",
+    		randomCards: random(this.props.cards),
     	};
     	this.onChange = this.onChange.bind(this);
     	this.onSubmit = this.onSubmit.bind(this);
 	}
+
+	ComponentDidMount() {
+		Meteor.call("games.start", this.state.randomCards, (err, res) => {
+      if (err) {
+        alert("There was error updating check the console");
+        console.log(err);
+      }
+      console.log("succeed",res);
+    });
+    }
 
 	onChange(e){
 	    this.setState(
@@ -38,6 +50,10 @@ export class GameBoard extends Component {
 
   	getGame() {
   		return Games.findOne({"name": this.state.gameName });
+  	}
+
+  	getCardsInHand() {
+  		return Games.find
   	}
 
 	render() {
