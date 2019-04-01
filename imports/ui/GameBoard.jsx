@@ -16,13 +16,14 @@ export class GameBoard extends Component {
     		gameName: "wow",
     		description : "",
     		finalDescription : "",
-    		randomCards: random(this.state.cards),
+    		// randomCards: random(this.props.cards),
     	};
     	this.onChange = this.onChange.bind(this);
     	this.onSubmit = this.onSubmit.bind(this);
 	}
 
-	ComponentDidMount() {
+/*	ComponentDidMount() {
+		// save random 72 cards to db
 		Meteor.call("games.start", this.state.randomCards, (err, res) => {
       if (err) {
         alert("There was error updating check the console");
@@ -30,7 +31,9 @@ export class GameBoard extends Component {
       }
       console.log("succeed",res);
     });
-    }
+		// distribute 6 cards to each player and save into db
+		let players = Games.findOne({"name": this.state.gameName }).players;
+    }*/
 
 	onChange(e){
 	    this.setState(
@@ -48,16 +51,16 @@ export class GameBoard extends Component {
   		)
   	}
 
-  	getGame() {
+/*  	getGame() {
   		return Games.findOne({"name": this.state.gameName });
-  	}
+  	}*/
 
-  	getCardsInHand() {
-  		return Games.find
+  	getCardsInHand(username) {
+  		return Games.findOne({"cardsInHand.username": username});
   	}
 
 	render() {
-		// let players = this.getGame().players;
+		// let players = Games.findOne({"name": this.state.gameName }).players;
 		// let numberOfPlayers = this.getGame().numberOfPlayers;
 		let players = ["meng", "ines"];
 		let numberOfPlayers = 6;
@@ -69,14 +72,12 @@ export class GameBoard extends Component {
 			<div className="container">
 			<div className="row">
 				<div className="col-10" id="gameBoard">
+				<h2 className="row"> Pool </h2>
 					<div className="row" id="cardPool">
 					{cardsInPool.map(cardInPool => (
 			            <div key={cardInPool} className="card col-xs-4 col-s-3">
 			              <div className = "container">
 			                <div className ="container img-box"><img className="card-img-top img-rounded"/></div>
-			                <div className="card-body">
-			                  <h5 className = "card-text text-center">name</h5>
-			                </div>
 			              </div>
 			            </div>
 			          ))}
@@ -94,7 +95,15 @@ export class GameBoard extends Component {
 						  <button type="submit" className="btn btn-warning" onClick={this.onSubmit}>Submit</button>
 						</form>
 					</div>
-					<div classNmae="container" id="userHand">
+					<h2 className="row"> Cards In Hand </h2>
+					<div className="row" id="cardsInHand">
+					{cardsInPool.map(cardInPool => (
+			            <div key={cardInPool} className="card col-xs-4 col-s-3">
+			              <div className = "container">
+			                <div className ="container img-box"><img className="card-img-top img-rounded"/></div>
+			              </div>
+			            </div>
+			          ))}
 					</div>
 				</div>
 				<div className="col-2 ml-auto" id="scoreBoard">
