@@ -74,9 +74,9 @@ class GameRoom extends Component {
     });
 
     // delete me from the game i joined if i want to join a new room
-    if(this.props.joinedGame !== null) {
+    if(this.props.joinedGame.gameName !== null) {
       console.log(this.props.joinedGame.gameName);
-      Meteor.call("games.removePlayer", this.props.joinedGame, (err, res) => {
+      Meteor.call("games.removePlayer", this.props.joinedGame.gameName, (err, res) => {
       if (err) {
         alert("There was error updating check the console");
         console.log(err);
@@ -192,7 +192,7 @@ export default withTracker(() => {
     usersGames: UsersGames.find({}).fetch(),
     joinedGame : UsersGames.find({
       _id: Meteor.userId()
-    }).fetch().gameName,
+    }).fetch(),
     user: Meteor.user(),
     ready : handle.ready() && handle2.ready()
   };

@@ -54,12 +54,12 @@ Meteor.methods({
     );
   },
 
-  "game.removePlayer"(joinedGame) {
+  "game.removePlayer"(gameName) {
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     }
     Games.update(
-      {name: joinedGame}, 
+      {name: gameName}, 
       {$pull:{players: Meteor.user().username}}
     );
   }
