@@ -12,13 +12,24 @@ if (Meteor.isServer) {
 
 
 Meteor.methods({
-	"cards.getOne"(cardId) {
+  "cards.getOne"(cardId) {
     check(cardId, String);
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     }
     Cards.findOne({
       _id: cardId
-  });
-}});
+    });
+  },
+
+  "cards.insert"(url) {
+    check(url, String);
+    if (!this.userId) {
+      throw new Meteor.Error("not-authorized");
+    }
+    Cards.insert({
+      url: url,
+    });
+  },
+});
 
