@@ -34,11 +34,9 @@ class App extends Component {
             <div className = "col-12">
               <Switch>
                 <Route exact path="/HomePage" component={HomePage} />
-<<<<<<< HEAD
                 <Route exact path="/testMyGame" component={MyGame} />
                 <Route exact path="/testGameRoom" component={GameRoom} />
-=======
-{/*                <Fragment>
+                {/*                <Fragment>
                   {this.props.myGame.length === 0 ? <Route exact path="/GameRoom" component= {GameRoom} /> : null}
                   {this.props.myGame.map(game => (
                     <div key = {game._id}>
@@ -46,10 +44,7 @@ class App extends Component {
                         <Route exact path="/GameRoom" component= {GameRoom} />}</div>
                   ))}
                 </Fragment>*/}
-                <Route exact path="/MyGame" component={MyGame} />
-                <Route exact path="/GameRoom" component={GameRoom} />
                 <Route exact path="/GameBoard" component={GameBoard} />
->>>>>>> de1d13b8a7bae936e5f87c02acaab90d0280dd6c
 
               </Switch>
             </div>

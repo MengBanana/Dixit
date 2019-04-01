@@ -14,17 +14,6 @@ if (Meteor.isServer) {
       }
     });
   });
-  Meteor.publish("myGame", function gamePublication() {
-    if (!this.userId) {
-      return this.ready();
-    }
-    return UsersGames.find({}, {
-      _id: Meteor.userId(),
-      sort: {
-        createdAt: -1
-      }
-    });
-  });
 }
 
 Meteor.methods({
