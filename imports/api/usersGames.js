@@ -37,6 +37,7 @@ Meteor.methods({
           ingame: true,
           gameName: name
         });
+
       }
     } else {
       UsersGames.insert({
@@ -48,6 +49,7 @@ Meteor.methods({
       });
     }
   },
+
 
   "usersGames.exit"() { //upate points, round++, exit game
     

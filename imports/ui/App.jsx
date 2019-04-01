@@ -30,14 +30,14 @@ class App extends Component {
             <div className = "col-12">
               <Switch>
                 <Route exact path="/HomePage" component={HomePage} />
-                <Fragment>
+{/*                <Fragment>
                   {this.props.myGame.length === 0 ? <Route exact path="/GameRoom" component= {GameRoom} /> : null}
                   {this.props.myGame.map(game => (
                     <div key = {game._id}>
-                      {game.ingame ? <Route exact path="/GameRoom" component={MyGame} /> :
+                      {game.ingame ? <Route exact path="/MyGame" component={MyGame} /> :
                         <Route exact path="/GameRoom" component= {GameRoom} />}</div>
                   ))}
-                </Fragment>
+                </Fragment>*/}
                 <Route exact path="/MyGame" component={MyGame} />
                 <Route exact path="/GameRoom" component={GameRoom} />
 

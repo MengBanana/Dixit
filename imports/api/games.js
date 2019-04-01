@@ -5,7 +5,7 @@ import { check } from "meteor/check";
 export const Games = new Mongo.Collection("games");
 
 if (Meteor.isServer) {
-  Meteor.publish("games", function giftsPublication() {
+  Meteor.publish("games", function gamesPublication() {
     return Games.find({}, {
       limit: 50,
       sort: {
@@ -32,7 +32,8 @@ Meteor.methods({
       numberOfPlayers: info.number,
       stage: 0,
       players:[],
-      createdAt: Date.now()
+      createdAt: Date.now(),
+      owner: Meteor.user().username
     });
   },
 
@@ -44,12 +45,22 @@ Meteor.methods({
     let res = Games.findOne({
       name:name
     });
-    if (res.players.includes(this.userId)){
+    if (res.players.includes(Meteor.user().username)){
       return;
     }
     Games.update(
       {name: name}, 
-      {$push:{players: this.userId}}
+      {$push:{players: Meteor.user().username}}
+    );
+  },
+
+  "game.removePlayer"(joinedGame) {
+    if (!this.userId) {
+      throw new Meteor.Error("not-authorized");
+    }
+    Games.update(
+      {name: joinedGame}, 
+      {$pull:{players: Meteor.user().username}}
     );
   }
 });
