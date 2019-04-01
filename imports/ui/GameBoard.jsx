@@ -12,25 +12,25 @@ export class GameBoard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gameName: "wow",
+      gameName: "testgame1",
       description : "",
       finalDescription : "",
       newUrl: "",
-      // randomCards: random(this.props.cards, ),
+      distributedCards: random(this.props.cards, 4),
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
   ComponentDidMount() {
-    // save random 72 cards to db
-/*    Meteor.call("games.start", this.state.randomCards, (err, res) => {
+    // save random cards to db
+    Meteor.call("games.start", this.state.distributedCards, this.state.gameName, (err, res) => {
       if (err) {
         alert("There was error updating check the console");
         console.log(err);
       }
       console.log("succeed",res);
-    });*/
+    });
     // distribute 6 cards to each player and save into db
     /*let players = Games.findOne({"name": this.state.gameName }).players;*/
   }
@@ -83,6 +83,7 @@ export class GameBoard extends Component {
   }
 
   render() {
+    console.log(this.state.distributedCards);
     // let players = Games.findOne({"name": this.state.gameName }).players;
     // let numberOfPlayers = this.getGame().numberOfPlayers;
     let players = ["meng", "ines"];
