@@ -111,18 +111,18 @@ Meteor.methods({
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     }
-    let res = Games.findOne({
-      name:name
-    });
-    if (res.count.includes(Meteor.user().username)){
-      return;
-    }
+    // let res = Games.findOne({
+    //   name:name
+    // });
+    // if (res.count.includes(Meteor.user().username)){
+    //   return;
+    // }
     Games.update ({
       name: name
     }, {
       $push:{count: Meteor.user().username}
     }); 
-    res = Games.findOne({
+    let res = Games.findOne({
       name:name
     });
     if (res.count.length >= res.players.length){
