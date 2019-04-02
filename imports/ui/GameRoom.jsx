@@ -98,14 +98,14 @@ class GameRoom extends Component {
     const paginatedGames = paginate(filteredGames, currentPage, pageSize);
 
     return (
-      <div className = "container">
+      <div className = "container gameroom">
         <div className="row">
           <h1>GameRoom</h1>
           <form className="form-inline col-4">
             <input className="form-control mr-sm-2" type="search" placeholder="🔍 Search..." aria-label="Search" value={this.state.search}
               onChange={this.updateSearch}></input>
           </form>
-          <button type="button" className= "btn btn-danger my-2 my-sm-0 " data-toggle="modal" data-target="#myModal">🌟Add Game🌟</button>
+          <button type="button" className= "btn btn-danger my-2 my-sm-0 " data-toggle="modal" data-target="#myModal">Add Game</button>
           <div id="myModal" className="modal fade" role="dialog">
             <div className="modal-dialog">
               <div className="modal-content">
@@ -134,7 +134,7 @@ class GameRoom extends Component {
         </div>
         <div className="row">
           {paginatedGames.map(game => (
-            <div key={game._id} className="card col-xs-6 col-s-3">
+            <div key={game._id} className="card col-xs-6 col-s-3" id="room">
               <div className = "container">
                 <div className="card-top text-right text-dark count"></div>
                 <div className ="container img-box"><img className="card-img-top img-rounded" src="" alt=""/></div>
