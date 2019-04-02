@@ -32,7 +32,7 @@ class MyGame extends Component {
       cardsOnHand:[],
 
       //count:0,
-      //players:[],
+      players:[],
       //winners:[],//people who guess right
       //cards:[],//all cards
 
@@ -104,7 +104,8 @@ class MyGame extends Component {
         hostIdx: game.hostIdx, //get hostName
         hostDescription: game.description,
         cardsOnDesk: game.cardsOnDesk,
-        cardsOnHand: game.cardsOnHand,
+        cardsOnHand: game.cardsOnHand[0],
+        player: game.players,
         //players, points
       });
     });
@@ -254,18 +255,7 @@ class MyGame extends Component {
   // </div>
   
   render() {
-    let d = random(this.props.cards, 4);
-    console.log(this.props.cards);
-    console.log(d);
-    // let players = Games.findOne({"name": this.state.gameName }).players;
-    // let numberOfPlayers = this.getGame().numberOfPlayers;
-    let players = ["meng", "ines"];
-    let numberOfPlayers = 6;
-    let cardsInPool = [];
-    for (let i=0; i<numberOfPlayers; i++) {
-      cardsInPool.push(0);
-    }
-
+    let i=0;
     const stage0 = (
       <div className="container"id="HomePage" >
         <div className = "row">
@@ -336,6 +326,80 @@ class MyGame extends Component {
         </div>
          @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         
+        <div className="container">
+          <div className="row">
+            <div className="col-10" id="gameBoard">
+              <h2 className="row"> Pool </h2>
+              <div className="row" id="cardPool">
+                {this.state.cardsOnDesk.map( cardOnDesk=> (
+                  <div key={i++} className="card col-xs-4 col-s-3">
+                    <div className = "container">
+                      <div className ="container img-box"><img src={cardOnDesk.url} className="card-img-top img-rounded"/></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="row" id="displayDescrition">
+                {this.state.finalDescription}
+              </div>
+              <div className="row" id="textbox">
+                <form>
+                  <div className="form-group">
+                    <label htmlFor="description">Enter Your Description</label>
+                    <input type="" className="form-control" id="description" aria-describedby="description" value={this.state.description} onChange={this.onChange}></input>
+                    <small id="detail" className="form-text text-muted">Don't describe too many details</small>
+                  </div>
+                  <button type="submit" className="btn btn-warning" onClick={this.onSubmit}>Submit</button>
+                </form>
+              </div>
+              <h2 className="row"> Cards In Hand </h2>
+              <div className="row" id="cardsInHand">
+                {this.state.cardsOnHand.map(cardOnHand => (
+                  <div key={cardOnHand._id} className="card col-xs-4 col-s-3">
+                    <div className = "container">
+                      <div className ="container img-box"><img src={cardOnHand.url} className="card-img-top img-rounded"/></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="col-2 ml-auto" id="scoreBoard">
+              {this.state.players.map(player => (<div key={player._id} className="row">{player}:score</div>))}
+            </div>
+
+            <div className="container">
+              <div className="row">
+                <div id="magic-button">
+                  <br/>
+                  <button type="button" className= "btn btn-danger my-2 my-sm-0 " data-toggle="modal" data-target="#myModal">Add Card</button>
+                </div>
+                <div id="myModal" className="modal fade" role="dialog">
+                  <div className="modal-dialog">
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h4 className="modal-title">Enter card info</h4>
+                        <button type="button" className="close" data-dismiss="modal">&times;</button>
+                      </div>
+                      <div className="modal-body">
+                        <form id="newItemForm">
+                          <div className = "form-group">
+                            <label>Image Url</label>
+                            <input type="text" className="form-control" id="newUrl" onChange= {this.onChange.bind(this)}/>
+                          </div>
+                        </form>
+                      </div>
+                      <div className="modal-footer d-flex justify-content-center">
+                        <button className="btn btn-danger" data-dismiss="modal" onClick={this.onSubmit}>Add It</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            
+          </div>
+        </div>
       </div>  
     );
   }

@@ -13,27 +13,27 @@ export class GameBoard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gameName: "testgame1",
+      gameName: "",
       description : "",
       finalDescription : "",
       newUrl: "",
-      distributedCards: random(this.props.cards, 4)
+      distributedCards: random(this.props.cards, 4),
+      players: [],
+      stage:0
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  start() {
-    Meteor.call("games.start", this.state.distributedCards, this.state.gameName, (err, res) => {
-      if (err) {
-        alert("There was error updating check the console");
-        console.log(err);
-      }
-      console.log("succeed",res);
+  getGame(){
+    this.props.myGame.map(game =>{
+      this.setState({
+        gameName: game.name
+      });
     });
+  }
     // distribute 6 cards to each player and save into db
     /*let players = Games.findOne({"name": this.state.gameName }).players;*/
-  }
 
 /*  onChange(e){
     this.setState(
@@ -51,12 +51,8 @@ export class GameBoard extends Component {
     );
   }*/
 
-/*    getGame() {
-      return Games.findOne({"name": this.state.gameName });
-    }*/
 
-
-  onChange(e){
+  onChange(e) {
     this.setState(
       {
         [e.target.id]: e.target.value
@@ -82,26 +78,29 @@ export class GameBoard extends Component {
     return Games.findOne({"cardsInHand.username": username});
   }*/
 
+  getGame() {
+      return Games.findOne({"name": this.state.gameName });
+  }
+
   render() {
-    let d = random(this.props.cards, 4);
-    console.log(this.props.cards);
-    console.log(d);
     // let players = Games.findOne({"name": this.state.gameName }).players;
     // let numberOfPlayers = this.getGame().numberOfPlayers;
+    console.log(this.state.gameName);
     let players = ["meng", "ines"];
     let numberOfPlayers = 6;
     let cardsInPool = [];
     for (let i=0; i<numberOfPlayers; i++) {
       cardsInPool.push(0);
     }
+    let i=0;
     return (
       <div className="container">
         <div className="row">
           <div className="col-10" id="gameBoard">
             <h2 className="row"> Pool </h2>
             <div className="row" id="cardPool">
-              {d[1].map(cardInPool => (
-                <div key={cardInPool} className="card col-xs-4 col-s-3">
+              {cardsInPool.map(cardInPool => (
+                <div key={i++} className="card col-xs-4 col-s-3">
                   <div className = "container">
                     <div className ="container img-box"><img src="" className="card-img-top img-rounded"/></div>
                   </div>
@@ -114,7 +113,7 @@ export class GameBoard extends Component {
             <div className="row" id="textbox">
               <form>
                 <div className="form-group">
-                  <label for="description">Enter Your Description</label>
+                  <label htmlFor="description">Enter Your Description</label>
                   <input type="" className="form-control" id="description" aria-describedby="description" value={this.state.description} onChange={this.onChange}></input>
                   <small id="detail" className="form-text text-muted">Don't describe too many details</small>
                 </div>
@@ -124,7 +123,7 @@ export class GameBoard extends Component {
             <h2 className="row"> Cards In Hand </h2>
             <div className="row" id="cardsInHand">
               {cardsInPool.map(cardInPool => (
-                <div key={cardInPool} className="card col-xs-4 col-s-3">
+                <div key={i++} className="card col-xs-4 col-s-3">
                   <div className = "container">
                     <div className ="container img-box"><img className="card-img-top img-rounded"/></div>
                   </div>
@@ -133,7 +132,7 @@ export class GameBoard extends Component {
             </div>
           </div>
           <div className="col-2 ml-auto" id="scoreBoard">
-            {players.map(player => (<div class="row">{player}:score</div>))}
+            {players.map(player => (<div key={i++} className="row">{player}:score</div>))}
           </div>
 
           <div className="container">
