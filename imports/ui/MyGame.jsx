@@ -262,6 +262,7 @@ class MyGame extends Component {
     console.log("TEST: state.points: ", this.state.points);
     console.log("TEST: state.description: ", this.state.description);
     console.log("TEST: state.hostDescription: ", this.state.hostDescription);
+    console.log("TEST: state.selectedCard: ", this.state.selectedCard);
     
     const stage0 = (
       <div className="container"id="HomePage" >
@@ -350,7 +351,7 @@ class MyGame extends Component {
                 <h2 className="row"> Cards In Hand </h2>
                 <div className="row" id="cardsInHand">
                   {this.state.cardsOnHand.map(cardOnHand => (
-                    <div key={cardOnHand._id} className="card col-xs-4 col-s-3" onClick={() => alert("Hello from here")} name ={cardOnHand} style={{backgroundImage: `url(${cardOnHand.url})`, backgroundSize: "cover"}} >
+                    <div key={cardOnHand._id} className="card col-xs-4 col-s-3" onClick={() => this.setState({selectedCard:cardOnHand})} style={{backgroundImage: `url(${cardOnHand.url})`, backgroundSize: "cover"}} >
                     </div>
                   ))}
                 </div>

@@ -123,24 +123,26 @@ Meteor.methods({
 
   "games.updateAnswer"(info){
     check(info.game, String);
-    check(info.card._id, String);//cardID
-    check(info.card._url, String);
-    check(info.description, String);
+    // check(info.card._id, String);//cardID
+    // check(info.card.url, String);
+    //check(info.description, String);
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     }
     Games.update ({
       name: info.game
     }, {
-      targetCard: info.card,
-      description: info.description
+      $set: {
+        targetCard: info.card,
+        description: info.description
+      }
     }); 
   },
 
   "games.addCardToDesk"(info) {
     check(info.game, String);
     check(info.card._id, String);//cardID
-    check(info.card._url, String);
+    check(info.card.url, String);
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     }
