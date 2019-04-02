@@ -264,55 +264,55 @@ class MyGame extends Component {
     console.log("TEST: state.hostDescription: ", this.state.hostDescription);
     console.log("TEST: state.selectedCard: ", this.state.selectedCard);
     
-    const stage0 = (
-      <div className="container"id="HomePage" >
-        <div className = "row">
-          <p>Stage0, game created, click start game, wait for enough players</p>
-          {this.state.buttonClick === 0? 
-            <button type="button" className="btn btn-outline-dark" id = "readyToStart" onClick = {this.onSubmit.bind(this)}>Ready!</button>
-            :
-            null
-          }
-        </div>
-      </div>
-    );
-    const stage1 = (
-      <div className="container"id="HomePage" >
-        <div className = "row">
-          <p>Stage1, each players get # of cards, host pick card and write description and submit, others wait</p><br/>
-          <input type="text" className="form-control" id="description" placeholder="Enter description" onChange= {this.onChange.bind(this)}/>
-          <button type="button" className="btn btn-outline-dark" id = "descriptionDone" onClick = {this.onSubmit.bind(this)}>Submit-stage1</button>
-        </div>
-      </div>
-    );
-    const stage2 = (
-      <div className="container"id="HomePage" >
-        <div className = "row">
-          <p>Stage2, description displayed, host wait, others pick one card and submit</p>
-          Card:{}
-          Description: {}
-          <button type="button" className="btn btn-outline-dark" id = "pickCard" onClick = {this.onSubmit.bind(this)}>Submit-stage2</button>
+    // const stage0 = (
+    //   <div className="container"id="HomePage" >
+    //     <div className = "row">
+    //       <p>Stage0, game created, click start game, wait for enough players</p>
+    //       {this.state.buttonClick === 0? 
+    //         <button type="button" className="btn btn-outline-dark" id = "readyToStart" onClick = {this.onSubmit.bind(this)}>Ready!</button>
+    //         :
+    //         null
+    //       }
+    //     </div>
+    //   </div>
+    // );
+    // const stage1 = (
+    //   <div className="container"id="HomePage" >
+    //     <div className = "row">
+    //       <p>Stage1, each players get # of cards, host pick card and write description and submit, others wait</p><br/>
+    //       <input type="text" className="form-control" id="description" placeholder="Enter description" onChange= {this.onChange.bind(this)}/>
+    //       <button type="button" className="btn btn-outline-dark" id = "descriptionDone" onClick = {this.onSubmit.bind(this)}>Submit-stage1</button>
+    //     </div>
+    //   </div>
+    // );
+    // const stage2 = (
+    //   <div className="container"id="HomePage" >
+    //     <div className = "row">
+    //       <p>Stage2, description displayed, host wait, others pick one card and submit</p>
+    //       Card:{}
+    //       Description: {}
+    //       <button type="button" className="btn btn-outline-dark" id = "pickCard" onClick = {this.onSubmit.bind(this)}>Submit-stage2</button>
 
-        </div>
-      </div>
-    );
-    const stage3 = (
-      <div className="container"id="HomePage" >
-        <div className = "row">
-          <p>Stage3, display # cards, host wait, others vote for card and submit</p>
-          <button type="button" className="btn btn-outline-dark" id = "voteCard" onClick = {this.onSubmit.bind(this)}>Submit-stage3</button>
-        </div>
-      </div>
-    );
-    const stage4 = (
-      <div className="container"id="HomePage" >
-        <div className = "row">
-          <p>Stage4, compute points and end game, remove game from db</p>
-          <p>function: compute points
-          DISPLAY RESULT</p>
-        </div>
-      </div>
-    );
+    //     </div>
+    //   </div>
+    // );
+    // const stage3 = (
+    //   <div className="container"id="HomePage" >
+    //     <div className = "row">
+    //       <p>Stage3, display # cards, host wait, others vote for card and submit</p>
+    //       <button type="button" className="btn btn-outline-dark" id = "voteCard" onClick = {this.onSubmit.bind(this)}>Submit-stage3</button>
+    //     </div>
+    //   </div>
+    // );
+    // const stage4 = (
+    //   <div className="container"id="HomePage" >
+    //     <div className = "row">
+    //       <p>Stage4, compute points and end game, remove game from db</p>
+    //       <p>function: compute points
+    //       DISPLAY RESULT</p>
+    //     </div>
+    //   </div>
+    // );
    
     return (
       <div className="container">
@@ -343,7 +343,7 @@ class MyGame extends Component {
                       <input type="" className="form-control" id="description" aria-describedby="description" value={this.state.description} onChange={this.onChange}></input>
                       <small id="detail" className="form-text text-muted">Don't describe too many details</small>
                     </div>
-                    <button type="submit" className="btn btn-warning" onClick={this.onSubmit}>Submit</button>
+                    <button type="submit" className="btn btn-warning" id = "descriptionDone" onClick={this.onSubmit}>Submit</button>
                   </form>
                 </div>
               </div>

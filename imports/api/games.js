@@ -131,8 +131,7 @@ Meteor.methods({
     }
     Games.update ({
       name: info.game
-    }, {
-      $set: {
+    }, { $set: {
         targetCard: info.card,
         description: info.description
       }
