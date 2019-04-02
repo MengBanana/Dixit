@@ -6,26 +6,25 @@ import { Cards } from "../api/cards.js";
 import { withTracker } from "meteor/react-meteor-data";
 import PropTypes from "prop-types";
 import { random } from "../utils/random";
+import "./GameBoard.css";
 
 
 export class GameBoard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // gameName : this.props.match.params.gameName,
-      gameName: "wow",
+      gameName: "testgame1",
       description : "",
       finalDescription : "",
       newUrl: "",
-      // randomCards: random(this.props.cards),
+      distributedCards: random(this.props.cards, 4)
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-/*  ComponentDidMount() {
-    // save random 72 cards to db
-    Meteor.call("games.start", this.state.randomCards, (err, res) => {
+  start() {
+    Meteor.call("games.start", this.state.distributedCards, this.state.gameName, (err, res) => {
       if (err) {
         alert("There was error updating check the console");
         console.log(err);
@@ -33,8 +32,8 @@ export class GameBoard extends Component {
       console.log("succeed",res);
     });
     // distribute 6 cards to each player and save into db
-    let players = Games.findOne({"name": this.state.gameName }).players;
-  }*/
+    /*let players = Games.findOne({"name": this.state.gameName }).players;*/
+  }
 
 /*  onChange(e){
     this.setState(
@@ -79,11 +78,14 @@ export class GameBoard extends Component {
     });
   }
 
-  getCardsInHand(username) {
+/*  getCardsInHand(username) {
     return Games.findOne({"cardsInHand.username": username});
-  }
+  }*/
 
   render() {
+    let d = random(this.props.cards, 4);
+    console.log(this.props.cards);
+    console.log(d);
     // let players = Games.findOne({"name": this.state.gameName }).players;
     // let numberOfPlayers = this.getGame().numberOfPlayers;
     let players = ["meng", "ines"];
@@ -98,10 +100,10 @@ export class GameBoard extends Component {
           <div className="col-10" id="gameBoard">
             <h2 className="row"> Pool </h2>
             <div className="row" id="cardPool">
-              {cardsInPool.map(cardInPool => (
+              {d[1].map(cardInPool => (
                 <div key={cardInPool} className="card col-xs-4 col-s-3">
                   <div className = "container">
-                    <div className ="container img-box"><img className="card-img-top img-rounded"/></div>
+                    <div className ="container img-box"><img src="" className="card-img-top img-rounded"/></div>
                   </div>
                 </div>
               ))}
@@ -134,28 +136,30 @@ export class GameBoard extends Component {
             {players.map(player => (<div class="row">{player}:score</div>))}
           </div>
 
-          <div className="row">
-            <div id="magic-button">
-              <br/>
-              <button type="button" className= "btn btn-danger my-2 my-sm-0 " data-toggle="modal" data-target="#myModal">Add Card</button>
-            </div>
-            <div id="myModal" className="modal fade" role="dialog">
-              <div className="modal-dialog">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <h4 className="modal-title">Enter card info</h4>
-                    <button type="button" className="close" data-dismiss="modal">&times;</button>
-                  </div>
-                  <div className="modal-body">
-                    <form id="newItemForm">
-                      <div className = "form-group">
-                        <label>Image Url</label>
-                        <input type="text" className="form-control" id="newUrl" onChange= {this.onChange.bind(this)}/>
-                      </div>
-                    </form>
-                  </div>
-                  <div className="modal-footer d-flex justify-content-center">
-                    <button className="btn btn-danger" data-dismiss="modal" onClick={this.onSubmit}>Add It</button>
+          <div className="container">
+            <div className="row">
+              <div id="magic-button">
+                <br/>
+                <button type="button" className= "btn btn-danger my-2 my-sm-0 " data-toggle="modal" data-target="#myModal">Add Card</button>
+              </div>
+              <div id="myModal" className="modal fade" role="dialog">
+                <div className="modal-dialog">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h4 className="modal-title">Enter card info</h4>
+                      <button type="button" className="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div className="modal-body">
+                      <form id="newItemForm">
+                        <div className = "form-group">
+                          <label>Image Url</label>
+                          <input type="text" className="form-control" id="newUrl" onChange= {this.onChange.bind(this)}/>
+                        </div>
+                      </form>
+                    </div>
+                    <div className="modal-footer d-flex justify-content-center">
+                      <button className="btn btn-danger" data-dismiss="modal" onClick={this.onSubmit}>Add It</button>
+                    </div>
                   </div>
                 </div>
               </div>

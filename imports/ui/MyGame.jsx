@@ -64,12 +64,13 @@ class MyGame extends Component {
   //   return null;
   // }
 
-  componentDidMount() {
-    this.props.myGame.map(game  => (
+
+  ComponentDidMount() {
+    this.props.myGame.map(game=>{
       this.setState({
         gameName: game.name
-      })
-    ));
+      });
+    });
   }
 
   updateCount(){
@@ -258,7 +259,7 @@ MyGame.propTypes = {
 export default withTracker(() => {
   const handle = Meteor.subscribe("myGame");
   return {
-    myGame: Games.find({}).fetch(),
+    myGame: Games.find({ "name": "wow" }).fetch(),
     user: Meteor.user(),
     ready : handle.ready()
   };
