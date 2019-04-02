@@ -9,42 +9,77 @@ class MyGame extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      //global, get from db
       gameName : "",
+      //get from db, needs update
       stage:0,
-      count:0,
-      clicked: false,
-      targetCard:null,//{card, userId}
-      description:"",
-
-      players:[],
       hostIdx:0,
-      playerIdx:0,
-
+      //count:0,
+      //players:[],
+      //winners:[],//people who guess right
+      //cards:[],//all cards
+      cardsOnHand:[], //usersCardOnHand
+      //cardsOnDesk:[],//[{card, userId},...]
       
-      winners:[],//people who guess right
+      //local
+      //playerIdx:this.getPlayerIndex(),
       points: 0,
+      //tobe updated with db
+      description:"",
+      targetCard:null,//{card, userId}
 
-      cardsOnDesk:[],//[{card, userId},...]
-      cards:[]//all cards
     };     
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.updateCount = this.updateCount.bind(this);
   }
 
-  static getDerivedStateFromProps() {
-    this.props.myGame.map(game=>{
+  // getPlayerIndex(){
+  //   Meteor.call("games.getPlayerIndex",(err, res) => {
+  //     if (err) {
+  //       alert("There was error updating check the console");
+  //       console.log(err);
+  //     }
+  //     console.log("succeed",res);
+  //   });
+  // }
+  // getHostIdx() {
+
+  // }
+  // getStage(){
+  //   if (this.state.gameName === "") {
+  //     return 0;
+  //   } else {
+  //     let res = Meteor.call("games.getGame",this.state.gameName,(err, res) => {
+  //       if (err) {
+  //         alert("There was error updating check the console");
+  //         console.log(err);
+  //       }
+  //       console.log("succeed",res);
+  //     });
+  //     return res.stage;
+  //   }
+  // }
+  // getCardOnHand(){
+  //   return null;
+  // }
+
+  componentDidMount() {
+    this.props.myGame.map(game  => (
       this.setState({
-        gameName: game.name,
-        stage:game.stage,
-        count:game.count,
-        targetCard:game.targetCard,
-        description:game.description,
-        hostIdx:game.hostIdx,
-        players:game.players,
-        Winners:game.winners,
-        cardsOnDesk:game.cardsOnDesk,
-        cards:game.cards
-      });
+        gameName: game.name
+      })
+    ));
+  }
+
+  updateCount(){
+    Meteor.call("games.addCount", this.state.gameName,(err, res) => {
+      if (err) {
+        alert("There was error updating check the console");
+        console.log(err);
+      } else {
+        console.log("succeed",res);
+      }
     });
   }
 
@@ -58,38 +93,38 @@ class MyGame extends Component {
 
   onSubmit(e) {
 
-    if (e.target.id === "exitGame") {//update user status, remove player from game, can exit only on stage 0(before game started)
-      Meteor.call("usersGames.exit",this.state.points, (err, res) => {
-        if (err) {
-          alert("There was error updating check the console");
-          console.log(err);
-        }
-        console.log("succeed",res);
-      });
-      Meteor.call("games.removePlayer", this.state.gameName, (err, res) => {
-        if (err) {
-          alert("There was error updating check the console");
-          console.log(err);
-        }
-        console.log("succeed",res);
-      });
-    }
+    // if (e.target.id === "exitGame") {//update user status, remove player from game, can exit only on stage 0(before game starts)
+    //   Meteor.call("usersGames.exit",this.state.points, (err, res) => {
+    //     if (err) {
+    //       alert("There was error updating check the console");
+    //       console.log(err);
+    //     }
+    //     console.log("succeed",res);
+    //   });
+    //   Meteor.call("games.removePlayer", this.state.gameName, (err, res) => {
+    //     if (err) {
+    //       alert("There was error updating check the console");
+    //       console.log(err);
+    //     }
+    //     console.log("succeed",res);
+    //   });
+    // }
 
 
     if (e.target.id === "readyToStart") {
-      if (this.state.clicked) {
-        return;
+      this.props.myGame.map(game  => (
+        this.setState({
+          gameName: game.name
+        })
+      ));
+      Meteor.call("games.addCount", "test",(err, res) => {
+      if (err) {
+        alert("There was error updating check the console");
+        console.log(err);
+      } else {
+        console.log("succeed",res);
       }
-
-      let ct = this.state.count + 1;
-      this.setState({
-        count:ct,
-        clicked: true
-      });
-      if (this.state.count == this.state.players.length) {
-        this.stage = 1;
-      }
-      //update db
+    });
     }
 
     if (e.target.id === "descriptionDone") {
@@ -136,7 +171,6 @@ class MyGame extends Component {
         }
         console.log("succeed",res);
       });
-     
     }
   }
 
@@ -156,11 +190,8 @@ class MyGame extends Component {
     const stage0 = (
       <div className="container"id="HomePage" >
         <div className = "row">
-          {this.props.myGame.length}
-          {this.state.gameName}
           <p>Stage0, game created, click start game, wait for enough players</p>
           <button type="button" className="btn btn-outline-dark" id = "readyToStart" onClick = {this.onSubmit.bind(this)}>Ready!</button>
-          {this.stage === 0 ? <button type="button" className="btn btn-outline-dark" id = "exitGame" onClick = {this.onSubmit.bind(this)}>Ready!</button> :null}
         </div>
       </div>
     );
@@ -204,21 +235,20 @@ class MyGame extends Component {
    
     return (
       <div>
-        { 
-          !this.props.ready ?<div>Rendering</div>:
-        
-        <div className="row">
-          {stage0}
-          {stage1}
-          {stage2}
-          {stage3}
-          {stage4}
-        </div>
-      }
+        <div className="row">TEST: props.myGame.length: should be 1, actual data: {this.props.myGame.length}</div>
+        <div className="row">TEST: state.gameName: {this.state.gameName}</div>
+
+        {stage0}
+        {stage1}
+        {stage2}
+        {stage3}
+        {stage4}
       </div>
     );
   }
 }
+
+
 
 MyGame.propTypes = {
   myGame: PropTypes.arrayOf(PropTypes.object).isRequired,

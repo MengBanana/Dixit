@@ -17,16 +17,6 @@ if (Meteor.isServer) {
 }
 
 Meteor.methods({
-  "games.start"(randomCards) {
-    check(randomCards.name, Array);
-    if (!this.userId) {
-      throw new Meteor.Error("not-authorized");
-    }
-    Games.insert({
-      randomCards : randomCards
-    });
-  },
-
   "games.insert"(info) {
     check(info.name, String);
     if (!this.userId) {
@@ -42,6 +32,15 @@ Meteor.methods({
       name: info.name,
       numberOfPlayers: info.number,
       okToJoin: true,
+      stage:0,
+      count:[],
+      targetCard: null,
+      description:"",
+      hostIdx:0,
+      winners:[],
+      cards:[],//arr of arr
+      cardsOnDesk:[],
+      cardsOnHand:[],//arr of arr
       players:[],
       createdAt: Date.now(),
       owner: Meteor.user().username
@@ -72,6 +71,14 @@ Meteor.methods({
     }
   },
 
+  // "games.getPlayerIndex"() { // not working
+  //   if (!this.userId) {
+  //     throw new Meteor.Error("not-authorized");
+  //   }
+  //   let res = Games.findOne({players:[Meteor.user().username]}).players; //current Game players
+  //   return res.indexOf(res);
+  // },
+
   "games.removePlayer"(name) {
     check(name, String);
     if (!this.userId) {
@@ -80,7 +87,7 @@ Meteor.methods({
     let res = Games.findOne({
       name:name
     });
-    if (!res.players.includes(this.username)){
+    if (!res.players.includes(Meteor.user().username)){
       return;
     }
     Games.update(
@@ -88,6 +95,53 @@ Meteor.methods({
       {$pull: {players: Meteor.user().username}}
     );
   },
+
+  "games.addCount"(name) {
+    if (!this.userId) {
+      throw new Meteor.Error("not-authorized");
+    }
+    let res = Games.findOne({
+      name:name
+    });
+    if (res.count.includes(Meteor.user().username)){
+      return;
+    }
+    Games.update ({
+      name: name
+    }, {
+      $push:{count: Meteor.user().username}
+    }); 
+    res = Games.findOne({
+      name:name
+    });
+    if (res.count.length >= res.players.length){
+      if (res.stage === 4) {
+        if (res.hostIdx === res.players.length - 1) {
+        //end of the game,delete game
+        } else { // end of the round,switch next host
+          Games.update({
+            name: name
+          }, {
+            stage: 1,
+            count: [],
+            $inc: {
+              hostInx: 1
+            }
+          });
+        }
+      } else { //when cur stage = 0-3
+        Games.update ({
+          name: name
+        }, {
+          count: [],
+          $inc: {
+            stage: 1
+          }
+        }); 
+      }
+    }
+  }
+});
 
   // "games.removePlayer"(gameName) {
   //   if (!this.userId) {
@@ -106,7 +160,6 @@ Meteor.methods({
   //   Games.findOne({
   //     gameName: gameName
   // });
-});
 
 
 

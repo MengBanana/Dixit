@@ -155,7 +155,6 @@ class GameRoom extends Component {
           currentPage={this.state.currentPage}
         />
       </div>
-
     );
   }
 }
