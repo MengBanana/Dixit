@@ -13,7 +13,7 @@ class MyGame extends Component {
     super(props);
     this.state = {
       //global, get from db
-      gameName : "testgame1",
+      gameName : "testdistributed",
       //get from db, needs update
       stage:0,
       hostIdx:0,
@@ -278,10 +278,10 @@ class MyGame extends Component {
    
     return (
       <div className="container">
-        <div className ="row"> 
+        <div> 
           <div className="row">TEST: props.myGame.length: should be 1, actual data: {this.props.myGame.length}</div>
-          <div className="row">TEST: state.gameName: {this.state.gameName}</div>
-          <div className="row">TEST: state.stage: {this.state.stage}</div>
+          <br/><div className="row">TEST: state.gameName: {this.state.gameName}</div>
+          <br/><div className="row">TEST: state.stage: {this.state.stage}</div>
           {stage0}
           {stage1}
           {stage2}
@@ -362,8 +362,6 @@ class MyGame extends Component {
     );
   }
 }
-
-
 
 MyGame.propTypes = {
   myGame: PropTypes.arrayOf(PropTypes.object).isRequired,

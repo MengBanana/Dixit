@@ -70,16 +70,17 @@ class GameRoom extends Component {
             }
             console.log("succeed",res);
           });
-          Meteor.call("games.addPlayer",info.name,(err, res) => {
-            if (err) {
-              alert("There was error updating check the console");
-              console.log(err);
-            }
-            console.log("succeed",res);
-          });
         }
       });
     }
+
+    Meteor.call("games.addPlayer",info.name,(err, res) => {
+      if (err) {
+        alert("There was error updating check the console");
+        console.log(err);
+      }
+      console.log("succeed",res);
+    });
   }
 
   render() {
