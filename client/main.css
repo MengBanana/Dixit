@@ -14,7 +14,11 @@ body {
 	color: white;
 }
 
-.gameroom {
+/*.gameroom {
   margin-top: 20px;
-}
+}*/
 
+
+.navbar-container {
+	margin-bottom: 40px;
+}

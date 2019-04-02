@@ -14,6 +14,6 @@ export default class AccountsUIWrapper extends Component {
   }
   render() {
     // Just render a placeholder container that will be filled in
-    return <div style={{marginLeft:20, marginRight:30}} ref={container => (this.container = container)}> </div>;
+    return <div style={{marginLeft:20, marginRight:40}} ref={container => (this.container = container)}> </div>;
   }
 }
