@@ -1,4 +1,4 @@
-.card {
+#gameBoard .card {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   margin: 1%;
   padding: 5px;
@@ -10,18 +10,18 @@
 
 
 
-.card:hover {
+#gameBoard .card:hover {
   transform: scale(1.02);
 }
-.card-body {
+#gameBoard .card-body {
   padding: 0.5rem !important;
 }
-.card-img-top {
+#gameBoard .card-img-top {
   max-width: 240px !important;
   max-height: 220px !important;
   overflow: hidden;
 }
-.img-box {
+#gameBoard .img-box {
   background-color: white;
   opacity: 0.95;
   width: 240px !important;

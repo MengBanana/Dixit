@@ -349,6 +349,7 @@ class MyGame extends Component {
               </div>
             </div>
             <div className="col-2 ml-auto" id="scoreBoard">
+              <h2 className="row"> ScoreBoard </h2>
               {this.state.players.map(player => (<div key={player._id} className="row">{player}:score</div>))}
             </div>
 
