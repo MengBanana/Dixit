@@ -13,13 +13,6 @@ if (Meteor.isServer) {
       return this.ready();
     }
     return Games.find({players: Meteor.user().username});
-    // for (const game of Games.find({})){
-    //   for (const player of game.players){
-    //     if (player.equals(Meteor.user().username)) {
-    //       return game;
-    //     }
-    //   }
-    // }
   });
 }
 
@@ -90,13 +83,13 @@ Meteor.methods({
     }
   },
 
-  // "games.getPlayerIndex"() { // not working
-  //   if (!this.userId) {
-  //     throw new Meteor.Error("not-authorized");
-  //   }
-  //   let res = Games.findOne({players:[Meteor.user().username]}).players; //current Game players
-  //   return res.indexOf(res);
-  // },
+  "games.getPlayerIndex"(name) {
+    if (!this.userId) {
+      throw new Meteor.Error("not-authorized");
+    }
+    let res = Games.find({name:name}).players; //current Game players
+    return res.indexOf(Meteor.user().username);
+  },
 
   "games.removePlayer"(name) {
     check(name, String);
@@ -115,46 +108,100 @@ Meteor.methods({
     );
   },
 
-  "games.addCount"(name) {
+  "games.updateReady"(name) {
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
-    }
+    }//CHECK DUPLICATE
     Games.update ({
       name: name
     }, {
       $push:{count: Meteor.user().username}
     }); 
-    let res = Games.findOne({
-      name:name
-    });
-    if (res.count.length === res.players.length){
-      if (res.stage === 4) {
-        if (res.hostIdx === res.players.length - 1) {
-        //end of the game,delete game
-        } else { // end of the round,switch next host
-          Games.update({
-            name: name
-          }, {
-            stage: 1,
-            count: [],
-            $inc: {
-              hostInx: 1
-            }
-          });
-        }
-      } else { //when cur stage = 0-3
-        Games.update ({
-          name: name
-        }, {
-          count: [],
-          $inc: {
-            stage: 1
-          }
-        }); 
-      }
+  },
+
+  "games.updateAnswer"(info){
+    check(info.game, String);
+    check(info.card._id, String);//cardID
+    check(info.card._url, String);
+    check(info.description, String);
+    if (!this.userId) {
+      throw new Meteor.Error("not-authorized");
+    }
+    Games.update ({
+      name: info.game
+    }, {
+      targetCard: info.card,
+      description: info.description
+    }); 
+  },
+
+  "games.addCardToDesk"(info) {
+    check(info.game, String);
+    check(info.card._id, String);//cardID
+    check(info.card._url, String);
+    if (!this.userId) {
+      throw new Meteor.Error("not-authorized");
+    }
+    Games.update ({
+      name: info.game
+    }, {
+      $push:{cardsOnDesk: info.card}
+    }); 
+  },
+
+  "games.updateWinners"(info) {
+    check(info.game, String);
+    check(info.card._id, String);//cardID
+    check(info.card._url, String);
+    if (!this.userId) {
+      throw new Meteor.Error("not-authorized");
+    }
+    if (Object.is(info.card, Games.find({name: info.name}).targetCard)){
+      Games.update ({
+        name: info.game
+      }, { //TODO:check duplicate
+        $push:{winners: Meteor.user().username}
+      });
     }
   }
 });
+
+
+
+
+
+
+
+
+    // let res = Games.findOne({
+    //   name:name
+    // });
+    // if (res.count.length === res.players.length){
+    //   if (res.stage === 4) {
+    //     if (res.hostIdx === res.players.length - 1) {
+    //     //end of the game,delete game
+    //     } else { // end of the round,switch next host
+    //       Games.update({
+    //         name: name
+    //       }, {
+    //         stage: 1,
+    //         count: [],
+    //         $inc: {
+    //           hostInx: 1
+    //         }
+    //       });
+    //     }
+    //   } else { //when cur stage = 0-3
+    //     Games.update ({
+    //       name: name
+    //     }, {
+    //       count: [],
+    //       $inc: {
+    //         stage: 1
+    //       }
+    //     }); 
+    //   }
+    // }
 
 // "games.removePlayer"(gameName) {
 //   if (!this.userId) {
