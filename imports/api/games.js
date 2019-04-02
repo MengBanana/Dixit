@@ -87,8 +87,10 @@ Meteor.methods({
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     }
-    let res = Games.find({name:name}).players; //current Game players
-    return res.indexOf(Meteor.user().username);
+    let res = Games.find({name:name}).fetch(); 
+    let array = res["0"].players;//current Game players
+    console.log("HELLO",array.indexOf(Meteor.user().username));
+    return array.indexOf(Meteor.user().username);
   },
 
   "games.removePlayer"(name) {

@@ -14,7 +14,7 @@ class MyGame extends Component {
     this.state = {
       //fixed in the whole game
       gameName : "",
-      playerIdx: 0,
+      playerIdx: -1,
 
       //round-level changes
       points: 0, //once at the end
@@ -45,6 +45,13 @@ class MyGame extends Component {
     this.onChange = this.onChange.bind(this);
   }
 
+  // selectCard(e) {
+  //   let card = e.target.id;
+  //   this.setState({
+  //     selectedCard: card
+  //   });
+  // }
+
   start() {
     Meteor.call("games.start", this.state.distributedCards, this.state.gameName, (err, res) => {
       if (err) {
@@ -59,8 +66,6 @@ class MyGame extends Component {
 
   
   componentDidMount() {
-    this.updateGame();
-    this.getGame();
   }
 
   componentDidUpdate(prevProps) {
@@ -70,20 +75,18 @@ class MyGame extends Component {
   }
 
   //////do not change through out the whole game//////
-  getGame(){ 
-    this.props.myGame.map(game =>{
-      this.setState({
-        gameName: game.name
-      });
-    });
+  getGame(){
   }
   getPlayerIndex(){ //TODO: db test // NOT WORKING
-    return Meteor.call("games.getPlayerIndex",this.state.gameName,(err, res) => {
+    Meteor.call("games.getPlayerIndex",this.props.myGame[0].name,(err, res) => {
       if (err) {
         alert("There was error updating check the console");
         console.log(err);
       }
-      console.log("succeed",res);
+      this.setState({
+        playerIdx: res,
+        cardsOnHand: this.state.cardsPool[res]
+      });
     });
   }
   //////////////////////////////////////////////////
@@ -91,11 +94,6 @@ class MyGame extends Component {
 
   /////update for each move during each stage///////
   updateGame(){
-    if (this.stage === 1) {
-      this.setState({
-        playerIdx: this.getPlayerIndex()
-      });
-    }
     this.props.myGame.map(game =>{
       this.setState({
         gameName: game.name,
@@ -103,11 +101,14 @@ class MyGame extends Component {
         hostIdx: game.hostIdx, //get hostName
         hostDescription: game.description,
         cardsOnDesk: game.cardsOnDesk,
-        cardsOnHand: game.cardsOnHand[0],
+        // cardsOnHand: game.cardsOnHand[],
+        cardsPool: game.cardsOnHand,
         players: game.players,
         //players, points
       });
+      this.getPlayerIndex();
     });
+    
   }
   //////////////////////////////////////////////////
 
@@ -263,7 +264,6 @@ class MyGame extends Component {
     console.log("TEST: state.description: ", this.state.description);
     console.log("TEST: state.hostDescription: ", this.state.hostDescription);
     
-    let i=0;
     const stage0 = (
       <div className="container"id="HomePage" >
         <div className = "row">
@@ -320,15 +320,13 @@ class MyGame extends Component {
           <div className="row">
             <div className="col-10" id="gameBoard">
               <h2 className="row"> Pool </h2>
-              <div className="row" id="cardPool">
-                {this.state.cardsOnDesk.map( cardOnDesk=> (
-                  <div key={i++} className="card col-xs-4 col-s-3">
-                    <div className = "container">
-                      <div className ="container img-box"><img src={cardOnDesk.url} className="card-img-top img-rounded"/></div>
+              {this.state.cardsOnDesk.length === 0 ? null :
+                <div className="row" id="cardPool">
+                  {this.state.cardsOnDesk.map( cardOnDesk=> (
+                    <div key={cardOnDesk._id} name ={cardOnDesk} className="card col-xs-4 col-s-3" style={{backgroundImage: `url(${cardOnDesk.url})`, backgroundSize: "cover"}}>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>}
               <div className="row" id="displayDescrition">
                 {this.state.finalDescription}
               </div>
@@ -345,8 +343,7 @@ class MyGame extends Component {
               <h2 className="row"> Cards In Hand </h2>
               <div className="row" id="cardsInHand">
                 {this.state.cardsOnHand.map(cardOnHand => (
-                  <div key={cardOnHand._id} className="card col-xs-4 col-s-3" style={{backgroundImage: `url(${cardOnHand.url})`, backgroundSize: "cover"}}>
-                    
+                  <div key={cardOnHand._id} className="card col-xs-4 col-s-3" name ={cardOnHand} style={{backgroundImage: `url(${cardOnHand.url})`, backgroundSize: "cover"}} >
                   </div>
                 ))}
               </div>
@@ -406,7 +403,7 @@ export default withTracker(() => {
   const handle3 = Meteor.subscribe("cards");
   return {
     user: Meteor.user(),
-    ready : handle.ready() && handle2.ready() && handle3.ready(),
+    ready : handle.ready() || handle2.ready() || handle3.ready(),
     myGame: Games.find({}).fetch(),
     usersGames: UsersGames.find({}).fetch(),
     cards: Cards.find({}).fetch(),
