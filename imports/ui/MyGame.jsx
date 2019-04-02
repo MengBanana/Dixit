@@ -355,10 +355,8 @@ class MyGame extends Component {
               <h2 className="row"> Cards In Hand </h2>
               <div className="row" id="cardsInHand">
                 {this.state.cardsOnHand.map(cardOnHand => (
-                  <div key={cardOnHand._id} className="card col-xs-4 col-s-3">
-                    <div className = "container">
-                      <div className ="container img-box"><img src={cardOnHand.url} className="card-img-top img-rounded"/></div>
-                    </div>
+                  <div key={cardOnHand._id} className="card col-xs-4 col-s-3" style={{backgroundImage: `url(${cardOnHand.url})`, backgroundSize: "cover"}}>
+                    
                   </div>
                 ))}
               </div>
