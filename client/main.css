@@ -15,11 +15,48 @@ body {
 	color: white;
 }
 
-/*.gameroom {
-  margin-top: 20px;
-}*/
-
 
 .navbar-container {
 	margin-bottom: 40px;
 }
+
+
+#gameBoard .card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  margin: 1%;
+  padding: 5px;
+  overflow: hidden;
+  transition: 0.3s;
+  width : 120px;
+  height: 180px;
+}
+
+
+
+#gameBoard .card:hover {
+  transform: scale(1.02);
+}
+#gameBoard .card-body {
+  padding: 0.5rem !important;
+}
+#gameBoard .card-img-top {
+  max-width: 240px !important;
+  max-height: 220px !important;
+  overflow: hidden;
+}
+#gameBoard .img-box {
+  background-color: white;
+  opacity: 0.95;
+  width: 240px !important;
+  height: 220px !important;
+  overflow: hidden;
+  vertical-align: middle;
+  display: table-cell;
+}
+
+
+.part {
+	margin-top: 20px;
+}
+
+

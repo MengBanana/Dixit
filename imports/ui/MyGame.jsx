@@ -6,7 +6,6 @@ import PropTypes from "prop-types";
 import { UsersGames } from "../api/usersGames.js";
 import { Cards } from "../api/cards.js";
 import { random } from "../utils/random";
-import "./GameBoard.css";
 
 class MyGame extends Component {
   constructor(props) {
@@ -319,40 +318,50 @@ class MyGame extends Component {
         <div className="container">
           <div className="row">
             <div className="col-10" id="gameBoard">
-              <h2 className="row"> Pool </h2>
-              {this.state.cardsOnDesk.length === 0 ? null :
-                <div className="row" id="cardPool">
-                  {this.state.cardsOnDesk.map( cardOnDesk=> (
-                    <div key={cardOnDesk._id} name ={cardOnDesk} className="card col-xs-4 col-s-3" style={{backgroundImage: `url(${cardOnDesk.url})`, backgroundSize: "cover"}}>
+              <div>
+                <h2 className="row"> GameRoom: {this.state.gameName} </h2>
+                <h6> Story teller: </h6>
+                <h6> Stage: </h6>
+              </div>
+              <div className="part">
+                <h2 className="row"> Pool </h2>
+                {this.state.cardsOnDesk.length === 0 ? null :
+                  <div className="row" id="cardPool">
+                    {this.state.cardsOnDesk.map( cardOnDesk=> (
+                      <div key={cardOnDesk._id} name ={cardOnDesk} className="card col-xs-4 col-s-3" style={{backgroundImage: `url(${cardOnDesk.url})`, backgroundSize: "cover"}}>
+                      </div>
+                    ))}
+                  </div>}
+                <div className="row" id="displayDescrition">
+                  {this.state.finalDescription}
+                </div>
+                <div className="row" id="textbox">
+                  <form>
+                    <div className="form-group">
+                      <label htmlFor="description">Enter Your Description</label>
+                      <input type="" className="form-control" id="description" aria-describedby="description" value={this.state.description} onChange={this.onChange}></input>
+                      <small id="detail" className="form-text text-muted">Don't describe too many details</small>
+                    </div>
+                    <button type="submit" className="btn btn-warning" onClick={this.onSubmit}>Submit</button>
+                  </form>
+                </div>
+              </div>
+              <div className="part">
+                <h2 className="row"> Cards In Hand </h2>
+                <div className="row" id="cardsInHand">
+                  {this.state.cardsOnHand.map(cardOnHand => (
+                    <div key={cardOnHand._id} className="card col-xs-4 col-s-3" onClick={() => alert("Hello from here")} name ={cardOnHand} style={{backgroundImage: `url(${cardOnHand.url})`, backgroundSize: "cover"}} >
                     </div>
                   ))}
-                </div>}
-              <div className="row" id="displayDescrition">
-                {this.state.finalDescription}
-              </div>
-              <div className="row" id="textbox">
-                <form>
-                  <div className="form-group">
-                    <label htmlFor="description">Enter Your Description</label>
-                    <input type="" className="form-control" id="description" aria-describedby="description" value={this.state.description} onChange={this.onChange}></input>
-                    <small id="detail" className="form-text text-muted">Don't describe too many details</small>
-                  </div>
-                  <button type="submit" className="btn btn-warning" onClick={this.onSubmit}>Submit</button>
-                </form>
-              </div>
-              <h2 className="row"> Cards In Hand </h2>
-              <div className="row" id="cardsInHand">
-                {this.state.cardsOnHand.map(cardOnHand => (
-                  <div key={cardOnHand._id} className="card col-xs-4 col-s-3" name ={cardOnHand} style={{backgroundImage: `url(${cardOnHand.url})`, backgroundSize: "cover"}} >
-                  </div>
-                ))}
+                </div>
               </div>
             </div>
-            <div className="col-2 ml-auto" id="scoreBoard">
-              <h2 className="row"> ScoreBoard </h2>
-              {this.state.players.map(player => (<div key={player._id} className="row">{player}:score</div>))}
+            <div>
+              <div className="col-3 ml-auto" id="scoreBoard">
+                <h2 className="row"> ScoreBoard </h2>
+                {this.state.players.map(player => (<div key={player._id} className="row">{player}:score</div>))}
+              </div>
             </div>
-
             <div className="container">
               <div className="row">
                 <div id="magic-button">

@@ -6,7 +6,6 @@ import { Cards } from "../api/cards.js";
 import { withTracker } from "meteor/react-meteor-data";
 import PropTypes from "prop-types";
 import { random } from "../utils/random";
-import "./GameBoard.css";
 
 
 export class GameBoard extends Component {
