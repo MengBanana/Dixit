@@ -50,12 +50,12 @@ Meteor.methods({
       description:"",
       hostIdx:0,
       winners:[],
+      players:[],
+      createdAt: Date.now(),
+      owner: Meteor.user().username,
       cards:info.cards,//arr of arr
       cardsOnDesk:[],
       cardsOnHand:[],//arr of arr
-      players:[],
-      createdAt: Date.now(),
-      owner: Meteor.user().username
     });
   },
 
@@ -112,12 +112,6 @@ Meteor.methods({
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     }
-    // let res = Games.findOne({
-    //   name:name
-    // });
-    // if (res.count.includes(Meteor.user().username)){
-    //   return;
-    // }
     Games.update ({
       name: name
     }, {
@@ -155,23 +149,23 @@ Meteor.methods({
   }
 });
 
-  // "games.removePlayer"(gameName) {
-  //   if (!this.userId) {
-  //     throw new Meteor.Error("not-authorized");
-  //   }
-  //   Games.update(
-  //     {name: gameName}, 
-  //     {$pull: {players: Meteor.user().username}}
-  //   );
-  // },
-  //   "games.getGame"(gameName) {
-  //   check(gameName, String);
-  //   if (!this.userId) {
-  //     throw new Meteor.Error("not-authorized");
-  //   }
-  //   Games.findOne({
-  //     gameName: gameName
-  // });
+// "games.removePlayer"(gameName) {
+//   if (!this.userId) {
+//     throw new Meteor.Error("not-authorized");
+//   }
+//   Games.update(
+//     {name: gameName}, 
+//     {$pull: {players: Meteor.user().username}}
+//   );
+// },
+//   "games.getGame"(gameName) {
+//   check(gameName, String);
+//   if (!this.userId) {
+//     throw new Meteor.Error("not-authorized");
+//   }
+//   Games.findOne({
+//     gameName: gameName
+// });
 
 
 

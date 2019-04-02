@@ -13,7 +13,7 @@ class MyGame extends Component {
     super(props);
     this.state = {
       //global, get from db
-      gameName : "testdistributed",
+      gameName : "",
       //get from db, needs update
       stage:0,
       hostIdx:0,
@@ -81,16 +81,31 @@ class MyGame extends Component {
   //   return null;
   // }
 
-  getStage(){
+  getGame(){
+    this.props.myGame.map(game =>{
+      this.setState({
+        gameName: game.name
+      });
+    });
+  }
+
+  updateGame(){
+    this.props.myGame.map(game =>{
+      this.setState({
+        stage: game.stage,
+      });
+    });
   }
 
   componentDidMount() {
-    this.props.myGame.map(game  => (
-      this.setState({
-        gameName: game.name,
-        stage:game.stage
-      })
-    ));
+    this.updateGame();
+    this.getGame();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.myGame!= prevProps.myGame){
+      this.updateGame();
+    }
   }
 
   updateCount(){
@@ -278,8 +293,7 @@ class MyGame extends Component {
    
     return (
       <div className="container">
-        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        
+        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         <div> 
           <div className="row">TEST: props.myGame.length: should be 1, actual data: {this.props.myGame.length}</div>
           <br/><div className="row">TEST: state.gameName: {this.state.gameName}</div>
@@ -290,78 +304,8 @@ class MyGame extends Component {
           {stage3}
           {stage4}
         </div>
+         @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         
-         @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        <div className="row">
-          <div className="col-10" id="gameBoard">
-            <h2 className="row"> Pool </h2>
-            <div className="row" id="cardPool">
-              {d[1].map(cardInPool => (
-                <div key={cardInPool} className="card col-xs-4 col-s-3">
-                  <div className = "container">
-                    <div className ="container img-box"><img src="" className="card-img-top img-rounded"/></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="row" id="displayDescrition">
-              {this.state.finalDescription}
-            </div>
-            <div className="row" id="textbox">
-              <form>
-                <div className="form-group">
-                  <label for="description">Enter Your Description</label>
-                  <input type="" className="form-control" id="description" aria-describedby="description" value={this.state.description} onChange={this.onChange}></input>
-                  <small id="detail" className="form-text text-muted">Don't describe too many details</small>
-                </div>
-                <button type="submit" className="btn btn-warning" onClick={this.onSubmit}>Submit</button>
-              </form>
-            </div>
-            <h2 className="row"> Cards In Hand </h2>
-            <div className="row" id="cardsInHand">
-              {cardsInPool.map(cardInPool => (
-                <div key={cardInPool} className="card col-xs-4 col-s-3">
-                  <div className = "container">
-                    <div className ="container img-box"><img className="card-img-top img-rounded"/></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="col-2 ml-auto" id="scoreBoard">
-            {players.map(player => (<div className="row">{player}:score</div>))}
-          </div>
-
-          <div className="container">
-            <div className="row">
-              <div id="magic-button">
-                <br/>
-                <button type="button" className= "btn btn-danger my-2 my-sm-0 " data-toggle="modal" data-target="#myModal">Add Card</button>
-              </div>
-              <div id="myModal" className="modal fade" role="dialog">
-                <div className="modal-dialog">
-                  <div className="modal-content">
-                    <div className="modal-header">
-                      <h4 className="modal-title">Enter card info</h4>
-                      <button type="button" className="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <div className="modal-body">
-                      <form id="newItemForm">
-                        <div className = "form-group">
-                          <label>Image Url</label>
-                          <input type="text" className="form-control" id="newUrl" onChange= {this.onChange.bind(this)}/>
-                        </div>
-                      </form>
-                    </div>
-                    <div className="modal-footer d-flex justify-content-center">
-                      <button className="btn btn-danger" data-dismiss="modal" onClick={this.onSubmit}>Add It</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>  
     );
   }
