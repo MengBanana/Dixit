@@ -122,7 +122,7 @@ Meteor.methods({
   },
 
   "games.updateAnswer"(info){
-    check(info.game, String);
+    // check(info.game, String);
     // check(info.card._id, String);//cardID
     // check(info.card.url, String);
     //check(info.description, String);
@@ -133,8 +133,7 @@ Meteor.methods({
       name: info.game
     }, {
       $set: {
-        targetCard: info.card,
-        description: info.description
+        targetCard: info.card
       }
     }); 
   },
