@@ -60,9 +60,9 @@ Meteor.methods({
       players:[],
       createdAt: Date.now(),
       owner: Meteor.user().username,
-      cards:info.cards,//arr of arr
+      cards:info.cards[0],//arr of arr
       cardsOnDesk:[],
-      cardsOnHand:[],//arr of arr
+      cardsOnHand:info.cards[1],//arr of arr
     });
   },
 
