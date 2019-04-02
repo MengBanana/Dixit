@@ -32,7 +32,8 @@ class MyGame extends Component {
       targetCard:null,//{card, userId}
 
       newUrl: "",
-      distributedCards: random(this.props.cards, 4)
+      distributedCards: random(this.props.cards, 4),
+      buttonClick:0,
 
     };     
     this.onSubmit = this.onSubmit.bind(this);
@@ -128,6 +129,9 @@ class MyGame extends Component {
   }
 
   onSubmit(e) {
+    this.setState({
+      buttonClick : 1
+    });
 
     // if (e.target.id === "exitGame") {//update user status, remove player from game, can exit only on stage 0(before game starts)
     //   Meteor.call("usersGames.exit",this.state.points, (err, res) => {
@@ -249,7 +253,11 @@ class MyGame extends Component {
       <div className="container"id="HomePage" >
         <div className = "row">
           <p>Stage0, game created, click start game, wait for enough players</p>
+          {this.state.buttonClick === 0? 
           <button type="button" className="btn btn-outline-dark" id = "readyToStart" onClick = {this.onSubmit.bind(this)}>Ready!</button>
+          :
+          null
+          }
         </div>
       </div>
     );
