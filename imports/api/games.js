@@ -12,7 +12,14 @@ if (Meteor.isServer) {
     if (!Meteor.userId()) {
       return this.ready();
     }
-    return Games.find({players:[Meteor.user().username]});
+    return Games.find({players: Meteor.user().username});
+    // for (const game of Games.find({})){
+    //   for (const player of game.players){
+    //     if (player.equals(Meteor.user().username)) {
+    //       return game;
+    //     }
+    //   }
+    // }
   });
 }
 
@@ -120,7 +127,7 @@ Meteor.methods({
     let res = Games.findOne({
       name:name
     });
-    if (res.count.length >= res.players.length){
+    if (res.count.length === res.players.length){
       if (res.stage === 4) {
         if (res.hostIdx === res.players.length - 1) {
         //end of the game,delete game

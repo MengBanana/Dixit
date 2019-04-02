@@ -43,6 +43,7 @@ class GameRoom extends Component {
   }
 
   onSubmit(e) {
+    let method = e.target.id;
     let info = {
       name: e.target.id === "joinGame"? e.target.name : this.state.newGameName,
       number: this.state.numberOfPlayers,
@@ -54,15 +55,18 @@ class GameRoom extends Component {
       search: ""
     });
 
-    if (e.target.id === "newGame") {
+    if (method === "newGame") {
       if (info.number < 3 || info.number > 6) {
         return alert("Please enter a number between 3 and 6");
       }
-      Meteor.call("usersGames.join",info.name,(err, res) => {
-        if (err) {
-          alert("There was error updating check the console");
-          console.log(err);
-        } else {
+    }
+    Meteor.call("usersGames.join",info.name,(err, res) => {
+      if (err) {
+        alert("There was error updating check the console");
+        console.log(err);
+        return;
+      } else {
+        if (method === "newGame") {
           Meteor.call("games.insert",info, (err, res) => {
             if (err) {
               alert("Name already taken!");
@@ -70,16 +74,15 @@ class GameRoom extends Component {
             }
             console.log("succeed",res);
           });
-        }
-      });
-    }
-
-    Meteor.call("games.addPlayer",info.name,(err, res) => {
-      if (err) {
-        alert("There was error updating check the console");
-        console.log(err);
+        } 
+        Meteor.call("games.addPlayer",info.name,(err, res) => {
+          if (err) {
+            alert("There was error updating check the console");
+            console.log(err);
+          }
+          console.log("succeed",res);
+        });
       }
-      console.log("succeed",res);
     });
   }
 

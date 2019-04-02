@@ -1,5 +1,5 @@
 body {
-  background: url('https://cdn-images-1.medium.com/max/2600/1*hvOf471J_6PdM2R3kyOfYA.jpeg') no-repeat center center fixed;
+  background: url('') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
@@ -8,6 +8,7 @@ body {
 
 * {
   font-family: 'Germania One';
+
 }
 
 .signin {
