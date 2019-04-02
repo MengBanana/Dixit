@@ -99,13 +99,12 @@ class MyGame extends Component {
     this.props.myGame.map(game =>{
       this.setState({
         gameName: game.name,
-        playerIdx: 0,
         stage: game.stage,
         hostIdx: game.hostIdx, //get hostName
         hostDescription: game.description,
         cardsOnDesk: game.cardsOnDesk,
         cardsOnHand: game.cardsOnHand[0],
-        player: game.players,
+        players: game.players,
         //players, points
       });
     });
