@@ -134,6 +134,7 @@ Meteor.methods({
     }, {
       $set: {
         targetCard: info.card
+
       }
     }); 
   },
