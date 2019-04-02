@@ -278,6 +278,8 @@ class MyGame extends Component {
    
     return (
       <div className="container">
+        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        
         <div> 
           <div className="row">TEST: props.myGame.length: should be 1, actual data: {this.props.myGame.length}</div>
           <br/><div className="row">TEST: state.gameName: {this.state.gameName}</div>
@@ -288,6 +290,8 @@ class MyGame extends Component {
           {stage3}
           {stage4}
         </div>
+        
+         @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         <div className="row">
           <div className="col-10" id="gameBoard">
             <h2 className="row"> Pool </h2>
