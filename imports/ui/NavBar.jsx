@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 export default class NavBar extends Component {
   render() {
     return (
-      <div className="container navbar-container">
+      <div className="navbar-container">
         <nav className="navbar navbar-expand-md navbar-dark bg-dark">
           <a className="navbar-brand" href="#">Dixit</a>
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
