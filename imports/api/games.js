@@ -30,6 +30,7 @@ Meteor.methods({
 
   "games.insert"(info) {
     check(info.name, String);
+    check(info.cards, Array);
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     }
@@ -49,7 +50,7 @@ Meteor.methods({
       description:"",
       hostIdx:0,
       winners:[],
-      cards:[],//arr of arr
+      cards:info.cards,//arr of arr
       cardsOnDesk:[],
       cardsOnHand:[],//arr of arr
       players:[],
