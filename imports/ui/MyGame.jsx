@@ -255,6 +255,15 @@ class MyGame extends Component {
   // </div>
   
   render() {
+    console.log("TEST: props.myGame.length:", this.props.myGame.length);
+    console.log("TEST: state.gameName: ",this.state.gameName);
+    console.log("TEST: state.stage: ", this.state.stage);
+    console.log("TEST: state.playerIdx: ", this.state.playerIdx);
+    console.log("TEST: state.hostIdx: ", this.state.hostIdx);
+    console.log("TEST: state.points: ", this.state.points);
+    console.log("TEST: state.description: ", this.state.description);
+    console.log("TEST: state.hostDescription: ", this.state.hostDescription);
+    
     let i=0;
     const stage0 = (
       <div className="container"id="HomePage" >
@@ -308,24 +317,6 @@ class MyGame extends Component {
    
     return (
       <div className="container">
-        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        <div> 
-          <div className="row">TEST: props.myGame.length: should be 1, actual data: {this.props.myGame.length}</div>
-          <br/><div className="row">TEST: state.gameName: {this.state.gameName}</div>
-          <br/><div className="row">TEST: state.stage: {this.state.stage}</div>
-          <br/><div className="row">TEST: state.playerIdx: {this.state.playerIdx}</div>
-          <br/><div className="row">TEST: state.hostIdx: {this.state.hostIdx}</div>
-          <br/><div className="row">TEST: state.points: {this.state.points}</div>
-          <br/><div className="row">TEST: state.description: {this.state.description}</div>
-          <br/><div className="row">TEST: state.hostDescription: {this.state.hostDescription}</div>
-          {stage0}
-          {stage1}
-          {stage2}
-          {stage3}
-          {stage4}
-        </div>
-         @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        
         <div className="container">
           <div className="row">
             <div className="col-10" id="gameBoard">
