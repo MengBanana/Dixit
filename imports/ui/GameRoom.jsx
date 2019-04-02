@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { Meteor } from "meteor/meteor";
 import { Games } from "../api/games.js";
-import { UsersGames } from "../api/usersGames.js";
 import { withTracker } from "meteor/react-meteor-data";
 import PropTypes from "prop-types";
 import Pagination from "./Pagination";
+import { Cards } from "../api/cards.js";
 import { paginate } from "../utils/paginate";
+import { random } from "../utils/random";
 
 
 class GameRoom extends Component {
@@ -44,7 +45,8 @@ class GameRoom extends Component {
   onSubmit(e) {
     let info = {
       name: e.target.id === "joinGame"? e.target.name : this.state.newGameName,
-      number: this.state.numberOfPlayers
+      number: this.state.numberOfPlayers,
+      cards: random(this.props.cards, this.state.numberOfPlayers)
     };
     this.setState({
       newGameName: "",
@@ -166,10 +168,12 @@ GameRoom.propTypes = {
 
 export default withTracker(() => {
   const handle = Meteor.subscribe("games");
+  const handle2 = Meteor.subscribe("cards");
   
   return {
     games: Games.find({}).fetch(), 
     user: Meteor.user(),
-    ready : handle.ready()
+    cards: Cards.find({}).fetch(),
+    ready : handle.ready() && handle2.ready()
   };
 })(GameRoom);
