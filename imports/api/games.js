@@ -78,6 +78,7 @@ Meteor.methods({
     }
     let res = Games.find({name:name}).fetch(); 
     let array = res["0"].players;//current Game players
+    console.log(res);
     console.log("HELLO",array.indexOf(Meteor.user().username));
     return array.indexOf(Meteor.user().username);
   },
@@ -126,22 +127,27 @@ Meteor.methods({
         description : info.description
       }
     });
-    let array = Games.find({_id:info.card._id});
-    console.log(array); 
   },
 
   "games.addCardToDesk"(info) {
-    check(info.game, String);
+/*    check(info.game, String);
     check(info.card._id, String);//cardID
-    check(info.card.url, String);
+    check(info.card.url, String);*/
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
-    }
+    } 
+    let res = Games.find({name:info.game}).fetch(); 
+    console.log(res);
+/*    let array = res["0"].cardsOnHand;
+    console.log(array);*/
+/*    let newArray = array[info.playerIdx].filter(m => (m._id !== info.card._id));
+    let resArray = array.splice(info.playerIdx, 1, newArray);*/
     Games.update ({
       name: info.game
     }, {
-      $push:{cardsOnDesk: info.card}
-    }); 
+      $push:{cardsOnDesk: info.card},
+      // $set:{cardsOnHand : resArray}
+    });
 
   },
 

@@ -6,7 +6,7 @@ import MyGame from "./MyGame.jsx";
 import NavBar from "./NavBar.jsx";
 import GameRoom from "./GameRoom.jsx";
 import HomePage from "./HomePage.jsx";
-import GameBoard from "./GameBoard.jsx";
+import AddCard from "./AddCard.jsx";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -34,13 +34,13 @@ class App extends Component {
             <div className = "col-12">
               <Switch>
                 <Route exact path="/HomePage" component={HomePage} />
+                <Route exact path="/AddCard" component={AddCard} />
                 <Fragment>
                   {this.props.myData.length === 0 ? <Route exact path="/gameroom" component= {GameRoom} /> : <div>
-                        {this.props.myData[0].ingame ? <Route exact path="/gameroom" component={MyGame} /> :
-                          <Route exact path="/gameroom" component= {GameRoom} />}</div>
+                     {this.props.myData[0].ingame ? <Route exact path="/gameroom" component={MyGame} /> :
+                      <Route exact path="/gameroom" component= {GameRoom} />}</div>
                   }
                 </Fragment>
-                <Route exact path="/GameBoard" component={GameBoard} />
 
               </Switch>
             </div>
