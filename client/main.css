@@ -30,7 +30,8 @@ body {
 }
 
 #scoreBoard {
-	padding-right: 70px;
+	padding: 5%;
+
 	border-right: 2px dotted black;
 }
 
@@ -89,7 +90,7 @@ body {
 
 .part {
 	margin-top: 20px;
-	margin-left:20px;
+	margin-left:5%;
 }
 
 #cardpool {

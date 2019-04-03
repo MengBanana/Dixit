@@ -88,10 +88,8 @@ Meteor.methods({
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     }
-    let res = Games.findOne({
-      name:name
-    });
-    if (!res.players.includes(Meteor.user().username)){
+    let res = Games.find({name:name}).fetch();
+    if (!res["0"].players.includes(Meteor.user().username)){
       return;
     }
     Games.update(
@@ -100,22 +98,54 @@ Meteor.methods({
     );
   },
 
-  "games.updateReady"(name) {
+  "games.updateReady"(name) { //STAGE 0 -> 1 && STAGE 4 -> 1 (continue button)
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
-    }//CHECK DUPLICATE
+    }
+    //TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!CHECK DUPLICATE line 91-92
     Games.update ({
       name: name
     }, {
       $push:{count: Meteor.user().username}
     }); 
+    //console.log(Games.find({name:name}).fetch());
+    let res = Games.find({name:name}).fetch();
+    let array = res[0].count;
+    if (array.length >= res[0].numberOfPlayers){
+      Games.update({
+        name:name
+      }, {
+        $set:{
+          stage: 1,
+          count:[]
+        }
+      });
+    }
   },
 
-  "games.updateAnswer"(info){
-    // check(info.game, String);
+  "games.nextHost"(name) { //get called when STAGE 4 -> 1
+    if (!this.userId) {
+      throw new Meteor.Error("not-authorized");
+    }
+    let res = Games.find({name:name}).fetch();
+    let curHostIdx = res[0].hostIdx;
+    if (curHostIdx === res[0].players.length - 1) {
+      return; // GAME OVER
+    }
+    Games.update ({
+      name: name
+    }, {
+      $set:{
+        hostIdx: curHostIdx + 1
+      }
+    }); 
+  },
+
+  "games.updateAnswer"(info){ //STAGE 1 -> 2 
+    check(info.game, String);
     // check(info.card._id, String);//cardID
     // check(info.card.url, String);
-    //check(info.description, String);
+    check(info.description, String);
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     }
@@ -124,20 +154,20 @@ Meteor.methods({
     }, {
       $set: {
         targetCard: info.card,
-        description : info.description
+        description : info.description,
+        stage:2
       }
     });
   },
 
-  "games.addCardToDesk"(info) {
+  "games.addCardToDesk"(info) { // STAGE 2 -> 3
 /*    check(info.game, String);
     check(info.card._id, String);//cardID
     check(info.card.url, String);*/
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     } 
-    let res = Games.find({name:info.game}).fetch(); 
-    console.log(res);
+  
 /*    let array = res["0"].cardsOnHand;
     console.log(array);*/
 /*    let newArray = array[info.playerIdx].filter(m => (m._id !== info.card._id));
@@ -145,24 +175,66 @@ Meteor.methods({
     Games.update ({
       name: info.game
     }, {
-      $push:{cardsOnDesk: info.card},
+      $push:{
+        cardsOnDesk: info.card,
+        count: Meteor.user().username
+      },
       // $set:{cardsOnHand : resArray}
     });
+    let res = Games.find({name:name}).fetch();
+    let array = res[0].count;
+    if (array.length >= res[0].numberOfPlayers){
+      Games.update({
+        name:name
+      }, {
+        $set:{
+          stage: 3,
+          count:[]
+        }
+      });
+    }
 
+    // let res = Games.find({name:name}).fetch();
+    // let cards = res["0"].cardsOnDesk;
+
+    // if (cards.length >= res["0"].numberOfPlayers){
+    //   Games.update ({
+    //     name: info.game
+    //   }, {
+    //     $set:{stage: 3}
+    //   });
+    // }
   },
 
-  "games.updateWinners"(info) {
+  "games.updateWinners"(info) { // STAGE 3 -> 4
     check(info.game, String);
-    check(info.card._id, String);//cardID
-    check(info.card._url, String);
+    // check(info.card._id, String);//cardID
+    // check(info.card._url, String);
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     }
-    if (Object.is(info.card, Games.find({name: info.name}).targetCard)){
-      Games.update ({
+    let res = Games.find({name:info.game}).fetch(); 
+    if (Object.is(info.card, res[0].targetCard)){
+      Games.update ({  //TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!CHECK DUPLICATE line 91-92
         name: info.game
-      }, { //TODO:check duplicate
+      }, {
         $push:{winners: Meteor.user().username}
+      });
+    }
+    Games.update ({
+      name: name
+    }, {
+      $push:{count: Meteor.user().username}
+    }); 
+    if (res["0"].count.length === res["0"].players.numberOfPlayers - 1){
+      Games.update({
+        name:name
+      }, {
+        $set:{
+          stage: 4,
+          count:[],
+          cardsOnDesk:[],
+        }
       });
     }
   }

@@ -109,16 +109,16 @@ class MyGame extends Component {
   //     }
   //   });
   // }
-  getButton(){
-    let s = this.state.stage;
-    if (s === 2) {
-      <button type="button" className="btn btn-outline-dark" id = "pickCard" onClick = {this.onSubmit.bind(this)}>Submit-stage2</button>;
-    } else if (s === 3) {
-      <button type="button" className="btn btn-outline-dark" id = "voteCard" onClick = {this.onSubmit.bind(this)}>Submit-stage3</button>;
-    } else {
-      return null;
-    }
-  }
+  // getButton(){
+  //   let s = this.state.stage;
+  //   if (s === 2) {
+  //     <button type="button" className="btn btn-outline-dark" id = "pickCard" onClick = {this.onSubmit.bind(this)}>Submit-stage2</button>;
+  //   } else if (s === 3) {
+  //     <button type="button" className="btn btn-outline-dark" id = "voteCard" onClick = {this.onSubmit.bind(this)}>Submit-stage3</button>;
+  //   } else {
+  //     return null;
+  //   }
+  // }
 
   onChange(e) {
     this.setState({
@@ -177,48 +177,49 @@ class MyGame extends Component {
           description: ""
         });
       }
+    }
 
-      if (e.target.id === "pickCard") {
-        if (this.state.selectedCard != null) {
-          let info = {
-            game: this.state.gameName,
-            card: this.state.selectedCard
-          };
-          Meteor.call("games.addCardToDesk", info, (err, res) => {
-            //TODO: db test
-            if (err) {
-              alert("There was error updating check the console");
-              console.log(err);
-            } else {
-              console.log("succeed", res);
-            }
-          });
-          this.setState({
-            selectedCard: null
-          });
-        }
+    if (e.target.id === "pickCard") {
+      if (this.state.selectedCard != null) {
+        let info = {
+          game: this.state.gameName,
+          card: this.state.selectedCard
+        };
+        Meteor.call("games.addCardToDesk", info, (err, res) => {
+          //TODO: db test
+          if (err) {
+            alert("There was error updating check the console");
+            console.log(err);
+          } else {
+            console.log("succeed", res);
+          }
+        });
+        this.setState({
+          selectedCard: null
+        });
       }
+    }
 
-      if (e.target.id === "voteCard") {
-        if (this.state.selectedCard != null) {
-          let info = {
-            game: this.state.gameName,
-            card: this.state.selectedCard
-          };
-          Meteor.call("games.updateWinners", info, (err, res) => {
-            //TODO: db test,combine with players, update winners
-            if (err) {
-              alert("There was error updating check the console");
-              console.log(err);
-            } else {
-              console.log("succeed", res);
-            }
-          });
-          this.setState({
-            selectedCard: null
-          });
-        }
+    if (e.target.id === "voteCard") {
+      if (this.state.selectedCard != null) {
+        let info = {
+          game: this.state.gameName,
+          card: this.state.selectedCard
+        };
+        Meteor.call("games.updateWinners", info, (err, res) => {
+          //TODO: db test,combine with players, update winners
+          if (err) {
+            alert("There was error updating check the console");
+            console.log(err);
+          } else {
+            console.log("succeed", res);
+          }
+        });
+        this.setState({
+          selectedCard: null
+        });
       }
+    }
 
       //function: compute points, display result, stage = 0, idx++, reset all {count = 0, idx++,.....}
 
@@ -238,7 +239,6 @@ class MyGame extends Component {
       //     console.log("succeed",res);
       //   });
       // }
-    }
   }
 
   // WORKED!!!  <div className="row">
@@ -252,15 +252,15 @@ class MyGame extends Component {
   // </div>
 
   render() {
-    console.log("TEST: props.myGame.length:", this.props.myGame.length);
-    console.log("TEST: state.gameName: ", this.state.gameName);
-    console.log("TEST: state.stage: ", this.state.stage);
-    console.log("TEST: state.playerIdx: ", this.state.playerIdx);
-    console.log("TEST: state.hostIdx: ", this.state.hostIdx);
-    console.log("TEST: state.points: ", this.state.points);
-    console.log("TEST: state.description: ", this.state.description);
-    console.log("TEST: state.hostDescription: ", this.state.hostDescription);
-    console.log("TEST: state.selectedCard: ", this.state.selectedCard);
+    // console.log("TEST: props.myGame.length:", this.props.myGame.length);
+    // console.log("TEST: state.gameName: ", this.state.gameName);
+    // console.log("TEST: state.stage: ", this.state.stage);
+    // console.log("TEST: state.playerIdx: ", this.state.playerIdx);
+    // console.log("TEST: state.hostIdx: ", this.state.hostIdx);
+    // console.log("TEST: state.points: ", this.state.points);
+    // console.log("TEST: state.description: ", this.state.description);
+    // console.log("TEST: state.hostDescription: ", this.state.hostDescription);
+    // console.log("TEST: state.selectedCard: ", this.state.selectedCard);
 
     // const stage0 = (
     //   <div className="container"id="HomePage" >
@@ -385,7 +385,7 @@ class MyGame extends Component {
           <div className="col-10" id="gameBoard">
             <div className="part">
               <h4 id="displayDescrition">
-                Story teller description: "{this.state.hostDescription}"
+                Story teller description: {this.state.hostDescription}
               </h4>
               <h2 className="row"> Pool </h2>
               {!this.state.cardsOnDesk ||
@@ -405,12 +405,12 @@ class MyGame extends Component {
                   </div>
                 )}
               <div className = "row">
-                <div className = "col-3">
+                <div className = "col-4">
                   <h2 className="row"> Cards In Hand </h2>
                   <h6 className="row">TODO: NOW DO WHAT?</h6>
                 </div>
                 
-                <div className = "col-4">
+                <div className = "col-3">
                   {(this.state.stage !== 1 ? null :
                     <div>
                       {!this.state.isHost ? null : (
@@ -442,16 +442,16 @@ class MyGame extends Component {
                   {this.state.stage === 0 ? (<button type="button" className="btn btn-outline-dark" id = "readyToStart" onClick = {this.onSubmit.bind(this)}>Ready!</button>):
                     <div className="row" id="chooseCard">
                       {(this.state.isHost && this.state.stage === 1) || (!this.state.isHost && this.state.stage > 1 && this.state.stage < 4)? <div> 
-                        <div> You've chosen: </div>
-                        {this.state.selectedCard === null ? null : (
-                          <div
-                            className="card col-xs-4 col-s-3"
-                            style={{
-                              backgroundImage: `url(${this.state.selectedCard.url})`,
-                              backgroundSize: "cover"
-                            }}
-                          />
-                        )}</div> :null}
+                        <span> You've chosen: 
+                          {this.state.selectedCard === null ? null : (
+                            <span
+                              className="card col-xs-4 col-s-3"
+                              style={{
+                                backgroundImage: `url(${this.state.selectedCard.url})`,
+                                backgroundSize: "cover"
+                              }}
+                            />
+                          )}</span></div> :null}
                     </div>}
                 </div>
                 <div className = "col-2">
@@ -465,7 +465,7 @@ class MyGame extends Component {
                       >
                       Submit
                       </button></div>:null}</div>:null}
-                  {!this.state.isHost ? <div>{this.state.stage === 2 ? <div><button type="button" className="btn btn-outline-dark" id = "pickCard" onClick = {this.onSubmit.bind(this)}>Submit-stage2</button></div>:<div>{this.state.stage === 3 ? <div><button type="button" className="btn btn-outline-dark" id = "voteCard" onClick = {this.onSubmit.bind(this)}>Submit-stage3</button></div>:null}</div>}</div>:null}
+                  {!this.state.isHost ? <div>{this.state.stage === 2 ? <div><button type="button" className="btn btn-outline-dark" id = "pickCard" onClick = {this.onSubmit}>Submit-stage2</button></div>:<div>{this.state.stage === 3 ? <div><button type="button" className="btn btn-outline-dark" id = "voteCard" onClick = {this.onSubmit}>Submit-stage3</button></div>:null}</div>}</div>:null}
                 </div>
               </div>
               {!this.state.cardsOnHand ||
