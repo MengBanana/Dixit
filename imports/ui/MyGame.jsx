@@ -340,6 +340,8 @@ class MyGame extends Component {
               </div>
               <div className="part">
                 <h2 className="row"> Cards In Hand </h2>
+
+                <h6 className="row"> Please click to choose a card </h6>
                 {!this.state.cardsOnHand || this.state.cardsOnHand.length === 0 ? null :
                   <div className="row" id="cardsInHand">
                     {this.state.cardsOnHand.map(cardOnHand => (
@@ -348,6 +350,7 @@ class MyGame extends Component {
                     ))}
                   </div>
                 }
+
                 <div className="row" id="textbox">
                   <form>
                     <div className="form-group">
@@ -361,9 +364,17 @@ class MyGame extends Component {
               </div>
             </div>
             <div>
-              <div className="col-3 ml-auto" id="scoreBoard">
+              <div className="col-3" id="scoreBoard">
                 <h2 className="row"> ScoreBoard </h2>
                 {this.state.players.map(player => (<div key={player._id} className="row">{player}:score</div>))}
+                <div className="row chooseCard">
+                  <div> You've chosen: </div>
+                  { 
+                    this.state.selectedCard === null ? null :
+                      <div className="card col-xs-4 col-s-3" style={{backgroundImage: `url(${this.state.selectedCard.url})`, backgroundSize: "cover"}} >
+                      </div>
+                  }
+                </div>
               </div>
             </div>
             <div className="container">
