@@ -336,6 +336,14 @@ class MyGame extends Component {
                     ))}
                   </div>
                 }
+                <div className="row" id="chooseCard">
+                  <div> You've chosen: </div>
+                  { 
+                    this.state.selectedCard === null ? null :
+                      <div className="card col-xs-4 col-s-3" style={{backgroundImage: `url(${this.state.selectedCard.url})`, backgroundSize: "cover"}} >
+                      </div>
+                  }
+                </div>
 
                 <div className="row" id="textbox">
                   <form>
@@ -353,14 +361,6 @@ class MyGame extends Component {
               <div className="col-3" id="scoreBoard">
                 <h2 className="row"> ScoreBoard </h2>
                 {this.state.players.map(player => (<div key={player._id} className="row">{player}:score</div>))}
-                <div className="row chooseCard">
-                  <div> You've chosen: </div>
-                  { 
-                    this.state.selectedCard === null ? null :
-                      <div className="card col-xs-4 col-s-3" style={{backgroundImage: `url(${this.state.selectedCard.url})`, backgroundSize: "cover"}} >
-                      </div>
-                  }
-                </div>
               </div>
             </div>
             <div className="container">
