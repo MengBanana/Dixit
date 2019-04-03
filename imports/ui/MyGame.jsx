@@ -51,19 +51,6 @@ class MyGame extends Component {
   //   });
   // }
 
-  start() {
-    Meteor.call("games.start", this.state.distributedCards, this.state.gameName, (err, res) => {
-      if (err) {
-        alert("There was error updating check the console");
-        console.log(err);
-      }
-      console.log("succeed",res);
-    });
-    // distribute 6 cards to each player and save into db
-    /*let players = Games.findOne({"name": this.state.gameName }).players;*/
-  }
-
-  
   componentDidMount() {
   }
 
@@ -327,14 +314,15 @@ class MyGame extends Component {
               <div className="part">
                 <h2 className="row"> Pool </h2>
                 {this.state.cardsOnDesk.length === 0 ? null :
-                  <div className="row" id="cardPool">
+                  <div className="row">
                     {this.state.cardsOnDesk.map( cardOnDesk=> (
                       <div key={cardOnDesk._id} name ={cardOnDesk} className="card col-xs-4 col-s-3" style={{backgroundImage: `url(${cardOnDesk.url})`, backgroundSize: "cover"}}>
                       </div>
                     ))}
-                  </div>}
+                  </div>
+                }
                 <div className="row" id="displayDescrition">
-                  {this.state.finalDescription}
+                  {this.state.hostDescription}
                 </div>
                 <div className="row" id="textbox">
                   <form>
