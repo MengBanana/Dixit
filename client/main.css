@@ -8,21 +8,22 @@ body {
 }
 
 .navbar {
-    padding: .1rem .1rem;
+  padding: .1rem .1rem;
+  height: 100px;
 }
 
 .navbar-header {
-    float: left;
-    text-align: center;
-    width: 100%;
+  float: left;
+  text-align: center;
+  width: 100%;
 }
 .navbar-brand {
 	float:none;
 	display: inline-block;
-    margin-right: 1rem;
-    font-size: 1.25rem;
-    line-height: inherit;
-    white-space: nowrap;
+  margin-right: 1rem;
+  font-size: 1.25rem;
+  line-height: inherit;
+  white-space: nowrap;
 }
 
 .signin {
@@ -32,7 +33,7 @@ body {
 #scoreBoard {
 	padding: 5%;
 	border-right: 2px dotted black;
-    margin-left: 0;
+  margin-left: 0;
   padding-left: 0;
 }
 

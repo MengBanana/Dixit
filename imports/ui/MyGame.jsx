@@ -336,15 +336,20 @@ class MyGame extends Component {
               </h4>
               <h2 className="row"> Pool </h2>
               {!this.state.cardsOnDesk ||
-              this.state.cardsOnDesk.length === 0 ? null : (
+              this.state.cardsOnDesk.length === 0 ? 
+                ( 
+                  <div className="row">
+                    <span id="badge" className="badge badge-warning m-2">
+                      Waiting for story teller to pick a card and describe...
+                    </span>
+                  </div> 
+                )
+                : this.state.cardsOnDesk.length === this.state.players.length? (
                   <div className="row">
                     {this.state.cardsOnDesk.map(cardOnDesk => (
                       <div
                         key={cardOnDesk._id}
                         name={cardOnDesk}
-                        onClick={() =>
-                          this.setState({selectedCard: cardOnDesk})
-                        }
                         className="card col-xs-4 col-s-3"
                         style={{
                           backgroundImage: `url(${cardOnDesk.url})`,
@@ -353,8 +358,17 @@ class MyGame extends Component {
                       />
                     ))}
                   </div>
-                )}
-              <div className = "row">
+                )
+                  : 
+                  (
+                    <div className="row">
+                      <span id="badge" className="badge badge-warning m-2">
+                      Wairting for { this.state.players.length-this.state.cardsOnDesk.length } players to pick a card!
+                      </span>
+                    </div>       
+                  )
+              }
+              <div className = "row part">
                 <div className = "col-4">
                   <h2 className="row"> Cards In Hand </h2>
                   <h6 className="row">TODO: NOW DO WHAT?</h6>
