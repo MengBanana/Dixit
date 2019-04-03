@@ -55,6 +55,9 @@ class MyGame extends Component {
     if (this.props.myGame != prevProps.myGame) {
       this.updateGame();
     }
+    if (this.props.usersGames != prevProps.usersGames) {
+      this.updatePoint();
+    }
   }
 
   //////do not change through out the whole game//////
@@ -95,6 +98,14 @@ class MyGame extends Component {
         //players, points
       });
       this.getPlayerIndex();
+    });
+  }
+
+  updatePoint() {
+    this.props.usersGames.map(userGame => {
+      this.setState({
+        point: userGame.totalPoints
+      });
     });
   }
   //////////////////////////////////////////////////
@@ -325,7 +336,7 @@ class MyGame extends Component {
 
             <h2 className="row part"> ScoreBoard </h2>
             {this.state.players.map(player => (
-              <h6 key={player._id}>{player}:score</h6>
+              <h6 key={player._id}>{player}:{this.state.points}</h6>
             ))}
           </div>
 
@@ -338,6 +349,7 @@ class MyGame extends Component {
               {!this.state.cardsOnDesk ||
               this.state.cardsOnDesk.length === 0 ? 
                 ( 
+
                   <div className="row">
                     <span id="badge" className="badge badge-warning m-2">
                       Waiting for {this.state.players[this.state.hostIdx]} to pick a card and describe...

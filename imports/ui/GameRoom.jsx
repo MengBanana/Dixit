@@ -105,7 +105,12 @@ class GameRoom extends Component {
 
     return (
       <div className = "container gameroom">
-        <div className="row">
+        <div className="row part">
+          <span id="badge" className="badge badge-warning m-2">
+           Please join an existing game, or auto join a new game upon creating a new room
+          </span>
+        </div> 
+        <div className="row part ">
           <h1>GameRoom</h1>
           <form className="form-inline col-4">
             <input className="form-control mr-sm-2" type="search" placeholder="🔍 Search..." aria-label="Search" value={this.state.search}
@@ -145,8 +150,9 @@ class GameRoom extends Component {
                 <div className="card-top text-right text-dark count"></div>
                 <div className ="container img-box"><img className="card-img-top img-rounded" src="" alt=""/></div>
                 <div className="card-body">
-                  <h5 className = "card-text text-center">{game.name}</h5>
-                  <h5 className = "card-text text-center"> {game.players.length}/{game.numberOfPlayers}</h5>
+                  <h6 className = "card-text text-center">{game.name}</h6>
+                  <h6 className = "card-text text-center"> {game.players.length}/{game.numberOfPlayers}</h6>
+                  {game.players.map(player => (<h6 key ={player} className = "card-text text-center">{player}</h6>))}
                   {game.okToJoin === true ? <button type="button" className="btn btn-outline-dark" id="joinGame" name={game.name} onClick = {this.onSubmit.bind(this)}>Join</button>
                     : <button type="button" className="btn btn-outline-dark" disabled>Now Playing</button>}
                 </div>

@@ -65,6 +65,21 @@ Meteor.methods({
   //   });
   // },
 
+  
+  "usersGames.updateScore"(points) {
+    if (!this.userId) {
+      throw new Meteor.Error("not-authorized");
+    }
+    UsersGames.update ({
+      _id: this.userId
+    }, {
+      $inc: {
+        totalPoints: points,
+      }
+    }); 
+  },
+
+
 
   "usersGames.exit"(points) {//upate points, round++, exit game
     if (!this.userId) {
