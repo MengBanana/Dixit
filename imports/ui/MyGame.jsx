@@ -143,7 +143,7 @@ class MyGame extends Component {
         let info = {
           game:this.state.gameName,
           card: this.state.selectedCard,
-          description:this.state.description
+          description:this.state.description,
         };
         Meteor.call("games.updateAnswer", info, (err, res) => {//TODO: db test
           if (err) {
@@ -308,8 +308,11 @@ class MyGame extends Component {
             <div className="col-10" id="gameBoard">
               <div>
                 <h2 className="row"> GameRoom: {this.state.gameName} </h2>
-                <h6> Story teller: </h6>
+                <h6> Story teller: {this.state.players[this.state.hostIdx]}</h6>
                 <h6> Stage: </h6>
+                <h6 id="displayDescrition">
+                  Story teller description: "{this.state.hostDescription}"
+                </h6>
               </div>
               <div className="part">
                 <h2 className="row"> Pool </h2>
@@ -321,9 +324,17 @@ class MyGame extends Component {
                     ))}
                   </div>
                 }
-                <div className="row" id="displayDescrition">
-                  {this.state.hostDescription}
-                </div>
+              </div>
+              <div className="part">
+                <h2 className="row"> Cards In Hand </h2>
+                {this.state.cardsOnHand.length === 0 ? null :
+                  <div className="row" id="cardsInHand">
+                    {this.state.cardsOnHand.map(cardOnHand => (
+                      <div key={cardOnHand._id} className="card col-xs-4 col-s-3" onClick={() => this.setState({selectedCard:cardOnHand})} style={{backgroundImage: `url(${cardOnHand.url})`, backgroundSize: "cover"}} >
+                      </div>
+                    ))}
+                  </div>
+                }
                 <div className="row" id="textbox">
                   <form>
                     <div className="form-group">
@@ -334,17 +345,6 @@ class MyGame extends Component {
                     <button type="submit" className="btn btn-warning" id = "descriptionDone" onClick={this.onSubmit}>Submit</button>
                   </form>
                 </div>
-              </div>
-              <div className="part">
-                <h2 className="row"> Cards In Hand </h2>
-                {this.state.cardsOnDesk.length === 0 ? null :
-                  <div className="row" id="cardsInHand">
-                    {this.state.cardsOnHand.map(cardOnHand => (
-                      <div key={cardOnHand._id} className="card col-xs-4 col-s-3" onClick={() => this.setState({selectedCard:cardOnHand})} style={{backgroundImage: `url(${cardOnHand.url})`, backgroundSize: "cover"}} >
-                      </div>
-                    ))}
-                  </div>
-                }
               </div>
             </div>
             <div>
