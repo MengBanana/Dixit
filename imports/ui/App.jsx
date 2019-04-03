@@ -9,6 +9,7 @@ import HomePage from "./HomePage.jsx";
 import AddCard from "./AddCard.jsx";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PropTypes from "prop-types";
+import Footer from "./Footer.jsx";
 
 
 class App extends Component {
@@ -37,7 +38,7 @@ class App extends Component {
                 <Route exact path="/AddCard" component={AddCard} />
                 <Fragment>
                   {this.props.myData.length === 0 ? <Route exact path="/gameroom" component= {GameRoom} /> : <div>
-                     {this.props.myData[0].ingame ? <Route exact path="/gameroom" component={MyGame} /> :
+                    {this.props.myData[0].ingame ? <Route exact path="/gameroom" component={MyGame} /> :
                       <Route exact path="/gameroom" component= {GameRoom} />}</div>
                   }
                 </Fragment>
@@ -46,6 +47,7 @@ class App extends Component {
             </div>
           </div>
         </div>
+        <Footer />
       </Router>
     );
   }

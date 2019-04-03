@@ -1,5 +1,5 @@
 body {
-	background-color: rgb(22, 22, 19);
+	// background-color: rgb(22, 22, 19);
 }
 
 * {
@@ -31,8 +31,9 @@ body {
 
 #scoreBoard {
 	padding: 5%;
-
 	border-right: 2px dotted black;
+    margin-left: 0;
+  padding-left: 0;
 }
 
 #gameBoard .card {
@@ -86,6 +87,7 @@ body {
 #displayDescrition {
 	text-align: center;
 	padding: 10px;
+  font-style: italic;
 }
 
 .part {

@@ -317,75 +317,22 @@ class MyGame extends Component {
         <div className="row">
           <div className="col-2" id="scoreBoard">
             <h2 className="row part"> GameRoom </h2>
-            <h5> NAME :{this.state.gameName}</h5>
-            <h5></h5>
-            <h5> ROUND: {this.state.hostIdx + 1}</h5>
-            <h5> STORY TELLER: {this.state.players[this.state.hostIdx]}</h5>
+            <h6> NAME :{this.state.gameName}</h6>
+            <h6></h6>
+            <h6> ROUND: {this.state.hostIdx + 1}</h6>
+            <h6> STORY TELLER: {this.state.players[this.state.hostIdx]}</h6>
             
 
             <h2 className="row part"> ScoreBoard </h2>
             {this.state.players.map(player => (
               <h6 key={player._id}>{player}:score</h6>
             ))}
-            <div className="container">
-              <div className="row">
-                <div id="magic-button">
-                  <br />
-                  <button
-                    type="button"
-                    className="btn btn-danger my-2 my-sm-0 "
-                    data-toggle="modal"
-                    data-target="#myModal"
-                  >
-                    Add Card
-                  </button>
-                </div>
-                <div id="myModal" className="modal fade" role="dialog">
-                  <div className="modal-dialog">
-                    <div className="modal-content">
-                      <div className="modal-header">
-                        <h4 className="modal-title">Enter card info</h4>
-                        <button
-                          type="button"
-                          className="close"
-                          data-dismiss="modal"
-                        >
-                          &times;
-                        </button>
-                      </div>
-                      <div className="modal-body">
-                        <form id="newItemForm">
-                          <div className="form-group">
-                            <label>Image Url</label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="newUrl"
-                              onChange={this.onChange.bind(this)}
-                            />
-                          </div>
-                        </form>
-                      </div>
-                      <div className="modal-footer d-flex justify-content-center">
-                        <button
-                          className="btn btn-danger"
-                          data-dismiss="modal"
-                          onClick={this.onSubmit}
-                        >
-                          Add It
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
 
           <div className="col-10" id="gameBoard">
             <div className="part">
               <h4 id="displayDescrition">
-                Story teller description: {this.state.hostDescription}
+                Story teller description: "{this.state.hostDescription}"
               </h4>
               <h2 className="row"> Pool </h2>
               {!this.state.cardsOnDesk ||
