@@ -14,9 +14,17 @@ if (Meteor.isServer) {
       }
     });
   });
+
+  Meteor.publish("myData", function f() {
+    if (!Meteor.userId()) {
+      return this.ready();
+    }
+    return UsersGames.find({_id: Meteor.userId()});
+  });
 }
 
 Meteor.methods({
+
   "usersGames.join"(name) {
     check(name, String);
     if (!this.userId) {

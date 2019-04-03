@@ -311,6 +311,60 @@ class MyGame extends Component {
                 <div className="row">
                   {this.state.cardsOnDesk.map( cardOnDesk=> (
                     <div key={cardOnDesk._id} name ={cardOnDesk} className="card col-xs-4 col-s-3" style={{backgroundImage: `url(${cardOnDesk.url})`, backgroundSize: "cover"}}>
+        <div className="container">
+          <div className="row">
+            <div className="col-10" id="gameBoard">
+              <div>
+                <h2 className="row"> GameRoom: {this.state.gameName} </h2>
+                <h6> Story teller: {this.state.players[this.state.hostIdx]}</h6>
+                <h6> Stage: </h6>
+                <h6 id="displayDescrition">
+                  Story teller description: "{this.state.hostDescription}"
+                </h6>
+              </div>
+              <div className="part">
+                <h2 className="row"> Pool </h2>
+                {!this.state.cardsOnDesk || this.state.cardsOnDesk.length === 0 ? null :
+                  <div className="row">
+                    {this.state.cardsOnDesk.map( cardOnDesk=> (
+                      <div key={cardOnDesk._id} name ={cardOnDesk} className="card col-xs-4 col-s-3" style={{backgroundImage: `url(${cardOnDesk.url})`, backgroundSize: "cover"}}>
+                      </div>
+                    ))}
+                  </div>
+                }
+                <div className="row" id="displayDescrition">
+                  {this.state.hostDescription}
+                </div>
+                <div className="row" id="textbox">
+                  <form>
+                    <div className="form-group">
+                      <label htmlFor="description">Enter Your Description</label>
+                      <input type="" className="form-control" id="description" aria-describedby="description" value={this.state.description} onChange={this.onChange}></input>
+                      <small id="detail" className="form-text text-muted">Don't describe too much or too little</small>
+                    </div>
+                    <button type="submit" className="btn btn-warning" id = "descriptionDone" onClick={this.onSubmit}>Submit</button>
+                  </form>
+                </div>
+              </div>
+              <div className="part">
+                <h2 className="row"> Cards In Hand </h2>
+
+                <h6 className="row"> Please click to choose a card </h6>
+                {!this.state.cardsOnHand || this.state.cardsOnHand.length === 0 ? null :
+                  <div className="row" id="cardsInHand">
+                    {this.state.cardsOnHand.map(cardOnHand => (
+                      <div key={cardOnHand._id} className="card col-xs-4 col-s-3" onClick={() => this.setState({selectedCard:cardOnHand})} style={{backgroundImage: `url(${cardOnHand.url})`, backgroundSize: "cover"}} >
+                      </div>
+                    ))}
+                  </div>
+                }
+
+                <div className="row" id="textbox">
+                  <form>
+                    <div className="form-group">
+                      <label htmlFor="description">Enter Your Description</label>
+                      <input type="" className="form-control" id="description" aria-describedby="description" value={this.state.description} onChange={this.onChange}></input>
+                      <small id="detail" className="form-text text-muted">Don't describe too many details</small>
                     </div>
                   ))}
                 </div>
