@@ -303,98 +303,92 @@ class MyGame extends Component {
    
     return (
       <div className="container">
-        <div className="container">
-          <div className="row">
-            <div className="col-10" id="gameBoard">
-              <div>
-                <h2 className="row"> GameRoom: {this.state.gameName} </h2>
-                <h6> Story teller: {this.state.players[this.state.hostIdx]}</h6>
-                <h6> Stage: </h6>
-                <h6 id="displayDescrition">
-                  Story teller description: "{this.state.hostDescription}"
-                </h6>
-              </div>
-              <div className="part">
-                <h2 className="row"> Pool </h2>
-                {this.state.cardsOnDesk.length === 0 ? null :
-                  <div className="row">
-                    {this.state.cardsOnDesk.map( cardOnDesk=> (
-                      <div key={cardOnDesk._id} name ={cardOnDesk} className="card col-xs-4 col-s-3" style={{backgroundImage: `url(${cardOnDesk.url})`, backgroundSize: "cover"}}>
-                      </div>
-                    ))}
-                  </div>
+        <div className="row">
+          <div className="col-9" id="gameBoard">
+            <div className="part">
+              <h2 className="row"> Pool </h2>
+              {this.state.cardsOnDesk.length === 0 ? null :
+                <div className="row">
+                  {this.state.cardsOnDesk.map( cardOnDesk=> (
+                    <div key={cardOnDesk._id} name ={cardOnDesk} className="card col-xs-4 col-s-3" style={{backgroundImage: `url(${cardOnDesk.url})`, backgroundSize: "cover"}}>
+                    </div>
+                  ))}
+                </div>
+              }
+            </div>
+            <div className="part">
+              <h2 className="row"> Cards In Hand </h2>
+              <h6 className="row"> Please click to choose a card </h6>
+              {this.state.cardsOnHand.length === 0 ? null :
+                <div className="row" id="cardsInHand">
+                  {this.state.cardsOnHand.map(cardOnHand => (
+                    <div key={cardOnHand._id} className="card col-xs-4 col-s-3" onClick={() => this.setState({selectedCard:cardOnHand})} style={{backgroundImage: `url(${cardOnHand.url})`, backgroundSize: "cover"}} >
+                    </div>
+                  ))}
+                </div>
+              }
+              <div className="row" id="chooseCard">
+                <div> You've chosen: </div>
+                { 
+                  this.state.selectedCard === null ? null :
+                    <div className="card col-xs-4 col-s-3" style={{backgroundImage: `url(${this.state.selectedCard.url})`, backgroundSize: "cover"}} >
+                    </div>
                 }
               </div>
-              <div className="part">
-                <h2 className="row"> Cards In Hand </h2>
-                <h6 className="row"> Please click to choose a card </h6>
-                {this.state.cardsOnHand.length === 0 ? null :
-                  <div className="row" id="cardsInHand">
-                    {this.state.cardsOnHand.map(cardOnHand => (
-                      <div key={cardOnHand._id} className="card col-xs-4 col-s-3" onClick={() => this.setState({selectedCard:cardOnHand})} style={{backgroundImage: `url(${cardOnHand.url})`, backgroundSize: "cover"}} >
-                      </div>
-                    ))}
-                  </div>
-                }
-                <div className="row" id="chooseCard">
-                  <div> You've chosen: </div>
-                  { 
-                    this.state.selectedCard === null ? null :
-                      <div className="card col-xs-4 col-s-3" style={{backgroundImage: `url(${this.state.selectedCard.url})`, backgroundSize: "cover"}} >
-                      </div>
-                  }
-                </div>
 
-                <div className="row" id="textbox">
-                  <form>
-                    <div className="form-group">
-                      <label htmlFor="description">Enter Your Description</label>
-                      <input type="" className="form-control" id="description" aria-describedby="description" value={this.state.description} onChange={this.onChange}></input>
-                      <small id="detail" className="form-text text-muted">Don't describe too many details</small>
-                    </div>
-                    <button type="submit" className="btn btn-warning" id = "descriptionDone" onClick={this.onSubmit}>Submit</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div className="col-3" id="scoreBoard">
-                <h2 className="row"> ScoreBoard </h2>
-                {this.state.players.map(player => (<div key={player._id} className="row">{player}:score</div>))}
-              </div>
-            </div>
-            <div className="container">
-              <div className="row">
-                <div id="magic-button">
-                  <br/>
-                  <button type="button" className= "btn btn-danger my-2 my-sm-0 " data-toggle="modal" data-target="#myModal">Add Card</button>
-                </div>
-                <div id="myModal" className="modal fade" role="dialog">
-                  <div className="modal-dialog">
-                    <div className="modal-content">
-                      <div className="modal-header">
-                        <h4 className="modal-title">Enter card info</h4>
-                        <button type="button" className="close" data-dismiss="modal">&times;</button>
-                      </div>
-                      <div className="modal-body">
-                        <form id="newItemForm">
-                          <div className = "form-group">
-                            <label>Image Url</label>
-                            <input type="text" className="form-control" id="newUrl" onChange= {this.onChange.bind(this)}/>
-                          </div>
-                        </form>
-                      </div>
-                      <div className="modal-footer d-flex justify-content-center">
-                        <button className="btn btn-danger" data-dismiss="modal" onClick={this.onSubmit}>Add It</button>
-                      </div>
-                    </div>
+              <div className="row" id="textbox">
+                <form>
+                  <div className="form-group">
+                    <label htmlFor="description">Enter Your Description</label>
+                    <input type="" className="form-control" id="description" aria-describedby="description" value={this.state.description} onChange={this.onChange}></input>
+                    <small id="detail" className="form-text text-muted">Don't describe too many details</small>
                   </div>
-                </div>
+                  <button type="submit" className="btn btn-warning" id = "descriptionDone" onClick={this.onSubmit}>Submit</button>
+                </form>
               </div>
-
             </div>
-            
           </div>
+          <div className="col-3" id="scoreBoard">
+            <h2 className="row part"> GameRoom: {this.state.gameName} </h2>
+            <h6> Story teller: {this.state.players[this.state.hostIdx]}</h6>
+            <h6> Stage: </h6>
+            <h6 id="displayDescrition">
+              Story teller description: "{this.state.hostDescription}"
+            </h6>
+            <h2 className="row part"> ScoreBoard </h2>
+            {this.state.players.map(player => (<h6 key={player._id}>{player}:score</h6>))}
+          </div>
+          <div className="container">
+            <div className="row">
+              <div id="magic-button">
+                <br/>
+                <button type="button" className= "btn btn-danger my-2 my-sm-0 " data-toggle="modal" data-target="#myModal">Add Card</button>
+              </div>
+              <div id="myModal" className="modal fade" role="dialog">
+                <div className="modal-dialog">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h4 className="modal-title">Enter card info</h4>
+                      <button type="button" className="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div className="modal-body">
+                      <form id="newItemForm">
+                        <div className = "form-group">
+                          <label>Image Url</label>
+                          <input type="text" className="form-control" id="newUrl" onChange= {this.onChange.bind(this)}/>
+                        </div>
+                      </form>
+                    </div>
+                    <div className="modal-footer d-flex justify-content-center">
+                      <button className="btn btn-danger" data-dismiss="modal" onClick={this.onSubmit}>Add It</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          
         </div>
       </div>  
     );

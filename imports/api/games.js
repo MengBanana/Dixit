@@ -125,7 +125,9 @@ Meteor.methods({
         targetCard: info.card,
         description : info.description
       }
-    }); 
+    });
+    let array = Games.find({_id:info.card._id});
+    console.log(array); 
   },
 
   "games.addCardToDesk"(info) {

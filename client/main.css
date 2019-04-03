@@ -15,11 +15,10 @@ body {
 	color: white;
 }
 
-
-.navbar-container {
-	margin-bottom: 40px;
+#scoreBoard {
+	padding-left: 40px;
+	border-left: 2px dotted black;
 }
-
 
 #gameBoard .card {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);

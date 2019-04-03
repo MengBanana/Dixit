@@ -16,10 +16,22 @@ export function random(cards, players) {
         cardsDistributed.push(cards[i*cardsPerPerson+j]);
       }
     }
-    allInHand.push(cardsInHand);
-    allDistributed.push(cardsDistributed);
+    if (Math.random() < 0.5) {
+      allInHand.push(cardsInHand);
+      allDistributed.push(cardsDistributed);
+    }
+    else {
+      allInHand.push(cardsDistributed);
+      allDistributed.push(cardsInHand);
+    }
   }
-  res.push(allInHand);
-  res.push(allDistributed);
+  if (Math.random() < 0.5) {
+    res.push(allInHand);
+    res.push(allDistributed);
+  }
+  else {
+    res.push(allDistributed);
+    res.push(allInHand);
+  }
   return res; // array of arrays
 }
