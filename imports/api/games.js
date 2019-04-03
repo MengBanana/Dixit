@@ -17,17 +17,6 @@ if (Meteor.isServer) {
 }
 
 Meteor.methods({
-  "games.start"(distributedCards, name) {
-    check(distributedCards, Array);
-    if (!this.userId) {
-      throw new Meteor.Error("not-authorized");
-    }
-    Games.update(
-      {name: name}, 
-      {$set :{cards: distributedCards}}
-    );
-  },
-
   "games.insert"(info) {
     check(info.name, String);
     check(info.cards, Array);

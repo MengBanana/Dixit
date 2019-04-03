@@ -130,7 +130,7 @@ export class GameBoard extends Component {
               ))}
             </div>
           </div>
-          <div className="col-2 ml-auto" id="scoreBoard">
+          <div className="col-2  ml-auto" id="scoreBoard">
             {players.map(player => (<div key={i++} className="row">{player}:score</div>))}
           </div>
 
