@@ -342,6 +342,9 @@ class MyGame extends Component {
                       <div
                         key={cardOnDesk._id}
                         name={cardOnDesk}
+                        onClick={() =>
+                          this.setState({selectedCard: cardOnDesk})
+                        }
                         className="card col-xs-4 col-s-3"
                         style={{
                           backgroundImage: `url(${cardOnDesk.url})`,
