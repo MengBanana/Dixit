@@ -1,9 +1,5 @@
 body {
-  background: url('') no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  background-size: cover;
-  -o-background-size: cover;
+	background-color: rgb(22, 22, 19);
 }
 
 * {
@@ -11,13 +7,31 @@ body {
 
 }
 
+.navbar {
+    padding: .1rem .1rem;
+}
+
+.navbar-header {
+    float: left;
+    text-align: center;
+    width: 100%;
+}
+.navbar-brand {
+	float:none;
+	display: inline-block;
+    margin-right: 1rem;
+    font-size: 1.25rem;
+    line-height: inherit;
+    white-space: nowrap;
+}
+
 .signin {
 	color: white;
 }
 
 #scoreBoard {
-	padding-left: 40px;
-	border-left: 2px dotted black;
+	padding-right: 70px;
+	border-right: 2px dotted black;
 }
 
 #gameBoard .card {
@@ -45,10 +59,11 @@ body {
 #gameBoard .card:hover {
   transform: scale(1.02);
 }
-#gameBoard .card-body {
+/*#gameBoard .card-body {
   padding: 0.5rem !important;
 }
-#gameBoard .card-img-top {
+*/
+/*#gameBoard .card-img-top {
   max-width: 240px !important;
   max-height: 220px !important;
   overflow: hidden;
@@ -62,14 +77,23 @@ body {
   vertical-align: middle;
   display: table-cell;
 }
+*/
+.gameInfo{
+	size: 20px;
+}
 
+#displayDescrition {
+	text-align: center;
+	padding: 10px;
+}
 
 .part {
 	margin-top: 20px;
+	margin-left:20px;
 }
 
 #cardpool {
-	height: 150px;
+	min-height: 150px;
 }
 
 
