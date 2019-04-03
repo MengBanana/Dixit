@@ -399,9 +399,6 @@ class MyGame extends Component {
                         <div className="row" id="textbox">
                           <form>
                             <div className="form-group">
-                              <label htmlFor="description">
-                                Enter Your Description
-                              </label>
                               <input
                                 type=""
                                 className="form-control"
@@ -409,9 +406,10 @@ class MyGame extends Component {
                                 aria-describedby="description"
                                 value={this.state.description}
                                 onChange={this.onChange}
+                                placeholder="Enter Your Description"
                               />
                               <small id="detail" className="form-text text-muted">
-                                Remember: not too much, not too little
+                                Tips: not too much, not too little
                               </small>
                             </div>
                           </form>
