@@ -34,16 +34,12 @@ class App extends Component {
             <div className = "col-12">
               <Switch>
                 <Route exact path="/HomePage" component={HomePage} />
-                <Route exact path="/testMyGame" component={MyGame} />
-                <Route exact path="/testGameRoom" component={GameRoom} />
-                {/*                <Fragment>
-                  {this.props.myGame.length === 0 ? <Route exact path="/GameRoom" component= {GameRoom} /> : null}
-                  {this.props.myGame.map(game => (
-                    <div key = {game._id}>
-                      {game.ingame ? <Route exact path="/MyGame" component={MyGame} /> :
-                        <Route exact path="/GameRoom" component= {GameRoom} />}</div>
-                  ))}
-                </Fragment>*/}
+                <Fragment>
+                  {this.props.myData.length === 0 ? <Route exact path="/gameroom" component= {GameRoom} /> : <div>
+                        {this.props.myData[0].ingame ? <Route exact path="/gameroom" component={MyGame} /> :
+                          <Route exact path="/gameroom" component= {GameRoom} />}</div>
+                  }
+                </Fragment>
                 <Route exact path="/GameBoard" component={GameBoard} />
 
               </Switch>
@@ -56,15 +52,15 @@ class App extends Component {
 }
 
 App.propTypes = {
-  myGame: PropTypes.arrayOf(PropTypes.object).isRequired,
+  myData: PropTypes.arrayOf(PropTypes.object).isRequired,
   ready: PropTypes.bool.isRequired
 };
 
 export default withTracker(() => {
-  const handle = Meteor.subscribe("myGame");
+  const handle = Meteor.subscribe("myData");
   return {
     user: Meteor.user(),
-    myGame: UsersGames.find({_id:this.userId}).fetch(),
+    myData: UsersGames.find({}).fetch(),
     ready: handle.ready()
   };
 })(App);

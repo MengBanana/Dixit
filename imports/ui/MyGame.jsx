@@ -313,7 +313,7 @@ class MyGame extends Component {
               </div>
               <div className="part">
                 <h2 className="row"> Pool </h2>
-                {this.state.cardsOnDesk.length === 0 ? null :
+                {!this.state.cardsOnDesk || this.state.cardsOnDesk.length === 0 ? null :
                   <div className="row">
                     {this.state.cardsOnDesk.map( cardOnDesk=> (
                       <div key={cardOnDesk._id} name ={cardOnDesk} className="card col-xs-4 col-s-3" style={{backgroundImage: `url(${cardOnDesk.url})`, backgroundSize: "cover"}}>
@@ -329,7 +329,7 @@ class MyGame extends Component {
                     <div className="form-group">
                       <label htmlFor="description">Enter Your Description</label>
                       <input type="" className="form-control" id="description" aria-describedby="description" value={this.state.description} onChange={this.onChange}></input>
-                      <small id="detail" className="form-text text-muted">Don't describe too many details</small>
+                      <small id="detail" className="form-text text-muted">Don't describe too much or too little</small>
                     </div>
                     <button type="submit" className="btn btn-warning" id = "descriptionDone" onClick={this.onSubmit}>Submit</button>
                   </form>
@@ -337,7 +337,7 @@ class MyGame extends Component {
               </div>
               <div className="part">
                 <h2 className="row"> Cards In Hand </h2>
-                {this.state.cardsOnDesk.length === 0 ? null :
+                {!this.state.cardsOnHand || this.state.cardsOnHand.length === 0 ? null :
                   <div className="row" id="cardsInHand">
                     {this.state.cardsOnHand.map(cardOnHand => (
                       <div key={cardOnHand._id} className="card col-xs-4 col-s-3" onClick={() => this.setState({selectedCard:cardOnHand})} style={{backgroundImage: `url(${cardOnHand.url})`, backgroundSize: "cover"}} >
