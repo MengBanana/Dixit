@@ -343,7 +343,9 @@ class MyGame extends Component {
               {this.state.stage > 1 ?
                 <div><h4 id="displayDescrition">
                   Story teller description: "{this.state.hostDescription}"
-                </h4></div> : null
+                </h4></div> : <div><h4 id="displayDescrition" style={{"color":"white"}}>
+                  Story teller description: "{this.state.hostDescription}"
+                </h4></div>
               }
               <h2 className="row"> Pool </h2>
               {this.state.stage === 0 ? <div className="row">
