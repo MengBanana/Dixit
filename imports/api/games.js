@@ -181,11 +181,11 @@ Meteor.methods({
       },
       // $set:{cardsOnHand : resArray}
     });
-    let res = Games.find({name:name}).fetch();
+    let res = Games.find({name:info.game}).fetch();
     let array = res[0].count;
     if (array.length >= res[0].numberOfPlayers){
       Games.update({
-        name:name
+        name:info.game
       }, {
         $set:{
           stage: 3,
