@@ -349,12 +349,14 @@ class MyGame extends Component {
               </div>
               <div className="part">
                 <h2 className="row"> Cards In Hand </h2>
-                <div className="row" id="cardsInHand">
-                  {this.state.cardsOnHand.map(cardOnHand => (
-                    <div key={cardOnHand._id} className="card col-xs-4 col-s-3" onClick={() => this.setState({selectedCard:cardOnHand})} style={{backgroundImage: `url(${cardOnHand.url})`, backgroundSize: "cover"}} >
-                    </div>
-                  ))}
-                </div>
+                {this.state.cardsOnDesk.length === 0 ? null :
+                  <div className="row" id="cardsInHand">
+                    {this.state.cardsOnHand.map(cardOnHand => (
+                      <div key={cardOnHand._id} className="card col-xs-4 col-s-3" onClick={() => this.setState({selectedCard:cardOnHand})} style={{backgroundImage: `url(${cardOnHand.url})`, backgroundSize: "cover"}} >
+                      </div>
+                    ))}
+                  </div>
+                }
               </div>
             </div>
             <div>
