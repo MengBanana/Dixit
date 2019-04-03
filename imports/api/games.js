@@ -242,57 +242,6 @@ Meteor.methods({
   }
 });
 
-
-
-
-
-
-
-
-    // let res = Games.findOne({
-    //   name:name
-    // });
-    // if (res.count.length === res.players.length){
-    //   if (res.stage === 4) {
-    //     if (res.hostIdx === res.players.length - 1) {
-    //     //end of the game,delete game
-    //     } else { // end of the round,switch next host
-    //       Games.update({
-    //         name: name
-    //       }, {
-    //         stage: 1,
-    //         count: [],
-    //         $inc: {
-    //           hostInx: 1
-    //         }
-    //       });
-    //     }
-    //   } else { //when cur stage = 0-3
-    //     Games.update ({
-    //       name: name
-    //     }, {
-    //       count: [],
-    //       $inc: {
-    //         stage: 1
-    //       }
-    //     }); 
-    //   }
-    // }
-
-// "games.removePlayer"(gameName) {
-//   if (!this.userId) {
-//     throw new Meteor.Error("not-authorized");
-//   }
-//   Games.update(
-//     {name: gameName}, 
-//     {$pull: {players: Meteor.user().username}}
-//   );
-// },
-//   "games.getGame"(gameName) {
-//   check(gameName, String);
-//   if (!this.userId) {
-//     throw new Meteor.Error("not-authorized");
-//   }
 //   Games.findOne({
 //     gameName: gameName
 // });

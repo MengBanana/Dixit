@@ -328,9 +328,9 @@ class MyGame extends Component {
         <div className="row">
           <div className="col-2" id="scoreBoard">
             <h2 className="row part"> GameRoom </h2>
-            <h6> NAME :{this.state.gameName}</h6>
+            <h6> NAME: <div>{this.state.gameName}</div></h6>
             <h6></h6>
-            <h6> ROUND: {this.state.hostIdx + 1}</h6>
+            <h6> ROUND: <div>{this.state.hostIdx + 1}</div></h6>
             <h6> STORY TELLER: {this.state.players[this.state.hostIdx]}</h6>
             
 
@@ -342,14 +342,20 @@ class MyGame extends Component {
 
           <div className="col-10" id="gameBoard">
             <div className="part">
-              <h4 id="displayDescrition">
-                Story teller description: "{this.state.hostDescription}"
-              </h4>
+              {this.state.stage > 1 ?
+                <div><h4 id="displayDescrition">
+                  Story teller description: "{this.state.hostDescription}"
+                </h4></div> : null
+              }
               <h2 className="row"> Pool </h2>
-              {!this.state.cardsOnDesk ||
-              this.state.cardsOnDesk.length === 0 ? 
-                ( 
-
+              {this.state.stage === 0 ? <div className="row">
+                <span id="badge" className="badge badge-warning m-2">
+                  Click the Ready Button to start the game!
+                </span>
+              </div> : null}
+              {(this.state.stage === 1 && 
+              this.state.cardsOnDesk.length === 0) ? 
+                (
                   <div className="row">
                     <span id="badge" className="badge badge-warning m-2">
                       Waiting for {this.state.players[this.state.hostIdx]} to pick a card and describe...
@@ -375,7 +381,7 @@ class MyGame extends Component {
                   (
                     <div className="row">
                       <span id="badge" className="badge badge-warning m-2">
-                      Wairting for { this.state.players.length-this.state.cardsOnDesk.length } players to pick a card!
+                      Wairting for { this.state.players.length - this.state.cardsOnDesk.length} players to pick a card!
                       </span>
                     </div>       
                   )
