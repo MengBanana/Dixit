@@ -340,7 +340,7 @@ class MyGame extends Component {
                 ( 
                   <div className="row">
                     <span id="badge" className="badge badge-warning m-2">
-                      Waiting for story teller to pick a card and describe...
+                      Waiting for {this.state.players[this.state.hostIdx]} to pick a card and describe...
                     </span>
                   </div> 
                 )
