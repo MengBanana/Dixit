@@ -5,7 +5,6 @@ import { withTracker } from "meteor/react-meteor-data";
 import PropTypes from "prop-types";
 import { UsersGames } from "../api/usersGames.js";
 import { Cards } from "../api/cards.js";
-import { random } from "../utils/random";
 
 class MyGame extends Component {
   constructor(props) {
@@ -36,8 +35,8 @@ class MyGame extends Component {
       //cards:[],//all cards
 
       newUrl: "",
-      distributedCards: random(this.props.cards, 4),
       buttonClick:0,
+      cardsPool: []
 
     };     
     this.onSubmit = this.onSubmit.bind(this);
@@ -305,52 +304,23 @@ class MyGame extends Component {
       <div className="container">
         <div className="row">
           <div className="col-9" id="gameBoard">
+
             <div className="part">
               <h2 className="row"> Pool </h2>
               {this.state.cardsOnDesk.length === 0 ? null :
                 <div className="row">
                   {this.state.cardsOnDesk.map( cardOnDesk=> (
                     <div key={cardOnDesk._id} name ={cardOnDesk} className="card col-xs-4 col-s-3" style={{backgroundImage: `url(${cardOnDesk.url})`, backgroundSize: "cover"}}>
-        <div className="container">
-          <div className="row">
-            <div className="col-10" id="gameBoard">
-              <div>
-                <h2 className="row"> GameRoom: {this.state.gameName} </h2>
-                <h6> Story teller: {this.state.players[this.state.hostIdx]}</h6>
-                <h6> Stage: </h6>
-                <h6 id="displayDescrition">
-                  Story teller description: "{this.state.hostDescription}"
-                </h6>
-              </div>
-              <div className="part">
-                <h2 className="row"> Pool </h2>
-                {!this.state.cardsOnDesk || this.state.cardsOnDesk.length === 0 ? null :
-                  <div className="row">
-                    {this.state.cardsOnDesk.map( cardOnDesk=> (
-                      <div key={cardOnDesk._id} name ={cardOnDesk} className="card col-xs-4 col-s-3" style={{backgroundImage: `url(${cardOnDesk.url})`, backgroundSize: "cover"}}>
-                      </div>
-                    ))}
-                  </div>
-                }
-                <div className="row" id="displayDescrition">
-                  {this.state.hostDescription}
-                </div>
-                <div className="row" id="textbox">
-                  <form>
-                    <div className="form-group">
-                      <label htmlFor="description">Enter Your Description</label>
-                      <input type="" className="form-control" id="description" aria-describedby="description" value={this.state.description} onChange={this.onChange}></input>
-                      <small id="detail" className="form-text text-muted">Don't describe too much or too little</small>
+                      
                     </div>
-                    <button type="submit" className="btn btn-warning" id = "descriptionDone" onClick={this.onSubmit}>Submit</button>
-                  </form>
+                  ))}
                 </div>
-              </div>
+              }
+
               <div className="part">
                 <h2 className="row"> Cards In Hand </h2>
-
                 <h6 className="row"> Please click to choose a card </h6>
-                {!this.state.cardsOnHand || this.state.cardsOnHand.length === 0 ? null :
+                {this.state.cardsOnHand.length === 0 ? null :
                   <div className="row" id="cardsInHand">
                     {this.state.cardsOnHand.map(cardOnHand => (
                       <div key={cardOnHand._id} className="card col-xs-4 col-s-3" onClick={() => this.setState({selectedCard:cardOnHand})} style={{backgroundImage: `url(${cardOnHand.url})`, backgroundSize: "cover"}} >
@@ -358,6 +328,14 @@ class MyGame extends Component {
                     ))}
                   </div>
                 }
+                <div className="row" id="chooseCard">
+                  <div> You've chosen: </div>
+                  { 
+                    this.state.selectedCard === null ? null :
+                      <div className="card col-xs-4 col-s-3" style={{backgroundImage: `url(${this.state.selectedCard.url})`, backgroundSize: "cover"}} >
+                      </div>
+                  }
+                </div>
 
                 <div className="row" id="textbox">
                   <form>
@@ -366,42 +344,13 @@ class MyGame extends Component {
                       <input type="" className="form-control" id="description" aria-describedby="description" value={this.state.description} onChange={this.onChange}></input>
                       <small id="detail" className="form-text text-muted">Don't describe too many details</small>
                     </div>
-                  ))}
+                    <button type="submit" className="btn btn-warning" id = "descriptionDone" onClick={this.onSubmit}>Submit</button>
+                  </form>
                 </div>
-              }
-            </div>
-            <div className="part">
-              <h2 className="row"> Cards In Hand </h2>
-              <h6 className="row"> Please click to choose a card </h6>
-              {this.state.cardsOnHand.length === 0 ? null :
-                <div className="row" id="cardsInHand">
-                  {this.state.cardsOnHand.map(cardOnHand => (
-                    <div key={cardOnHand._id} className="card col-xs-4 col-s-3" onClick={() => this.setState({selectedCard:cardOnHand})} style={{backgroundImage: `url(${cardOnHand.url})`, backgroundSize: "cover"}} >
-                    </div>
-                  ))}
-                </div>
-              }
-              <div className="row" id="chooseCard">
-                <div> You've chosen: </div>
-                { 
-                  this.state.selectedCard === null ? null :
-                    <div className="card col-xs-4 col-s-3" style={{backgroundImage: `url(${this.state.selectedCard.url})`, backgroundSize: "cover"}} >
-                    </div>
-                }
-              </div>
-
-              <div className="row" id="textbox">
-                <form>
-                  <div className="form-group">
-                    <label htmlFor="description">Enter Your Description</label>
-                    <input type="" className="form-control" id="description" aria-describedby="description" value={this.state.description} onChange={this.onChange}></input>
-                    <small id="detail" className="form-text text-muted">Don't describe too many details</small>
-                  </div>
-                  <button type="submit" className="btn btn-warning" id = "descriptionDone" onClick={this.onSubmit}>Submit</button>
-                </form>
               </div>
             </div>
           </div>
+
           <div className="col-3" id="scoreBoard">
             <h2 className="row part"> GameRoom: {this.state.gameName} </h2>
             <h6> Story teller: {this.state.players[this.state.hostIdx]}</h6>
@@ -412,6 +361,7 @@ class MyGame extends Component {
             <h2 className="row part"> ScoreBoard </h2>
             {this.state.players.map(player => (<h6 key={player._id}>{player}:score</h6>))}
           </div>
+
           <div className="container">
             <div className="row">
               <div id="magic-button">
@@ -440,9 +390,7 @@ class MyGame extends Component {
                 </div>
               </div>
             </div>
-
           </div>
-          
         </div>
       </div>  
     );
