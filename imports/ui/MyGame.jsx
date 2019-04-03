@@ -332,8 +332,6 @@ class MyGame extends Component {
             <h6></h6>
             <h6> ROUND: {this.state.hostIdx + 1}</h6>
             <h6> STORY TELLER: {this.state.players[this.state.hostIdx]}</h6>
-            
-
             <h2 className="row part"> ScoreBoard </h2>
             {this.state.players.map(player => (
               <h6 key={player._id}>{player}:{this.state.points}</h6>

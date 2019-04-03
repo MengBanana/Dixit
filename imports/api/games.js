@@ -168,10 +168,11 @@ Meteor.methods({
       throw new Meteor.Error("not-authorized");
     } 
   
-/*    let array = res["0"].cardsOnHand;
+/*    let array = res[0].cardsOnHand;
     console.log(array);*/
 /*    let newArray = array[info.playerIdx].filter(m => (m._id !== info.card._id));
     let resArray = array.splice(info.playerIdx, 1, newArray);*/
+    let index = info.playerIdx;
     Games.update ({
       name: info.game
     }, {
@@ -179,6 +180,9 @@ Meteor.methods({
         cardsOnDesk: info.card,
         count: Meteor.user().username
       },
+      $pull:{
+        ["cardsOnHand."+index+"._id"] : info.card._id,
+      }
       // $set:{cardsOnHand : resArray}
     });
     let res = Games.find({name:info.game}).fetch();
