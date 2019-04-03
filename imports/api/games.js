@@ -122,8 +122,8 @@ Meteor.methods({
       name: info.game
     }, {
       $set: {
-        targetCard: info.card
-
+        targetCard: info.card,
+        description : info.description
       }
     }); 
   },
@@ -140,6 +140,7 @@ Meteor.methods({
     }, {
       $push:{cardsOnDesk: info.card}
     }); 
+
   },
 
   "games.updateWinners"(info) {

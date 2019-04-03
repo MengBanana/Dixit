@@ -143,7 +143,7 @@ class MyGame extends Component {
         let info = {
           game:this.state.gameName,
           card: this.state.selectedCard,
-          description:this.state.description
+          description:this.state.description,
         };
         Meteor.call("games.updateAnswer", info, (err, res) => {//TODO: db test
           if (err) {
@@ -308,8 +308,11 @@ class MyGame extends Component {
             <div className="col-10" id="gameBoard">
               <div>
                 <h2 className="row"> GameRoom: {this.state.gameName} </h2>
-                <h6> Story teller: </h6>
+                <h6> Story teller: {this.state.players[this.state.hostIdx]}</h6>
                 <h6> Stage: </h6>
+                <h6 id="displayDescrition">
+                  Story teller description: "{this.state.hostDescription}"
+                </h6>
               </div>
               <div className="part">
                 <h2 className="row"> Pool </h2>
@@ -345,6 +348,16 @@ class MyGame extends Component {
                     ))}
                   </div>
                 }
+                <div className="row" id="textbox">
+                  <form>
+                    <div className="form-group">
+                      <label htmlFor="description">Enter Your Description</label>
+                      <input type="" className="form-control" id="description" aria-describedby="description" value={this.state.description} onChange={this.onChange}></input>
+                      <small id="detail" className="form-text text-muted">Don't describe too many details</small>
+                    </div>
+                    <button type="submit" className="btn btn-warning" id = "descriptionDone" onClick={this.onSubmit}>Submit</button>
+                  </form>
+                </div>
               </div>
             </div>
             <div>
