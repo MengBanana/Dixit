@@ -455,7 +455,7 @@ class MyGame extends Component {
                     </div>}
                 </div>
                 <div className = "col-2">
-                  {this.state.isHost ? <div>{this.state.stage === 0 ? 
+                  {this.state.isHost ? <div>{this.state.stage === 1 ? 
                     <div>
                       <button
                         type="submit"
