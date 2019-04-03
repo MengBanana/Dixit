@@ -222,13 +222,15 @@ Meteor.methods({
       });
     }
     Games.update ({
-      name: name
+      name: info.game
     }, {
       $push:{count: Meteor.user().username}
     }); 
-    if (res["0"].count.length === res["0"].players.numberOfPlayers - 1){
+    res = Games.find({name:info.game}).fetch(); 
+    let array = res[0].count;
+    if (array.length >= res[0].numberOfPlayers - 1){
       Games.update({
-        name:name
+        name:info.game
       }, {
         $set:{
           stage: 4,
