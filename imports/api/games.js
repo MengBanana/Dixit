@@ -59,6 +59,9 @@ Meteor.methods({
     if (array.includes(Meteor.user().username)){
       return;
     }
+    if (array.okToJoin === false) {
+      return;
+    }
     Games.update(
       {name: name}, 
       {$push:{players: Meteor.user().username}}
