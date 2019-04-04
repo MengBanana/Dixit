@@ -129,7 +129,7 @@ class GameRoom extends Component {
                 <div className="modal-body">
                   <form id="newItemForm">
                     <div className = "form-group">
-                      <label>Name</label>
+                      <label>Game Name</label>
                       <input type="text" className="form-control" id="newGameName" onChange= {this.onChange.bind(this)}/>
                     </div>
                     <div className = "form-group">

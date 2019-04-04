@@ -35,7 +35,9 @@ class MyGame extends Component {
       buttonClick: 0,
       cardsPool: [],
       isOver: false,
-      readyCount: 0
+      readyCount: 0,
+      pickCount:0,
+      voteCount:0
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -116,7 +118,9 @@ class MyGame extends Component {
           }
         });
         this.setState({
-          readyCount:1
+          readyCount:1,
+          voteCount:0,
+          pickCount:0
         })
       }
       if (this.state.stage === 4) {
@@ -181,7 +185,8 @@ class MyGame extends Component {
           }
         });
         this.setState({
-          selectedCard: null
+          selectedCard: null,
+          pickCount:1
         });
       }
     }
@@ -202,7 +207,8 @@ class MyGame extends Component {
           }
         });
         this.setState({
-          selectedCard: null
+          selectedCard: null,
+          voteCount: 1
         });
       }
     }
@@ -349,6 +355,7 @@ class MyGame extends Component {
                     : 
                     null
                   }
+
                   {this.state.stage === 3 && this.state.isHost ?
                     <div className="row">
                       <h4>
@@ -358,7 +365,8 @@ class MyGame extends Component {
                       </h4>
                     </div> : null
                   }
-                  {this.state.stage === 3 && !this.state.isHost ?
+
+                  {this.state.stage === 3 && !this.state.isHost && this.state.voteCount===0?
                     <div className="row">
                       <h4>
                         <span id="badge" className="badge badge-pill badge-warning m-2">
@@ -367,32 +375,20 @@ class MyGame extends Component {
                       </h4>
                     </div> : null
                   }
+
                   {this.state.cardsOnDesk.length === this.state.players.length? 
-                    (<div className="row">
+                    (<div className="row" id="cardsOnDesk">
                       {this.state.cardsOnDesk.map(cardOnDesk => (
-                        <div key={cardOnDesk._id}><div
+                        <div key={cardOnDesk._id}
                           className="card col-xs-4 col-s-3"
                           style={{
                             backgroundImage: `url(${cardOnDesk.url})`,
                             backgroundSize: "cover"
                           }}
-                        />
-                        {this.state.stage === 3 && !this.state.isHost? 
-                          <div>
-                            <button onClick={() =>this.setState({ selectedCard: cardOnDesk })}></button>
-                          </div>
-                          : 
-                          null
-                        }
-                        {this.state.stage === 4 ?
-                          <div>
-                            {this.state.winners.map(winner => {
-                              <div key = {i++}>
-                                winner
-                              </div>;
-                            })}
-                          </div> : null
-                        }
+                          onClick={() =>
+                            this.setState({ selectedCard: cardOnDesk })
+                          }
+                        >
                         </div>
                       ))}
                     </div>)
@@ -407,19 +403,20 @@ class MyGame extends Component {
                       </div>)
                       : 
                       (<div className="row">
-                        {!this.state.stage === 4 ?
+                        {this.state.stage === 2 ?
                           <h4>
                             <span id="badge" className="badge badge-pill badge-warning m-2">
-                            Waiting for { this.state.players.length - this.state.cardsOnDesk.length} players to pick a card!
+                            Waiting for { this.state.players.length - this.state.cardsOnDesk.length} player to pick a card!
                             </span> </h4>: null}
                       </div>       
                       )
                     }</div>
                   }</div>}
+
               <div className = "row part">
                 <div className = "col-4">
                   <h2 className="row"> Cards In Hand </h2>
-                  <div>{(this.state.stage === 2 && !this.state.isHost ? 
+                  <div>{(this.state.stage === 2 && !this.state.isHost && this.state.pickCount===0 ? 
                     (<div className="row">
                       <h4>
                         <span id="badge" className="badge badge-pill badge-warning m-2">
@@ -492,10 +489,12 @@ class MyGame extends Component {
                       Submit
                       </button></div>:null}</div>:null}
                   {!this.state.isHost ? <div>{this.state.stage === 2 ? 
-                    <div><button type="button" className="btn btn-outline-dark" id = "pickCard" onClick = {this.onSubmit}>Pick</button></div>
+                    <div> {this.state.pickCount===0? <button type="button" className="btn btn-outline-dark" id = "pickCard" onClick = {this.onSubmit}>Pick</button> : null}
+                    </div>
                     :
                     <div>{this.state.stage === 3 ? 
-                      <div><button type="button" className="btn btn-outline-dark" id = "voteCard" onClick = {this.onSubmit}>Vote</button></div>
+                      <div> {this.state.voteCount===0?<button type="button" className="btn btn-outline-dark" id = "voteCard" onClick = {this.onSubmit}>Vote</button> : null}
+                      </div>
                       :
                       null}
                     </div>}
