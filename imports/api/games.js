@@ -54,9 +54,7 @@ Meteor.methods({
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     }
-    let res = Games.find({
-      name:name
-    }).fetch();
+    let res = Games.find({name:name}).fetch();
     let array = res[0].players;
     if (array.includes(Meteor.user().username)){
       return;
@@ -258,11 +256,6 @@ Meteor.methods({
       throw new Meteor.Error("not-authorized");
     }
 
-    Games.update ({
-      name: info.game
-    }, {
-      $push:{count: Meteor.user().username}
-    });
     let res = Games.find({name:info.game}).fetch();
     if (Object.is(info.card, res[0].targetCard)){
       Games.update ({  //TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!CHECK DUPLICATE line 91-92
@@ -271,6 +264,12 @@ Meteor.methods({
         $push:{winners: Meteor.user().username}
       });
     }
+    Games.update ({
+      name: info.game
+    }, {
+      $push:{count: Meteor.user().username}
+    });
+    res = Games.find({name:info.game}).fetch();
     let array = res[0].count;
     if (array.length >= res[0].numberOfPlayers - 1){
       Games.update({
