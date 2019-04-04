@@ -163,7 +163,8 @@ class MyGame extends Component {
         let info = {
           game: this.state.gameName,
           card: this.state.selectedCard,
-          description: this.state.description
+          description: this.state.description,
+          playerIdx: this.state.playerIdx
         };
         Meteor.call("games.updateAnswer", info, (err, res) => {
           //TODO: db test
@@ -333,7 +334,7 @@ class MyGame extends Component {
             <p> STORY TELLER: {this.state.players[this.state.hostIdx]}</p>
             <h2 className="row part"> ScoreBoard </h2>
             {this.state.players.map(player => (
-              <h6 key={player._id}>{player}:{this.state.points}</h6>
+              <h6 key={player}>{player}:{this.state.points}</h6>
             ))}
           </div>
 
