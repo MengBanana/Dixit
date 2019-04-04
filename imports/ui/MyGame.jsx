@@ -103,19 +103,16 @@ class MyGame extends Component {
       buttonClick: 1
     });
     if (e.target.id === "readyToStart") {
-      this.props.myGame.map(game =>
-        this.setState({
-          gameName: game.name
-        })
-      );
-      Meteor.call("games.updateReady", this.state.gameName, (err, res) => {
-        if (err) {
-          alert("There was error updating check the console");
-          console.log(err);
-        } else {
-          console.log("succeed", res);
-        }
-      });
+      if (this.state.stage === 0) {
+        Meteor.call("games.updateReady", this.state.gameName, (err, res) => {
+          if (err) {
+            alert("There was error updating check the console");
+            console.log(err);
+          } else {
+            console.log("succeed", res);
+          }
+        });
+      }
       if (this.state.stage === 4 && this.state.hostIdx < this.state.players.length - 1) {
         Meteor.call("games.nextHost", this.state.gameName, (err, res) => {
           if (err) {
@@ -423,6 +420,10 @@ class MyGame extends Component {
                   {this.state.stage === 0 || (this.state.stage === 4 && this.state.hostIdx === this.state.players.length - 1) ?
                     <div><button type="button" className="btn btn-outline-dark" id = "exitGame" onClick = {this.onSubmit}>Exit</button></div>
                     : null}
+                  {(this.state.stage === 4 && this.state.hostIdx < this.state.players.length - 1) ?
+                    <div><button type="button" className="btn btn-outline-dark" id = "readyToStart" onClick = {this.onSubmit}>Continue</button></div>
+                    : null}
+
                   {this.state.isHost ? <div>{this.state.stage === 1 ? 
                     <div>
                       <button

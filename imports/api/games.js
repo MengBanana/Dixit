@@ -128,18 +128,26 @@ Meteor.methods({
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     }
-    let res = Games.find({name:name}).fetch();
-    let curHostIdx = res[0].hostIdx;
-    // if (curHostIdx === res[0].players.length - 1) {
-    //   return; // GAME OVER
-    // }
     Games.update ({
       name: name
     }, {
-      $set:{
-        hostIdx: curHostIdx + 1
-      }
-    }); 
+      $push:{count: Meteor.user().username}
+    });
+    let res = Games.find({name:name}).fetch();
+    let array = res[0].count;
+    if (array.length >= res[0].numberOfPlayers){
+      Games.update ({
+        name: name
+      }, {
+        $inc:{
+          hostIdx: 1
+        },
+        $set: {
+          stage: 1,
+          count:[]
+        }
+      }); 
+    }
   },
 
   "games.updateAnswer"(info){ //STAGE 1 -> 2 
