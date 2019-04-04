@@ -363,9 +363,10 @@ class MyGame extends Component {
                       </div>)
                       : 
                       (<div className="row">
-                        <span id="badge" className="badge badge-warning m-2">
+                        {!this.state.stage === 4 ?
+                          <span id="badge" className="badge badge-warning m-2">
                           Waiting for { this.state.players.length - this.state.cardsOnDesk.length} players to pick a card!
-                        </span>
+                          </span> : null}
                       </div>       
                       )
                     }</div>
