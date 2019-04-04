@@ -22,17 +22,14 @@ class MyGame extends Component {
 
       //if user is host
       description: "",
-      //host: answer card, others picked card
+      //host's picked card, other's picked and voted card
       selectedCard: null, //OBJECT
 
       //stage-level changes
       stage: 0,
       cardsOnHand: [],
-
-      //count:0,
       players: [],
-      //winners:[],//people who guess right
-      //cards:[],//all cards
+      winners:[],//people who guess right
       isHost: false,
       newUrl: "",
       buttonClick: 0,
@@ -41,15 +38,6 @@ class MyGame extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
   }
-
-  // selectCard(e) {
-  //   let card = e.target.id;
-  //   this.setState({
-  //     selectedCard: card
-  //   });
-  // }
-
-  componentDidMount() {}
 
   componentDidUpdate(prevProps) {
     if (this.props.myGame != prevProps.myGame) {
@@ -60,10 +48,7 @@ class MyGame extends Component {
     }
   }
 
-  //////do not change through out the whole game//////
-  getGame() {}
   getPlayerIndex() {
-    //TODO: db test // NOT WORKING
     Meteor.call(
       "games.getPlayerIndex",
       this.props.myGame[0].name,
@@ -81,9 +66,7 @@ class MyGame extends Component {
       }
     );
   }
-  //////////////////////////////////////////////////
 
-  /////update for each move during each stage///////
   updateGame() {
     this.props.myGame.map(game => {
       this.setState({
@@ -92,7 +75,7 @@ class MyGame extends Component {
         hostIdx: game.hostIdx, //get hostName
         hostDescription: game.description,
         cardsOnDesk: game.cardsOnDesk,
-        // cardsOnHand: game.cardsOnHand[],
+        winners: game.winners,
         cardsPool: game.cardsOnHand,
         players: game.players
         //players, points
@@ -108,28 +91,6 @@ class MyGame extends Component {
       });
     });
   }
-  //////////////////////////////////////////////////
-
-  // updateCount(){
-  //   Meteor.call("games.addCount", this.state.gameName,(err, res) => {
-  //     if (err) {
-  //       alert("There was error updating check the console");
-  //       console.log(err);
-  //     } else {
-  //       console.log("succeed",res);
-  //     }
-  //   });
-  // }
-  // getButton(){
-  //   let s = this.state.stage;
-  //   if (s === 2) {
-  //     <button type="button" className="btn btn-outline-dark" id = "pickCard" onClick = {this.onSubmit.bind(this)}>Submit-stage2</button>;
-  //   } else if (s === 3) {
-  //     <button type="button" className="btn btn-outline-dark" id = "voteCard" onClick = {this.onSubmit.bind(this)}>Submit-stage3</button>;
-  //   } else {
-  //     return null;
-  //   }
-  // }
 
   onChange(e) {
     this.setState({
@@ -156,6 +117,16 @@ class MyGame extends Component {
           console.log("succeed", res);
         }
       });
+      if (this.state.stage === 4 && this.state.hostIdx < this.state.players.length - 1) {
+        Meteor.call("games.nextHost", this.state.gameName, (err, res) => {
+          if (err) {
+            alert("There was error updating check the console");
+            console.log(err);
+          } else {
+            console.log("succeed", res);
+          }
+        });
+      }
     }
 
     if (e.target.id === "descriptionDone") {
@@ -232,25 +203,24 @@ class MyGame extends Component {
       }
     }
 
-      //function: compute points, display result, stage = 0, idx++, reset all {count = 0, idx++,.....}
-
-      // if (e.target.id === "exitGame") {//update user status, remove player from game, can exit only on stage 0(before game starts)
-      //   Meteor.call("usersGames.exit",this.state.points, (err, res) => {
-      //     if (err) {
-      //       alert("There was error updating check the console");
-      //       console.log(err);
-      //     }
-      //     console.log("succeed",res);
-      //   });
-      //   Meteor.call("games.removePlayer", this.state.gameName, (err, res) => {
-      //     if (err) {
-      //       alert("There was error updating check the console");
-      //       console.log(err);
-      //     }
-      //     console.log("succeed",res);
-      //   });
-      // }
+    if (e.target.id === "exitGame") {//update user status, remove player from game, can exit only on stage 0 or 4?(before game starts)
+       Meteor.call("usersGames.exit",this.state.points, (err, res) => {
+         if (err) {
+           alert("There was error updating check the console");
+           console.log(err);
+         }
+         console.log("succeed",res);
+       });
+       Meteor.call("games.removePlayer", this.state.gameName, (err, res) => {
+         if (err) {
+           alert("There was error updating check the console");
+           console.log(err);
+         }
+         console.log("succeed",res);
+       }); 
+     //function: compute points, display result, stage = 0, idx++, reset all {count = 0, idx++,.....}
   }
+}
 
   // WORKED!!!  <div className="row">
   //   {this.props.myGame.map(game  => (
@@ -406,7 +376,7 @@ class MyGame extends Component {
                                 aria-describedby="description"
                                 value={this.state.description}
                                 onChange={this.onChange}
-                                placeholder="Enter Your Description"
+                                placeholder="Enter Your Description..."
                               />
                               <small id="detail" className="form-text text-muted">
                                 Tips: not too much, not too little
@@ -435,6 +405,9 @@ class MyGame extends Component {
                     </div>}
                 </div>
                 <div className = "col-2">
+                  {this.state.stage === 0 || (this.state.stage === 4 && this.state.hostIdx === this.state.players.length - 1) ?
+                    <div><button type="button" className="btn btn-outline-dark" id = "exitGame" onClick = {this.onSubmit}>Exit</button></div>
+                    : null}
                   {this.state.isHost ? <div>{this.state.stage === 1 ? 
                     <div>
                       <button
@@ -445,7 +418,15 @@ class MyGame extends Component {
                       >
                       Submit
                       </button></div>:null}</div>:null}
-                  {!this.state.isHost ? <div>{this.state.stage === 2 ? <div><button type="button" className="btn btn-outline-dark" id = "pickCard" onClick = {this.onSubmit}>Submit-stage2</button></div>:<div>{this.state.stage === 3 ? <div><button type="button" className="btn btn-outline-dark" id = "voteCard" onClick = {this.onSubmit}>Submit-stage3</button></div>:null}</div>}</div>:null}
+                  {!this.state.isHost ? <div>{this.state.stage === 2 ? 
+                    <div><button type="button" className="btn btn-outline-dark" id = "pickCard" onClick = {this.onSubmit}>Submit-stage2</button></div>
+                    :
+                    <div>{this.state.stage === 3 ? 
+                      <div><button type="button" className="btn btn-outline-dark" id = "voteCard" onClick = {this.onSubmit}>Submit-stage3</button></div>
+                      :
+                      null}
+                    </div>}
+                  </div>:null}
                 </div>
               </div>
               {!this.state.cardsOnHand ||
