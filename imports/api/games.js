@@ -98,8 +98,9 @@ Meteor.methods({
       {$pull: {players: Meteor.user().username}}
     );
     res = Games.find({name:name}).fetch();
-    if (res[0].players.length === 0) {
-      Games.delete({
+    array = res[0].players;
+    if (array.length === 0) {
+      Games.remove({
         name: name
       });
     }
@@ -153,6 +154,7 @@ Meteor.methods({
         }
       }); 
     }
+    res = Games.find({name:name}).fetch();
     let array = res[0].count;
     if (array.length >= res[0].numberOfPlayers){
       Games.update ({
@@ -279,17 +281,17 @@ Meteor.methods({
       });
     }
   },
-  "games.over"(name){ //after final round 
-    check(name, String);
-    if (!this.userId) {
-      throw new Meteor.Error("not-authorized");
-    }
-    Games.update ({
-      name: name
-    }, {
-      $set: {
-        isOver:true
-      }
-    });
-  },
+  // "games.over"(name){ //after final round 
+  //   check(name, String);
+  //   if (!this.userId) {
+  //     throw new Meteor.Error("not-authorized");
+  //   }
+  //   Games.update ({
+  //     name: name
+  //   }, {
+  //     $set: {
+  //       isOver:true
+  //     }
+  //   });
+  // },
 });
