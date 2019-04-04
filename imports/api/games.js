@@ -247,7 +247,7 @@ Meteor.methods({
   "games.updateWinners"(info) { // STAGE 3 -> 4
     check(info.game, String);
     check(info.card._id, String);//cardID
-    check(info.card._url, String);
+    check(info.card.url, String);
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     }
