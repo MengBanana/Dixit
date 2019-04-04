@@ -64,8 +64,8 @@ Meteor.methods({
       {$push:{players: Meteor.user().username}}
     );
     res = Games.find({name:name}).fetch();
-    if (array.length >= res[0].numberOfPlayers) {
-      console.log("full?");
+    array = res[0].players;
+    if (array.length === res[0].numberOfPlayers) {
       Games.update(
         {name: name}, 
         {$set :{okToJoin: false}}
@@ -104,7 +104,14 @@ Meteor.methods({
       Games.remove({
         name: name
       });
+    } else if (array.length < res[0].numberOfPlayers) {
+      Games.update(
+        {name: name}, 
+        {$set :{okToJoin: true
+        }}
+      );
     }
+    
   },
 
   "games.updateReady"(name) { //STAGE 0 -> 1 && STAGE 4 -> 1 (continue button)
