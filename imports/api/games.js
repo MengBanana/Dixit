@@ -57,14 +57,15 @@ Meteor.methods({
     let res = Games.findOne({
       name:name
     }).fetch();
-    if (res[0].players.includes(Meteor.user().username)){
+    let array = res[0].players;
+    if (array.includes(Meteor.user().username)){
       return;
     }
     Games.update(
       {name: name}, 
       {$push:{players: Meteor.user().username}}
     );
-    if (res[0].players.length === res[0].numberOfPlayers) {
+    if (array.length === res[0].numberOfPlayers) {
       console.log("full?");
       Games.update(
         {name: name}, 
@@ -196,17 +197,31 @@ Meteor.methods({
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     }
-  
 /*    let array = res["0"].cardsOnHand;
     console.log(array);*/
 /*    let newArray = array[info.playerIdx].filter(m => (m._id !== info.card._id));
     let resArray = array.splice(info.playerIdx, 1, newArray);*/
+    let game = Games.find({name:info.game}).fetch();
+    
+    // let arr = game[0].cardsOnHand;
+    // let a = arr[index];
+    
+
+    let index = info.playerIdx;
+    let newCards = game[0].cards;
+    let newPile = newCards[index];
+    let newCard = newPile[0];
     Games.update ({
       name: info.game
     }, {
+      $pull:{
+        ["cardsOnHand."+index]: {_id:info.card._id},
+        ["cards."+index]:{_id:newCard._id}
+      },
       $push:{
         cardsOnDesk: info.card,
-        count: Meteor.user().username
+        count: Meteor.user().username,
+        ["cardsOnHand."+index]:newCard
       },
       // $set:{cardsOnHand : resArray}
     });
@@ -242,7 +257,13 @@ Meteor.methods({
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     }
-    let res = Games.find({name:info.game}).fetch(); 
+
+    Games.update ({
+      name: info.game
+    }, {
+      $push:{count: Meteor.user().username}
+    });
+    let res = Games.find({name:info.game}).fetch();
     if (Object.is(info.card, res[0].targetCard)){
       Games.update ({  //TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!CHECK DUPLICATE line 91-92
         name: info.game
@@ -250,12 +271,6 @@ Meteor.methods({
         $push:{winners: Meteor.user().username}
       });
     }
-    Games.update ({
-      name: info.game
-    }, {
-      $push:{count: Meteor.user().username}
-    }); 
-    res = Games.find({name:info.game}).fetch(); 
     let array = res[0].count;
     if (array.length >= res[0].numberOfPlayers - 1){
       Games.update({

@@ -164,7 +164,8 @@ class MyGame extends Component {
       if (this.state.selectedCard != null) {
         let info = {
           game: this.state.gameName,
-          card: this.state.selectedCard
+          card: this.state.selectedCard,
+          playerIdx:this.state.playerIdx
         };
         Meteor.call("games.addCardToDesk", info, (err, res) => {
           //TODO: db test
@@ -343,10 +344,9 @@ class MyGame extends Component {
                         }
                         {this.state.stage === 4 ?
                           <div>
-                            Winners:
                             {this.state.winners.map(winner => {
                               <div key = {i++}>
-                                {winner}
+                                winner
                               </div>;
                             })}
                           </div> : null

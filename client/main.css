@@ -124,6 +124,30 @@ body {
   transform: scale(1.02);
 }
 
+.gameroom .card {
+  margin: 20px;
+  width: 195px;
+  height: 230px;
+  border: 1px solid black;
+}
+
+.gameroom button {
+  margin-left: 31px;
+  margin-top: 5p;
+}
+
+.gameroom .cardbody {
+  padding: 10px;
+}
+
+.gameroom .player {
+  color: orange;
+}
+
+.gameroom .card:hover {
+  transform: scale(1.02);
+}
+
 
 
 
