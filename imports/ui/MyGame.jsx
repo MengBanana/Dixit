@@ -102,7 +102,6 @@ class MyGame extends Component {
     this.setState({
       buttonClick: 1
     });
-
     if (e.target.id === "readyToStart") {
       this.props.myGame.map(game =>
         this.setState({
@@ -205,23 +204,23 @@ class MyGame extends Component {
     }
 
     if (e.target.id === "exitGame") {//update user status, remove player from game, can exit only on stage 0 or 4?(before game starts)
-       Meteor.call("usersGames.exit",this.state.points, (err, res) => {
-         if (err) {
-           alert("There was error updating check the console");
-           console.log(err);
-         }
-         console.log("succeed",res);
-       });
-       Meteor.call("games.removePlayer", this.state.gameName, (err, res) => {
-         if (err) {
-           alert("There was error updating check the console");
-           console.log(err);
-         }
-         console.log("succeed",res);
-       }); 
-     //function: compute points, display result, stage = 0, idx++, reset all {count = 0, idx++,.....}
+      Meteor.call("usersGames.exit",this.state.points, (err, res) => {
+        if (err) {
+          alert("There was error updating check the console");
+          console.log(err);
+        }
+        console.log("succeed",res);
+      });
+      Meteor.call("games.removePlayer", this.state.gameName, (err, res) => {
+        if (err) {
+          alert("There was error updating check the console");
+          console.log(err);
+        }
+        console.log("succeed",res);
+      }); 
+      //function: compute points, display result, stage = 0, idx++, reset all {count = 0, idx++,.....}
+    }
   }
-}
 
   // WORKED!!!  <div className="row">
   //   {this.props.myGame.map(game  => (
@@ -240,10 +239,10 @@ class MyGame extends Component {
     // console.log("TEST: state.playerIdx: ", this.state.playerIdx);
     // console.log("TEST: state.hostIdx: ", this.state.hostIdx);
     // console.log("TEST: state.points: ", this.state.points);
-    // console.log("TEST: state.description: ", this.state.description);
+    console.log("TEST: state.description: ", this.state.description);
     // console.log("TEST: state.hostDescription: ", this.state.hostDescription);
-    // console.log("TEST: state.selectedCard: ", this.state.selectedCard);
-
+    console.log("TEST: state.selectedCard: ", this.state.selectedCard);
+    let i = 0;
     // const stage0 = (
     //   <div className="container"id="HomePage" >
     //     <div className = "row">
@@ -329,15 +328,31 @@ class MyGame extends Component {
                   {this.state.cardsOnDesk.length === this.state.players.length? 
                     (<div className="row">
                       {this.state.cardsOnDesk.map(cardOnDesk => (
-                        <div
-                          key={cardOnDesk._id}
-                          name={cardOnDesk}
+                        <div key={cardOnDesk._id}><div
                           className="card col-xs-4 col-s-3"
                           style={{
                             backgroundImage: `url(${cardOnDesk.url})`,
                             backgroundSize: "cover"
                           }}
                         />
+                        {this.state.stage === 3 && !this.state.isHost? 
+                          <div>
+                            <button onClick={() =>this.setState({ selectedCard: cardOnDesk })}></button>
+                          </div>
+                          : 
+                          null
+                        }
+                        {this.state.stage === 4 ?
+                          <div>
+                            Winners:
+                            {this.state.winners.map(winner => {
+                              <div key = {i++}>
+                                {winner}
+                              </div>;
+                            })}
+                          </div> : null
+                        }
+                        </div>
                       ))}
                     </div>)
                     : 
@@ -429,8 +444,8 @@ class MyGame extends Component {
                   </div>:null}
                 </div>
               </div>
-              {!this.state.cardsOnHand ||
-              this.state.cardsOnHand.length === 0 ? null : (
+              {!this.state.cardsOnHand || this.state.cardsOnHand.length === 0 ? null 
+                : (
                   <div className="row" id="cardsInHand">
                     {this.state.cardsOnHand.map(cardOnHand => (
                       <div
