@@ -40,10 +40,11 @@ Meteor.methods({
         UsersGames.update({
           _id: this.userId
         }, {
-          ingame: true,
-          gameName: name
+          $set:{
+            ingame: true,
+            gameName: name
+          }
         });
-
       }
     } else {
       UsersGames.insert({
