@@ -157,7 +157,7 @@ class GameRoom extends Component {
                     </p>
                   </div>
                   {game.okToJoin === true ? <button type="button" className="btn btn-outline-dark" id="joinGame" name={game.name} onClick = {this.onSubmit.bind(this)}>Join</button>
-                    : <button type="button" className="btn btn-outline-dark" disabled>Now Playing</button>}
+                    : <button type="button" className="btn btn-outline-dark" disabled>In Game</button>}
                 </div>
               </div>
             </div>
