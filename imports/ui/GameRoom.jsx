@@ -147,12 +147,15 @@ class GameRoom extends Component {
           {paginatedGames.map(game => (
             <div key={game._id} className="card col-xs-6 col-s-3" id="room">
               <div className = "container">
-                <div className="card-top text-right text-dark count"></div>
-                <div className ="container img-box"><img className="card-img-top img-rounded" src="" alt=""/></div>
                 <div className="card-body">
-                  <h6 className = "card-text text-center">{game.name}</h6>
-                  <h6 className = "card-text text-center"> {game.players.length}/{game.numberOfPlayers}</h6>
-                  {game.players.map(player => (<h6 key ={player} className = "card-text text-center">{player}</h6>))}
+                  <h4 className = "card-text text-center">{game.name}</h4>
+                  <p className = "card-text text-center">Status: {game.players.length}/{game.numberOfPlayers}</p>
+                  <div className = "card-text text-center">
+                    <p>
+                  Players:
+                      {game.players.map(player => (<span className="player" key ={player}>    {player}</span>))}
+                    </p>
+                  </div>
                   {game.okToJoin === true ? <button type="button" className="btn btn-outline-dark" id="joinGame" name={game.name} onClick = {this.onSubmit.bind(this)}>Join</button>
                     : <button type="button" className="btn btn-outline-dark" disabled>Now Playing</button>}
                 </div>

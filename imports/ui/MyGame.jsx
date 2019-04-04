@@ -134,7 +134,8 @@ class MyGame extends Component {
         let info = {
           game: this.state.gameName,
           card: this.state.selectedCard,
-          description: this.state.description
+          description: this.state.description,
+          playerIdx: this.state.playerIdx
         };
         Meteor.call("games.updateAnswer", info, (err, res) => {
           //TODO: db test
@@ -298,15 +299,12 @@ class MyGame extends Component {
         <div className="row">
           <div className="col-2" id="scoreBoard">
             <h2 className="row part"> GameRoom </h2>
-            <h6> NAME: <div>{this.state.gameName}</div></h6>
-            <h6></h6>
-            <h6> ROUND: <div>{this.state.hostIdx + 1}</div></h6>
-            <h6> STORY TELLER: {this.state.players[this.state.hostIdx]}</h6>
-            
-
+            <p> GAME: {this.state.gameName}</p>
+            <p> ROUND: {this.state.hostIdx + 1}</p>
+            <p> STORY TELLER: {this.state.players[this.state.hostIdx]}</p>
             <h2 className="row part"> ScoreBoard </h2>
             {this.state.players.map(player => (
-              <h6 key={player._id}>{player}:{this.state.points}</h6>
+              <h6 key={player}>{player}:{this.state.points}</h6>
             ))}
           </div>
 
@@ -315,7 +313,9 @@ class MyGame extends Component {
               {this.state.stage > 1 ?
                 <div><h4 id="displayDescrition">
                   Story teller description: "{this.state.hostDescription}"
-                </h4></div> : null
+                </h4></div> : <div><h4 id="displayDescrition" style={{"color":"white"}}>
+                  Story teller description: "{this.state.hostDescription}"
+                </h4></div>
               }
               <h2 className="row"> Pool </h2>
               {this.state.stage === 0 ? <div className="row">

@@ -78,8 +78,8 @@ Meteor.methods({
     }
     let res = Games.find({name:name}).fetch(); 
     let array = res["0"].players;//current Game players
-    console.log(res);
-    console.log("HELLO",array.indexOf(Meteor.user().username));
+    // console.log(res);
+    // console.log("HELLO",array.indexOf(Meteor.user().username));
     return array.indexOf(Meteor.user().username);
   },
 
@@ -161,26 +161,41 @@ Meteor.methods({
   },
 
   "games.addCardToDesk"(info) { // STAGE 2 -> 3
-/*    check(info.game, String);
-    check(info.card._id, String);//cardID
-    check(info.card.url, String);*/
+    // check(info.game, String);
+    // check(info.card._id, String);//cardID
+    // check(info.card.url, String);
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     } 
-  
-/*    let array = res["0"].cardsOnHand;
-    console.log(array);*/
-/*    let newArray = array[info.playerIdx].filter(m => (m._id !== info.card._id));
-    let resArray = array.splice(info.playerIdx, 1, newArray);*/
+    let game = Games.find({name:info.game}).fetch();
+    let index = info.playerIdx;
+    // let arr = game[0].cardsOnHand;
+    // let a = arr[index];
+    // console.log(a);
+    let newCards = game[0].cards;
+    let newPile = newCards[index];
+    let newCard = newPile[0];
+    console.log(newCard);
+
+    Games.update ({
+      name: info.game
+    }, {
+      $pull:{
+        ["cardsOnHand."+index]:{_id:info.card._id},
+        ["cards."+index]:{_id:newCard._id}
+      }
+    });
+
     Games.update ({
       name: info.game
     }, {
       $push:{
         cardsOnDesk: info.card,
-        count: Meteor.user().username
-      },
-      // $set:{cardsOnHand : resArray}
+        count: Meteor.user().username,
+        ["cardsOnHand."+index]: newCard
+      }
     });
+
     let res = Games.find({name:info.game}).fetch();
     let array = res[0].count;
     if (array.length >= res[0].numberOfPlayers){
