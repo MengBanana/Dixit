@@ -106,9 +106,11 @@ class GameRoom extends Component {
     return (
       <div className = "container gameroom">
         <div className="row part">
-          <span id="badge" className="badge badge-warning m-2">
-           Please join an existing game, or auto join a new game upon creating a new room
-          </span>
+          <h4>
+            <span id="badge" className="badge badge-pill badge-warning">
+             Please join an existing game or add a new game room
+            </span>
+          </h4>
         </div> 
         <div className="row part ">
           <h1>GameRoom</h1>
@@ -156,8 +158,8 @@ class GameRoom extends Component {
                       {game.players.map(player => (<span className="player" key ={player}>    {player}</span>))}
                     </p>
                   </div>
-                  {game.okToJoin === true ? <button type="button" className="btn btn-outline-dark" id="joinGame" name={game.name} onClick = {this.onSubmit.bind(this)}>Join</button>
-                    : <button type="button" className="btn btn-outline-dark" disabled>In Game</button>}
+                  {game.okToJoin === true ? <button type="button" className="btn btn-outline-dark center-block" id="joinGame" name={game.name} onClick = {this.onSubmit.bind(this)}>JoinUs</button>
+                    : <button type="button" className="btn btn-outline-dark" disabled>InGame</button>}
                 </div>
               </div>
             </div>

@@ -81,17 +81,17 @@ export class AddCard extends Component {
           </div>
         </div>
         <div className="row" id="addcard">
-                    {this.state.cards.map(card => (
-                      <div
-                        key={card._id}
-                        className="card col-xs-4 col-s-3"
-                        style={{
-                          backgroundImage: `url(${card.url})`,
-                          backgroundSize: "cover"
-                        }}
-                      />
-                    ))}
-                  </div>
+          {this.state.cards.map(card => (
+            <div
+              key={card._id}
+              className="card col-xs-4 col-s-3"
+              style={{
+                backgroundImage: `url(${card.url})`,
+                backgroundSize: "cover"
+              }}
+            />
+          ))}
+        </div>
       </div>
     );
   }
