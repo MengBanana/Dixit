@@ -10,9 +10,18 @@ export class AddCard extends Component {
     super(props);
     this.state = {
       newUrl: "",
+      cards:[]
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.cards != prevProps.cards) {
+      this.setState({
+        cards:this.props.cards
+      });
+    }
   }
 
   onChange(e) {
@@ -39,6 +48,7 @@ export class AddCard extends Component {
 
 
   render() {
+    console.log(this.state.cards);
     return (
       <div className="container">
         <div className="container">
@@ -69,8 +79,19 @@ export class AddCard extends Component {
               </div>
             </div>
           </div>
-
         </div>
+        <div className="row" id="addcard">
+                    {this.state.cards.map(card => (
+                      <div
+                        key={card._id}
+                        className="card col-xs-4 col-s-3"
+                        style={{
+                          backgroundImage: `url(${card.url})`,
+                          backgroundSize: "cover"
+                        }}
+                      />
+                    ))}
+                  </div>
       </div>
     );
   }
