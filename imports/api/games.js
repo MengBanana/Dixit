@@ -54,7 +54,7 @@ Meteor.methods({
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     }
-    let res = Games.findOne({
+    let res = Games.find({
       name:name
     }).fetch();
     let array = res[0].players;
