@@ -63,7 +63,8 @@ Meteor.methods({
       {name: name}, 
       {$push:{players: Meteor.user().username}}
     );
-    if (array.length === res[0].numberOfPlayers) {
+    res = Games.find({name:name}).fetch();
+    if (array.length >= res[0].numberOfPlayers) {
       console.log("full?");
       Games.update(
         {name: name}, 
