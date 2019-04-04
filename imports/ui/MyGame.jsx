@@ -342,15 +342,6 @@ class MyGame extends Component {
                           : 
                           null
                         }
-                        {this.state.stage === 4 ?
-                          <div>
-                            {this.state.winners.map(winner => {
-                              <div key = {i++}>
-                                winner
-                              </div>;
-                            })}
-                          </div> : null
-                        }
                         </div>
                       ))}
                     </div>)
@@ -363,7 +354,7 @@ class MyGame extends Component {
                       </div>)
                       : 
                       (<div className="row">
-                        {!this.state.stage === 4 ?
+                        {this.state.stage !== 4 ?
                           <span id="badge" className="badge badge-warning m-2">
                           Waiting for { this.state.players.length - this.state.cardsOnDesk.length} players to pick a card!
                           </span> : null}

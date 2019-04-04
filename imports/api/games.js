@@ -145,16 +145,6 @@ Meteor.methods({
       $push:{count: Meteor.user().username}
     });
     let res = Games.find({name:name}).fetch();
-    if (res[0].hostIdx === res[0].numberOfPlayers - 1) { // end of the whole game
-      Games.update ({
-        name: name
-      }, {
-        $set: {
-          isOver: true
-        }
-      }); 
-    }
-    res = Games.find({name:name}).fetch();
     let array = res[0].count;
     if (array.length >= res[0].numberOfPlayers){
       Games.update ({
@@ -255,7 +245,7 @@ Meteor.methods({
     }
 
     let res = Games.find({name:info.game}).fetch();
-    if (Object.is(info.card, res[0].targetCard)){
+    if (info.card._id === res[0].targetCard._id){
       Games.update ({  //TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!CHECK DUPLICATE line 91-92
         name: info.game
       }, {
@@ -270,15 +260,28 @@ Meteor.methods({
     res = Games.find({name:info.game}).fetch();
     let array = res[0].count;
     if (array.length >= res[0].numberOfPlayers - 1){
-      Games.update({
-        name:info.game
-      }, {
-        $set:{
-          stage: 4,
-          count:[],
-          cardsOnDesk:[],
-        }
-      });
+      if (res[0].hostIdx === res[0].numberOfPlayers - 1) {
+        Games.update({
+          name:info.game
+        }, {
+          $set:{
+            isOver:true,
+            stage:4,
+            count:[],
+            cardsOnDesk:[],
+          }
+        });
+      } else {
+        Games.update({
+          name:info.game
+        }, {
+          $set:{
+            stage: 4,
+            count:[],
+            cardsOnDesk:[],
+          }
+        });
+      }
     }
   },
   // "games.over"(name){ //after final round 
