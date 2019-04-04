@@ -318,44 +318,44 @@ class MyGame extends Component {
                 </h4></div>
               }
               <h2 className="row"> Pool </h2>
+
               {this.state.stage === 0 ? <div className="row">
                 <span id="badge" className="badge badge-warning m-2">
                   Click the Ready Button to start the game!
                 </span>
-              </div> : null}
-              {(this.state.stage === 1 && 
-              this.state.cardsOnDesk.length === 0) ? 
-                (
-                  <div className="row">
-                    <span id="badge" className="badge badge-warning m-2">
-                      Waiting for {this.state.players[this.state.hostIdx]} to pick a card and describe...
-                    </span>
-                  </div> 
-                )
-                : this.state.cardsOnDesk.length === this.state.players.length? (
-                  <div className="row">
-                    {this.state.cardsOnDesk.map(cardOnDesk => (
-                      <div
-                        key={cardOnDesk._id}
-                        name={cardOnDesk}
-                        className="card col-xs-4 col-s-3"
-                        style={{
-                          backgroundImage: `url(${cardOnDesk.url})`,
-                          backgroundSize: "cover"
-                        }}
-                      />
-                    ))}
-                  </div>
-                )
-                  : 
-                  (
-                    <div className="row">
-                      <span id="badge" className="badge badge-warning m-2">
-                      Wairting for { this.state.players.length - this.state.cardsOnDesk.length} players to pick a card!
-                      </span>
-                    </div>       
-                  )
-              }
+              </div> 
+                : 
+                <div>
+                  {this.state.cardsOnDesk.length === this.state.players.length? 
+                    (<div className="row">
+                      {this.state.cardsOnDesk.map(cardOnDesk => (
+                        <div
+                          key={cardOnDesk._id}
+                          name={cardOnDesk}
+                          className="card col-xs-4 col-s-3"
+                          style={{
+                            backgroundImage: `url(${cardOnDesk.url})`,
+                            backgroundSize: "cover"
+                          }}
+                        />
+                      ))}
+                    </div>)
+                    : 
+                    <div>{(this.state.stage === 1 && this.state.cardsOnDesk.length === 0) ? 
+                      (<div className="row">
+                        <span id="badge" className="badge badge-warning m-2">
+                          Waiting for {this.state.players[this.state.hostIdx]} to pick a card and describe...
+                        </span>
+                      </div>)
+                      : 
+                      (<div className="row">
+                        <span id="badge" className="badge badge-warning m-2">
+                          Waiting for { this.state.players.length - this.state.cardsOnDesk.length} players to pick a card!
+                        </span>
+                      </div>       
+                      )
+                    }</div>
+                  }</div>}
               <div className = "row part">
                 <div className = "col-4">
                   <h2 className="row"> Cards In Hand </h2>
