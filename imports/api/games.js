@@ -44,7 +44,8 @@ Meteor.methods({
       owner: Meteor.user().username,
       cards:info.cards[0],//arr of arr
       cardsOnDesk:[],
-      cardsOnHand:info.cards[1],//arr of arr
+      cardsOnHand:info.cards[1],
+      isOver: false
     });
   },
 
@@ -55,19 +56,19 @@ Meteor.methods({
     }
     let res = Games.findOne({
       name:name
-    });
-    if (res.players.includes(Meteor.user().username)){
+    }).fetch();
+    if (res[0].players.includes(Meteor.user().username)){
       return;
     }
     Games.update(
       {name: name}, 
       {$push:{players: Meteor.user().username}}
     );
-    if (res.players.length === res.numberOfPlayers) {
+    if (res[0].players.length === res[0].numberOfPlayers) {
       console.log("full?");
       Games.update(
         {name: name}, 
-        {okToJoin: false}
+        {$set :{okToJoin: false}}
       );
     }
   },
@@ -78,8 +79,8 @@ Meteor.methods({
     }
     let res = Games.find({name:name}).fetch(); 
     let array = res["0"].players;//current Game players
-    console.log(res);
-    console.log("HELLO",array.indexOf(Meteor.user().username));
+    // console.log(res);
+    // console.log("HELLO",array.indexOf(Meteor.user().username));
     return array.indexOf(Meteor.user().username);
   },
 
@@ -90,28 +91,38 @@ Meteor.methods({
     }
     let res = Games.find({name:name}).fetch();
     let array = res[0].players;
-    if (!array.includes(Meteor.user().username)){
+    if (!array.includes(Meteor.user().username)){ //works!
       return;
     }
     Games.update(
       {name: name}, 
       {$pull: {players: Meteor.user().username}}
     );
+    res = Games.find({name:name}).fetch();
+    if (res[0].players.length === 0) {
+      Games.delete({
+        name: name
+      });
+    }
   },
 
   "games.updateReady"(name) { //STAGE 0 -> 1 && STAGE 4 -> 1 (continue button)
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     }
-    //TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!CHECK DUPLICATE line 91-92
+    let res = Games.find({name:name}).fetch();
+    let array = res[0].count;
+    if (array.includes(Meteor.user().username)){ //works!
+      return;
+    }
     Games.update ({
       name: name
     }, {
       $push:{count: Meteor.user().username}
     }); 
     //console.log(Games.find({name:name}).fetch());
-    let res = Games.find({name:name}).fetch();
-    let array = res[0].count;
+    res = Games.find({name:name}).fetch();
+    array = res[0].count;
     if (array.length >= res[0].numberOfPlayers){
       Games.update({
         name:name
@@ -134,6 +145,15 @@ Meteor.methods({
       $push:{count: Meteor.user().username}
     });
     let res = Games.find({name:name}).fetch();
+    if (res[0].hostIdx === res[0].numberOfPlayers - 1) { // end of the whole game
+      Games.update ({
+        name: name
+      }, {
+        $set: {
+          isOver: true
+        }
+      }); 
+    }
     let array = res[0].count;
     if (array.length >= res[0].numberOfPlayers){
       Games.update ({
@@ -175,7 +195,7 @@ Meteor.methods({
     check(info.card.url, String);
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
-    } 
+    }
   
 /*    let array = res["0"].cardsOnHand;
     console.log(array);*/
@@ -217,8 +237,8 @@ Meteor.methods({
 
   "games.updateWinners"(info) { // STAGE 3 -> 4
     check(info.game, String);
-    // check(info.card._id, String);//cardID
-    // check(info.card._url, String);
+    check(info.card._id, String);//cardID
+    check(info.card._url, String);
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     }
@@ -248,5 +268,18 @@ Meteor.methods({
         }
       });
     }
-  }
+  },
+  "games.over"(name){ //after final round 
+    check(name, String);
+    if (!this.userId) {
+      throw new Meteor.Error("not-authorized");
+    }
+    Games.update ({
+      name: name
+    }, {
+      $set: {
+        isOver:true
+      }
+    });
+  },
 });

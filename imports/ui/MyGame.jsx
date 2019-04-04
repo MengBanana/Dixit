@@ -33,7 +33,8 @@ class MyGame extends Component {
       isHost: false,
       newUrl: "",
       buttonClick: 0,
-      cardsPool: []
+      cardsPool: [],
+      isOver: false
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -77,7 +78,8 @@ class MyGame extends Component {
         cardsOnDesk: game.cardsOnDesk,
         winners: game.winners,
         cardsPool: game.cardsOnHand,
-        players: game.players
+        players: game.players,
+        isOver:game.isOver
         //players, points
       });
       this.getPlayerIndex();
@@ -113,7 +115,7 @@ class MyGame extends Component {
           }
         });
       }
-      if (this.state.stage === 4 && this.state.hostIdx < this.state.players.length - 1) {
+      if (this.state.stage === 4) {
         Meteor.call("games.nextHost", this.state.gameName, (err, res) => {
           if (err) {
             alert("There was error updating check the console");
@@ -200,8 +202,8 @@ class MyGame extends Component {
       }
     }
 
-    if (e.target.id === "exitGame") {//update user status, remove player from game, can exit only on stage 0 or 4?(before game starts)
-      Meteor.call("usersGames.exit",this.state.points, (err, res) => {
+    if (e.target.id === "exitGame") {//update user status, remove player from game, can exit only on stage 0 or 4?(before game starts
+      Meteor.call("usersGames.exit", (err, res) => {
         if (err) {
           alert("There was error updating check the console");
           console.log(err);
@@ -214,7 +216,7 @@ class MyGame extends Component {
           console.log(err);
         }
         console.log("succeed",res);
-      }); 
+      });
       //function: compute points, display result, stage = 0, idx++, reset all {count = 0, idx++,.....}
     }
   }
@@ -417,7 +419,7 @@ class MyGame extends Component {
                     </div>}
                 </div>
                 <div className = "col-2">
-                  {this.state.stage === 0 || (this.state.stage === 4 && this.state.hostIdx === this.state.players.length - 1) ?
+                  {this.state.stage === 0 || this.state.isOver ?
                     <div><button type="button" className="btn btn-outline-dark" id = "exitGame" onClick = {this.onSubmit}>Exit</button></div>
                     : null}
                   {(this.state.stage === 4 && this.state.hostIdx < this.state.players.length - 1) ?

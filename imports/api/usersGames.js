@@ -48,6 +48,7 @@ Meteor.methods({
     } else {
       UsersGames.insert({
         _id: this.userId,
+        username: Meteor.user().username,
         ingame: true,
         gameName: name,
         totalPoints: 0,
@@ -61,7 +62,7 @@ Meteor.methods({
       throw new Meteor.Error("not-authorized");
     }
     UsersGames.update ({
-      _id: this.userId
+      _id: Meteor.userId()
     }, {
       $inc: {
         totalPoints: points,
@@ -71,17 +72,20 @@ Meteor.methods({
 
 
 
-  "usersGames.exit"(points) {//upate points, round++, exit game
+  "usersGames.exit"() {//upate points, round++, exit game
+    console.log(this.userId);
+    console.log(Meteor.userId());
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     }
     UsersGames.update ({
-      _id: this.userId
-    }, {
-      ingame: false,
-      gameName: "",
+      _id: this.userId,
+    }, { 
+      $set:{
+        ingame: false,
+        gameName: "",
+      },
       $inc: {
-        totalPoints: points,
         totalRounds: 1
       }
     }); 
