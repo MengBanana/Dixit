@@ -121,7 +121,7 @@ class MyGame extends Component {
           readyCount:1,
           voteCount:0,
           pickCount:0
-        })
+        });
       }
       if (this.state.stage === 4) {
         Meteor.call("games.nextHost", this.state.gameName, (err, res) => {
@@ -131,6 +131,10 @@ class MyGame extends Component {
           } else {
             console.log("succeed", res);
           }
+        });
+        this.setState({
+          voteCount:0,
+          pickCount:0
         });
       }
     }
@@ -331,13 +335,13 @@ class MyGame extends Component {
               {this.state.stage === 0? <div> {this.state.readyCount===0? <div className="row">
                 <h4>
                   <span id="badge" className="badge badge-pill badge-warning m-2">
-                    Click the Ready Button to start the game!
+                    Click the Ready Button to start game!
                   </span>
                 </h4>
               </div> : <div className="row">
                 <h4>
                   <span id="badge" className="badge badge-pill badge-warning m-2">
-                    Waiting for other players to start!
+                    Waiting for other players to Start!
                   </span>
                 </h4>
               </div>} 
@@ -406,7 +410,7 @@ class MyGame extends Component {
                         {this.state.stage === 2 ?
                           <h4>
                             <span id="badge" className="badge badge-pill badge-warning m-2">
-                            Waiting for { this.state.players.length - this.state.cardsOnDesk.length} player to pick a card!
+                            Waiting for { this.state.players.length - this.state.cardsOnDesk.length} player(s) to pick card!
                             </span> </h4>: null}
                       </div>       
                       )
@@ -420,7 +424,7 @@ class MyGame extends Component {
                     (<div className="row">
                       <h4>
                         <span id="badge" className="badge badge-pill badge-warning m-2">
-                        Please pick a card from your HAND
+                        Please pick a card from your HAND!
                         </span>
                       </h4>
                     </div>)
@@ -455,7 +459,7 @@ class MyGame extends Component {
                   )}
                 </div>
                 <div className = "col-3">
-                  {this.state.stage === 0 && this.state.readyCount === 0? (<button type="button" className="btn btn-outline-dark" id = "readyToStart" onClick = {this.onSubmit.bind(this)}>Ready!</button>):
+                  {this.state.stage === 0 && this.state.readyCount === 0? (<button type="button" className="btn btn-danger" id = "readyToStart" onClick = {this.onSubmit.bind(this)}>Ready!</button>):
                     <div className="row" id="chooseCard">
                       {(this.state.isHost && this.state.stage === 1) || (!this.state.isHost && this.state.stage > 1 && this.state.stage < 4)? <div> 
                         <span> You've chosen: 
@@ -472,28 +476,28 @@ class MyGame extends Component {
                 </div>
                 <div className = "col-2">
                   {this.state.stage === 0 || this.state.isOver ?
-                    <div><button type="button" className="btn btn-outline-dark" id = "exitGame" onClick = {this.onSubmit}>Exit</button></div>
+                    <div><button type="button" className="btn btn-dark" id = "exitGame" onClick = {this.onSubmit}>Exit</button></div>
                     : null}
                   {(this.state.stage === 4 && this.state.hostIdx < this.state.players.length - 1) ?
-                    <div><button type="button" className="btn btn-outline-dark" id = "readyToStart" onClick = {this.onSubmit}>Next Round</button></div>
+                    <div><button type="button" className="btn btn-dark" id = "readyToStart" onClick = {this.onSubmit}>Next Round</button></div>
                     : null}
 
                   {this.state.isHost ? <div>{this.state.stage === 1 ? 
                     <div>
                       <button
                         type="submit"
-                        className="btn btn-warning"
+                        className="btn btn-danger"
                         id="descriptionDone"
                         onClick={this.onSubmit}
                       >
                       Submit
                       </button></div>:null}</div>:null}
                   {!this.state.isHost ? <div>{this.state.stage === 2 ? 
-                    <div> {this.state.pickCount===0? <button type="button" className="btn btn-outline-dark" id = "pickCard" onClick = {this.onSubmit}>Pick</button> : null}
+                    <div> {this.state.pickCount===0? <button type="button" className="btn btn-danger" id = "pickCard" onClick = {this.onSubmit}>Pick</button> : null}
                     </div>
                     :
                     <div>{this.state.stage === 3 ? 
-                      <div> {this.state.voteCount===0?<button type="button" className="btn btn-outline-dark" id = "voteCard" onClick = {this.onSubmit}>Vote</button> : null}
+                      <div> {this.state.voteCount===0?<button type="button" className="btn btn-danger" id = "voteCard" onClick = {this.onSubmit}>Vote</button> : null}
                       </div>
                       :
                       null}
