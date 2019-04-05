@@ -121,7 +121,7 @@ class MyGame extends Component {
           readyCount:1,
           voteCount:0,
           pickCount:0
-        })
+        });
       }
       if (this.state.stage === 4) {
         Meteor.call("games.nextHost", this.state.gameName, (err, res) => {
@@ -249,10 +249,9 @@ class MyGame extends Component {
     // console.log("TEST: state.playerIdx: ", this.state.playerIdx);
     // console.log("TEST: state.hostIdx: ", this.state.hostIdx);
     // console.log("TEST: state.points: ", this.state.points);
-    console.log("TEST: state.description: ", this.state.description);
+    // console.log("TEST: state.description: ", this.state.description);
     // console.log("TEST: state.hostDescription: ", this.state.hostDescription);
-    console.log("TEST: state.selectedCard: ", this.state.selectedCard);
-    let i = 0;
+    // console.log("TEST: state.selectedCard: ", this.state.selectedCard);
     // const stage0 = (
     //   <div className="container"id="HomePage" >
     //     <div className = "row">
@@ -354,6 +353,27 @@ class MyGame extends Component {
                     </div>
                     : 
                     null
+                  }
+                  {this.state.stage === 4?
+                    <div>
+                      <div><h4>Answer:</h4>
+                        {this.props.myGame.map(game => (
+                          <div key = {game._id}
+                            className="card col-xs-4 col-s-3"
+                            style={{
+                              backgroundImage: `url(${game.targetCard.url})`,
+                              backgroundSize: "cover"
+                            }}></div>))}</div>
+                      <div><h4>Winners:</h4>
+                        {this.props.myGame.map(game => (
+                          <div key = {game._id}
+                            className="col-xs-4 col-s-3">
+                            {game.winners.map(winner =>(
+                              <div key = {winner}>{winner}</div>
+                            ))}
+                          </div>))}</div>
+                    </div>
+                    : null
                   }
 
                   {this.state.stage === 3 && this.state.isHost ?

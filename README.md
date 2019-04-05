@@ -67,7 +67,7 @@ Here's the link to [Dixit](https://dixitgame2019.herokuapp.com/)
 [Youtube]()
 
 ## Presentation
-[Slides]() for the presentation
+[Slides](https://docs.google.com/presentation/d/1fkfnC75fKTtWMfDX6Gm_PAkMh7ykKVILCq5lec_JILY/edit#slide=id.g35f391192_029) for the presentation
 
 ## CourseLink
 [CS 5610 Web Development](http://johnguerra.co/classes/webDevelopment_spring_2019/)

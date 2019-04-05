@@ -163,7 +163,8 @@ Meteor.methods({
         },
         $set: {
           stage: 1,
-          count:[]
+          count:[],
+          winners:[]
         }
       }); 
     }
@@ -254,6 +255,10 @@ Meteor.methods({
 
     let res = Games.find({name:info.game}).fetch();
     if (info.card._id === res[0].targetCard._id){
+      // let curWinners = res[0].winners;
+      // if (curWinners.includes(Meteor.user().username)) {
+      //   return;
+      // }
       Games.update ({  //TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!CHECK DUPLICATE line 91-92
         name: info.game
       }, {
@@ -267,7 +272,7 @@ Meteor.methods({
     });
     res = Games.find({name:info.game}).fetch();
     let array = res[0].count;
-    if (array.length >= res[0].numberOfPlayers - 1){
+    if (array.length >= res[0].numberOfPlayers - 1){ //all votes
       if (res[0].hostIdx === res[0].numberOfPlayers - 1) {
         Games.update({
           name:info.game
@@ -276,7 +281,7 @@ Meteor.methods({
             isOver:true,
             stage:4,
             count:[],
-            cardsOnDesk:[],
+            cardsOnDesk:[]
           }
         });
       } else {
@@ -286,7 +291,7 @@ Meteor.methods({
           $set:{
             stage: 4,
             count:[],
-            cardsOnDesk:[],
+            cardsOnDesk:[]
           }
         });
       }
