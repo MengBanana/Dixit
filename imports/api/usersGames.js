@@ -21,6 +21,13 @@ if (Meteor.isServer) {
     }
     return UsersGames.find({_id: Meteor.userId()});
   });
+
+  Meteor.publish("gameData", function f(){
+    if (!Meteor.userId()) {
+      return this.ready();
+    }
+    return UsersGames.find({ingame: true});
+  });
 }
 
 Meteor.methods({

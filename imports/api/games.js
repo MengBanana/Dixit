@@ -61,7 +61,7 @@ Meteor.methods({
     }
     Games.update(
       {name: name}, 
-      {$push:{players: Meteor.user().username}}
+      {$addToSet:{players: Meteor.user().username}}
     );
     res = Games.find({name:name}).fetch();
     array = res[0].players;
@@ -126,7 +126,7 @@ Meteor.methods({
     Games.update ({
       name: name
     }, {
-      $push:{count: Meteor.user().username}
+      $addToSet:{count: Meteor.user().username}
     }); 
     //console.log(Games.find({name:name}).fetch());
     res = Games.find({name:name}).fetch();
@@ -150,7 +150,7 @@ Meteor.methods({
     Games.update ({
       name: name
     }, {
-      $push:{count: Meteor.user().username}
+      $addToSet:{count: Meteor.user().username}
     });
     let res = Games.find({name:name}).fetch();
     let array = res[0].count;
@@ -259,16 +259,16 @@ Meteor.methods({
       // if (curWinners.includes(Meteor.user().username)) {
       //   return;
       // }
-      Games.update ({  //TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!CHECK DUPLICATE line 91-92
+      Games.update ({
         name: info.game
       }, {
-        $push:{winners: Meteor.user().username}
+        $addToSet:{winners: Meteor.user().username}
       });
     }
     Games.update ({
       name: info.game
     }, {
-      $push:{count: Meteor.user().username}
+      $addToSet:{count: Meteor.user().username}
     });
     res = Games.find({name:info.game}).fetch();
     let array = res[0].count;
@@ -280,7 +280,7 @@ Meteor.methods({
         Games.update ({
           name: info.game
         }, {
-          $push:{
+          $addToSet:{
             winners: hostName
           }
         });
