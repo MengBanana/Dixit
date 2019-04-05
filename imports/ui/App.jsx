@@ -34,7 +34,7 @@ class App extends Component {
           <div className = "row">
             <div className = "col-12">
               <Switch>
-                <Route exact path="/HomePage" component={HomePage} />
+                <Route exact path="/" component={HomePage} />
                 <Route exact path="/AddCard" component={AddCard} />
                 <Fragment>
                   {this.props.myData.length === 0 ? <Route exact path="/gameroom" component= {GameRoom} /> : <div>
