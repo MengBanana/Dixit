@@ -96,6 +96,18 @@ class MyGame extends Component {
       });
     });
   }
+  
+  getPlayerPoints(player) {
+    Meteor.call("usersGames.getPoints", player, (err, res) => {
+      if (err) {
+        alert("There was error updating check the console");
+        console.log(err);
+      } else {
+        return res;
+      }
+    });
+  }
+
 
   onChange(e) {
     this.setState({
@@ -332,7 +344,7 @@ class MyGame extends Component {
             <p> STORY TELLER: {this.state.players[this.state.hostIdx]}</p>
             <h2 className="row part"> ScoreBoard </h2>
             {this.state.players.map(player => (
-              <h6 key={player}>{player}:{this.state.points}</h6>
+              <h6 key={player}>{player}:{this.getPlayerPoints(player)}</h6>
             ))}
           </div>
 
