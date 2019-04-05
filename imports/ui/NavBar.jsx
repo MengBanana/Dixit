@@ -8,7 +8,7 @@ export default class NavBar extends Component {
     return (
       <div className="navbar-container">
         <nav className="navbar navbar-expand-md navbar-dark bg-dark">
-        <div className="collapse navbar-collapse" id="navbarsExampleDefault">
+          <div className="collapse navbar-collapse" id="navbarsExampleDefault">
             <div className="nav-item ml-auto signin">
               <AccountsUIWrapper />
             </div>
