@@ -81,7 +81,6 @@ class MyGame extends Component {
         hostDescription: game.description,
         cardsOnDesk: game.cardsOnDesk,
         winners: game.winners,
-        points: game.totalPoints,
         cardsPool: game.cardsOnHand,
         players: game.players,
         isOver:game.isOver
