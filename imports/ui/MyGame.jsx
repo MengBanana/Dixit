@@ -475,7 +475,7 @@ class MyGame extends Component {
                     <div><button type="button" className="btn btn-outline-dark" id = "exitGame" onClick = {this.onSubmit}>Exit</button></div>
                     : null}
                   {(this.state.stage === 4 && this.state.hostIdx < this.state.players.length - 1) ?
-                    <div><button type="button" className="btn btn-outline-dark" id = "readyToStart" onClick = {this.onSubmit}>Continue</button></div>
+                    <div><button type="button" className="btn btn-outline-dark" id = "readyToStart" onClick = {this.onSubmit}>Next Round</button></div>
                     : null}
 
                   {this.state.isHost ? <div>{this.state.stage === 1 ? 
