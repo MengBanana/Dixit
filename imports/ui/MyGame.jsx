@@ -65,6 +65,7 @@ class MyGame extends Component {
         this.setState({
           playerIdx: res,
           cardsOnHand: this.state.cardsPool[res],
+          playerName: this.props.myGame[0].players[res],
           isHost: isHost
         });
       }
@@ -80,10 +81,10 @@ class MyGame extends Component {
         hostDescription: game.description,
         cardsOnDesk: game.cardsOnDesk,
         winners: game.winners,
+        points: game.totalPoints,
         cardsPool: game.cardsOnHand,
         players: game.players,
         isOver:game.isOver
-        //players, points
       });
       this.getPlayerIndex();
     });
@@ -92,7 +93,7 @@ class MyGame extends Component {
   updatePoint() {
     this.props.usersGames.map(userGame => {
       this.setState({
-        point: userGame.totalPoints
+        points: userGame.totalPoints
       });
     });
   }
@@ -123,7 +124,23 @@ class MyGame extends Component {
           pickCount:0
         });
       }
+      let curPoint = 0;
       if (this.state.stage === 4) {
+        if (this.state.winners.includes(this.state.playerName)){
+          if (this.state.isHost){
+            curPoint = 3;
+          } else {
+            curPoint = 1;
+          }
+        }
+        Meteor.call("usersGames.updateScore", curPoint),(err, res) => {
+          if (err) {
+            alert("There was error updating check the console");
+            console.log(err);
+          } else {
+            console.log("succeed", res);
+          }
+        };
         Meteor.call("games.nextHost", this.state.gameName, (err, res) => {
           if (err) {
             alert("There was error updating check the console");

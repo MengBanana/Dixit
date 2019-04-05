@@ -273,6 +273,18 @@ Meteor.methods({
     res = Games.find({name:info.game}).fetch();
     let array = res[0].count;
     if (array.length >= res[0].numberOfPlayers - 1){ //all votes
+      let winners = res[0].winners;
+      let players = res[0].players;
+      if (winners.length > 0 && winners.length < res[0].numberOfPlayers - 1) { //host gets point too
+        let hostName = players[res[0].hostIdx];
+        Games.update ({
+          name: info.game
+        }, {
+          $push:{
+            winners: hostName
+          }
+        });
+      }
       if (res[0].hostIdx === res[0].numberOfPlayers - 1) {
         Games.update({
           name:info.game
