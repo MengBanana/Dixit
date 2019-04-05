@@ -58,7 +58,7 @@ class HomePage extends Component {
               <div className="Play">
                 <h2>
                   <span id="badge" className="badge badge-pill badge-warning">
-                   Click NavBar to Play
+                   Sign in & Click NavBar to Play
                   </span>
                 </h2>
                 <p></p>
