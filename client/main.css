@@ -24,9 +24,10 @@ body {
 }
 
 .navbar-header {
-  float: left;
+  float: right;
   text-align: center;
   width: 100%;
+  margin-right: 8%
 }
 .navbar-brand {
 	float:none;
