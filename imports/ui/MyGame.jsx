@@ -47,7 +47,7 @@ class MyGame extends Component {
     if (this.props.myGame != prevProps.myGame) {
       this.updateGame();
     }
-    if (this.props.usersGames != prevProps.usersGames) {
+    if (this.props.gameData != prevProps.gameData) {
       this.updatePoint();
     }
   }
@@ -83,14 +83,15 @@ class MyGame extends Component {
         winners: game.winners,
         cardsPool: game.cardsOnHand,
         players: game.players,
-        isOver:game.isOver
+        isOver:game.isOver,
+        playerPoints:game.playerPoints
       });
       this.getPlayerIndex();
     });
   }
 
   updatePoint() {
-    this.props.usersGames.map(userGame => {
+    this.props.gameData.map(userGame => {
       this.setState({
         points: userGame.totalPoints
       });
@@ -132,14 +133,14 @@ class MyGame extends Component {
             curPoint = 1;
           }
         }
-        Meteor.call("usersGames.updateScore", curPoint),(err, res) => {
+        Meteor.call("usersGames.updateScore", curPoint,(err, res) => {
           if (err) {
             alert("There was error updating check the console");
             console.log(err);
           } else {
             console.log("succeed", res);
           }
-        };
+        });
         Meteor.call("games.nextHost", this.state.gameName, (err, res) => {
           if (err) {
             alert("There was error updating check the console");
@@ -322,6 +323,11 @@ class MyGame extends Component {
     //   </div>
     // );
 
+    let AllPoints = [];
+    for (var i = 0; i < this.state.players.length; i++) {
+      AllPoints.push(<h6 key = {i}> {this.state.players[i]} : {this.state.playerPoints[i]} </h6>);
+    }
+    //{AllPoints}
     return (
       <div className="container">
         <div className="row">
@@ -331,9 +337,11 @@ class MyGame extends Component {
             <p> ROUND: {this.state.hostIdx + 1}</p>
             <p> STORY TELLER: {this.state.players[this.state.hostIdx]}</p>
             <h2 className="row part"> ScoreBoard </h2>
-            {this.state.players.map(player => (
-              <h6 key={player}>{player}:{this.state.points}</h6>
-            ))}
+            <div>
+              {this.props.gameData.map(game => (
+                <div key = {game._id}>{game.username} : {game.totalPoints}</div>
+              ))}
+            </div>
           </div>
 
           <div className="col-10" id="gameBoard">
@@ -569,20 +577,20 @@ class MyGame extends Component {
 
 MyGame.propTypes = {
   myGame: PropTypes.arrayOf(PropTypes.object).isRequired,
-  usersGames: PropTypes.arrayOf(PropTypes.object).isRequired,
+  gameData: PropTypes.arrayOf(PropTypes.object).isRequired,
   cards: PropTypes.arrayOf(PropTypes.object).isRequired,
   ready: PropTypes.bool.isRequired
 };
 
 export default withTracker(() => {
   const handle = Meteor.subscribe("myGame");
-  const handle2 = Meteor.subscribe("usersGames");
+  const handle2 = Meteor.subscribe("gameData");
   const handle3 = Meteor.subscribe("cards");
   return {
     user: Meteor.user(),
     ready: handle.ready() || handle2.ready() || handle3.ready(),
     myGame: Games.find({}).fetch(),
-    usersGames: UsersGames.find({}).fetch(),
+    gameData: UsersGames.find({}).fetch(),
     cards: Cards.find({}).fetch()
   };
 })(MyGame);

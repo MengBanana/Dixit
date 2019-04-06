@@ -26,7 +26,8 @@ if (Meteor.isServer) {
     if (!Meteor.userId()) {
       return this.ready();
     }
-    return UsersGames.find({ingame: true});
+    let res = UsersGames.find({_id: Meteor.userId()}).fetch();
+    return UsersGames.find({gameName: res[0].gameName});
   });
 }
 
