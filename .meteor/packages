@@ -21,3 +21,5 @@ accounts-ui
 accounts-password
 session
 check
+accounts-twitter
+twitter-config-ui
