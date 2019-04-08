@@ -55,9 +55,16 @@ Meteor.methods({
         });
       }
     } else {
+      let username = "";
+      if (!Meteor.user().username) {
+        username = Meteor.user().services.twitter.screenName;
+      } else {
+        username = Meteor.user().username;
+      }
+
       UsersGames.insert({
         _id: this.userId,
-        username: Meteor.user().username,
+        username: username,
         ingame: true,
         gameName: name,
         totalPoints: 0,

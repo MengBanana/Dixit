@@ -12,7 +12,13 @@ if (Meteor.isServer) {
     if (!Meteor.userId()) {
       return this.ready();
     }
-    return Games.find({players: Meteor.user().username});
+    let username = "";
+    if (!Meteor.user().username) {
+      username = Meteor.user().services.twitter.screenName;
+    } else {
+      username = Meteor.user().username;
+    }
+    return Games.find({players: username});
   });
 }
 
@@ -29,6 +35,12 @@ Meteor.methods({
     if (res!= null) {
       throw new Meteor.Error("nameTaken");
     }
+    let username = "";
+    if (!Meteor.user().username) {
+      username = Meteor.user().services.twitter.screenName;
+    } else {
+      username = Meteor.user().username;
+    }
     Games.insert({
       name: info.name,
       numberOfPlayers: info.number,
@@ -42,7 +54,7 @@ Meteor.methods({
       players:[],
       playerPoints:[],
       createdAt: Date.now(),
-      owner: Meteor.user().username,
+      owner: username,
       cards:info.cards[0],//arr of arr
       cardsOnDesk:[],
       cardsOnHand:info.cards[1],
@@ -66,12 +78,18 @@ Meteor.methods({
     }
     let res = Games.find({name:name}).fetch();
     let array = res[0].players;
-    if (array.includes(Meteor.user().username)){
+    let username = "";
+    if (!Meteor.user().username) {
+      username = Meteor.user().services.twitter.screenName;
+    } else {
+      username = Meteor.user().username;
+    }
+    if (array.includes(username)){
       return;
     }
     Games.update(
       {name: name}, 
-      {$addToSet:{players: Meteor.user().username}}
+      {$addToSet:{players: username}}
     );
     res = Games.find({name:name}).fetch();
     array = res[0].players;
@@ -88,10 +106,16 @@ Meteor.methods({
       throw new Meteor.Error("not-authorized");
     }
     let res = Games.find({name:name}).fetch(); 
-    let array = res["0"].players;//current Game players
+    let array = res["0"].players;
+    let username = "";
+    if (!Meteor.user().username) {
+      username = Meteor.user().services.twitter.screenName;
+    } else {
+      username = Meteor.user().username;
+    }//current Game players
     // console.log(res);
     // console.log("HELLO",array.indexOf(Meteor.user().username));
-    return array.indexOf(Meteor.user().username);
+    return array.indexOf(username);
   },
 
   "games.removePlayer"(name) {
@@ -101,13 +125,19 @@ Meteor.methods({
     }
     let res = Games.find({name:name}).fetch();
     let array = res[0].players;
-    if (!array.includes(Meteor.user().username)){ //works!
+    let username = "";
+    if (!Meteor.user().username) {
+      username = Meteor.user().services.twitter.screenName;
+    } else {
+      username = Meteor.user().username;
+    }
+    if (!array.includes(username)){ //works!
       return;
     }
     Games.update(
       {name: name}, 
       {$pull: {
-        players: Meteor.user().username
+        players: username
       }}
     );
     res = Games.find({name:name}).fetch();
@@ -132,13 +162,19 @@ Meteor.methods({
     }
     let res = Games.find({name:name}).fetch();
     let array = res[0].count;
-    if (array.includes(Meteor.user().username)){ //works!
+    let username = "";
+    if (!Meteor.user().username) {
+      username = Meteor.user().services.twitter.screenName;
+    } else {
+      username = Meteor.user().username;
+    }
+    if (array.includes(username)){ //works!
       return;
     }
     Games.update ({
       name: name
     }, {
-      $addToSet:{count: Meteor.user().username}
+      $addToSet:{count: username}
     }); 
     //console.log(Games.find({name:name}).fetch());
     res = Games.find({name:name}).fetch();
@@ -159,10 +195,16 @@ Meteor.methods({
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     }
+    let username = "";
+    if (!Meteor.user().username) {
+      username = Meteor.user().services.twitter.screenName;
+    } else {
+      username = Meteor.user().username;
+    }
     Games.update ({
       name: name
     }, {
-      $addToSet:{count: Meteor.user().username}
+      $addToSet:{count: username}
     });
     let res = Games.find({name:name}).fetch();
     let array = res[0].count;
@@ -222,12 +264,18 @@ Meteor.methods({
         ["cards."+index]:{_id:newCard._id}
       }
     });
+    let username = "";
+    if (!Meteor.user().username) {
+      username = Meteor.user().services.twitter.screenName;
+    } else {
+      username = Meteor.user().username;
+    }
     Games.update ({
       name: info.game
     }, {
       $push:{
         cardsOnDesk: info.card,
-        count: Meteor.user().username,
+        count: username,
         ["cardsOnHand."+index]:newCard
       },
     });
@@ -266,6 +314,12 @@ Meteor.methods({
     }
 
     let res = Games.find({name:info.game}).fetch();
+    let username = "";
+    if (!Meteor.user().username) {
+      username = Meteor.user().services.twitter.screenName;
+    } else {
+      username = Meteor.user().username;
+    }
     if (info.card._id === res[0].targetCard._id){
       // let curWinners = res[0].winners;
       // if (curWinners.includes(Meteor.user().username)) {
@@ -274,13 +328,13 @@ Meteor.methods({
       Games.update ({
         name: info.game
       }, {
-        $addToSet:{winners: Meteor.user().username}
+        $addToSet:{winners: username}
       });
     }
     Games.update ({
       name: info.game
     }, {
-      $addToSet:{count: Meteor.user().username}
+      $addToSet:{count: username}
     });
     res = Games.find({name:info.game}).fetch();
     let array = res[0].count;
