@@ -40,6 +40,7 @@ Meteor.methods({
       hostIdx:0,
       winners:[],
       players:[],
+      playerPoints:[],
       createdAt: Date.now(),
       owner: Meteor.user().username,
       cards:info.cards[0],//arr of arr
@@ -47,6 +48,15 @@ Meteor.methods({
       cardsOnHand:info.cards[1],
       isOver: false
     });
+    for (var i = 0; i < info.number; i++) {
+      Games.update({
+        name:info.name
+      }, {
+        $push:{
+          playerPoints:0
+        }
+      });
+    }
   },
 
   "games.addPlayer"(name) {
@@ -96,7 +106,9 @@ Meteor.methods({
     }
     Games.update(
       {name: name}, 
-      {$pull: {players: Meteor.user().username}}
+      {$pull: {
+        players: Meteor.user().username
+      }}
     );
     res = Games.find({name:name}).fetch();
     array = res[0].players;
@@ -308,18 +320,5 @@ Meteor.methods({
         });
       }
     }
-  },
-  // "games.over"(name){ //after final round 
-  //   check(name, String);
-  //   if (!this.userId) {
-  //     throw new Meteor.Error("not-authorized");
-  //   }
-  //   Games.update ({
-  //     name: name
-  //   }, {
-  //     $set: {
-  //       isOver:true
-  //     }
-  //   });
-  // },
+  }
 });
