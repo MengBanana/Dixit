@@ -71,6 +71,17 @@ Meteor.methods({
     }
   },
 
+  "games.checkTwitterConnection"(){
+    if (!this.userId) {
+      throw new Meteor.Error("not-authorized");
+    }
+    if (! Meteor.user().services.twitter) {
+      return false;
+    } else {
+      return true;
+    }
+  },
+
   "games.addPlayer"(name) {
     check(name, String);
     if (!this.userId) {

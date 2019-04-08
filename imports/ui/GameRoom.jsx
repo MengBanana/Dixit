@@ -18,7 +18,8 @@ class GameRoom extends Component {
       pageSize: 12,
       currentPage: 1,
       search: "",
-      privateRoom: false
+      privateRoom: false,
+      twitterLinked: false
     };
     this.onChange = this.onChange.bind(this);
     this.onClick = this.onClick.bind(this);
@@ -50,6 +51,17 @@ class GameRoom extends Component {
         privateRoom: !this.state.privateRoom
       });
     }
+    Meteor.call("games.checkTwitterConnection", (err, res) => {
+      if (err) {
+        alert("There was error updating check the console");
+        console.log(err);
+        return;
+      } else {
+        this.setState({
+          twitterLinked: res
+        });
+      }
+    });
   }
 
   onSubmit(e) {
@@ -113,7 +125,12 @@ class GameRoom extends Component {
 
     const paginatedGames = paginate(filteredGames, currentPage, pageSize);
     const inviteTwitterFriends = (
-      <div>inviteTwitterFriends</div>
+      <div>
+        {this.state.twitterLinked ? <button type="button" className= "btn btn-danger my-2 my-sm-0 ">inviteTwitterFriends</button>
+          :
+          <button type="button" className= "btn btn-danger my-2 my-sm-0 ">Signin Twitter to invite</button>
+        }
+      </div>
     );
     //console.log(this.state.privateRoom);
     return (
@@ -160,7 +177,7 @@ class GameRoom extends Component {
                   </form>
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
-                  <button className="btn btn-danger" data-dismiss="modal" id="newGame" onClick={this.onSubmit}>Start</button>
+                  {this.state.privateRoom === false || this.state.twitterLinked ? <button className="btn btn-danger" data-dismiss="modal" id="newGame" onClick={this.onSubmit}>Start</button>:<button className="btn btn-danger" data-dismiss="modal" id="newGame" onClick={this.onSubmit} disabled>Start</button>}
                 </div>
               </div>
             </div>

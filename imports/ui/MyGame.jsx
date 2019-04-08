@@ -521,7 +521,7 @@ class MyGame extends Component {
                         <span> You've chosen: 
                           {this.state.selectedCard === null ? null : (
                             <span
-                              className="card col-xs-4 col-s-3"
+                              className="card col-xs-2 col-s-3"
                               style={{
                                 backgroundImage: `url(${this.state.selectedCard.url})`,
                                 backgroundSize: "cover"
@@ -567,7 +567,7 @@ class MyGame extends Component {
                     {this.state.cardsOnHand.map(cardOnHand => (
                       <div
                         key={cardOnHand._id}
-                        className="card col-xs-4 col-s-3"
+                        className="card col-xs-6 col-s-3"
                         onClick={() =>
                           this.setState({ selectedCard: cardOnHand })
                         }
