@@ -17,9 +17,11 @@ class GameRoom extends Component {
       numberOfPlayers:0,
       pageSize: 12,
       currentPage: 1,
-      search: ""
+      search: "",
+      privateRoom: false
     };
     this.onChange = this.onChange.bind(this);
+    this.onClick = this.onClick.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
     this.updateSearch = this.updateSearch.bind(this);  
@@ -40,6 +42,14 @@ class GameRoom extends Component {
         [e.target.id]: e.target.value
       }
     );
+  }
+
+  onClick(e) {
+    if (e.target.id === "private"){
+      this.setState({
+        privateRoom: !this.state.privateRoom
+      });
+    }
   }
 
   onSubmit(e) {
@@ -102,8 +112,12 @@ class GameRoom extends Component {
     }
 
     const paginatedGames = paginate(filteredGames, currentPage, pageSize);
-
+    const inviteTwitterFriends = (
+      <div>inviteTwitterFriends</div>
+    );
+    //console.log(this.state.privateRoom);
     return (
+
       <div className = "container gameroom">
         <div className="row part">
           <h4>
@@ -135,6 +149,13 @@ class GameRoom extends Component {
                     <div className = "form-group">
                       <label>Number Of Players (3~6)</label>
                       <input type="text" className="form-control" id="numberOfPlayers" onChange= {this.onChange.bind(this)}/>
+                    </div>
+                    <div className="form-check">
+                      <input type="checkbox" className="form-check-input" id="private" onClick={this.onClick.bind(this)}/>
+                      <label className="form-check-label">private room?</label>
+                    </div>
+                    <div>
+                      {this.state.privateRoom ? inviteTwitterFriends :null}
                     </div>
                   </form>
                 </div>
