@@ -4,7 +4,6 @@ import { Meteor } from "meteor/meteor";
 import { UsersGames } from "../api/usersGames.js";
 import MyGame from "./MyGame.jsx";
 import NavBar from "./NavBar.jsx";
-import About from "./About.jsx";
 import GameRoom from "./GameRoom.jsx";
 import HomePage from "./HomePage.jsx";
 import AddCard from "./AddCard.jsx";
@@ -37,7 +36,6 @@ class App extends Component {
               <Switch>
                 <Route exact path="/" component={HomePage} />
                 <Route exact path="/AddCard" component={AddCard} />
-                <Route exact path="/About" component={About} />
                 <Fragment>
                   {this.props.myData.length === 0 ? <Route exact path="/gameroom" component= {GameRoom} /> : <div>
                     {this.props.myData[0].ingame ? <Route exact path="/gameroom" component={MyGame} /> :

@@ -7,12 +7,7 @@ body {
 
 }
 
-#navbarsExampleDefault{
-   margin-right: 10%;
-   margin-left: 10%;
-}
-
-.aboutPage {
+.homepage {
   margin-top: 40px;
   background-image: url(https://i-h2.pinimg.com/564x/4c/81/83/4c8183bc3d2d37b0cd64a4dfb0df8195.jpg);
   background-size: cover;
