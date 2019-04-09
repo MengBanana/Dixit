@@ -48,6 +48,7 @@ class GameRoom extends Component {
   }
 
   onClick(e) {
+    e.preventDefault();
     if (e.target.id === "createRoom"){
       this.setState({
         privateRoom: !this.state.privateRoom
@@ -66,6 +67,7 @@ class GameRoom extends Component {
     });
 
     if (e.target.id === "inviteTwitterFriends") {
+
       this.setState ({
         accessCode: Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5)
       });
@@ -150,16 +152,17 @@ class GameRoom extends Component {
     const paginatedGames = paginate(filteredGames, currentPage, pageSize);
     const inviteTwitterFriends = (
       <div>
-        {this.state.twitterLinked ? <div>
-          <div className="input-group flex-nowrap">
-            <label>Invite My Twitter Friends:</label>
-            <div className="input-group-prepend">
-              <span className="input-group-text" id="addon-wrapping">@</span>
+        {this.state.twitterLinked ? 
+          (<div>
+            <div className="input-group flex-nowrap">
+              <label>Invite My Twitter Friends:</label>
+              <div className="input-group-prepend">
+                <span className="input-group-text" id="addon-wrapping">@</span>
+              </div>
+              <input type="text" className="form-control" placeholder="Usernames separate by ',', eg: aaa,bbb,ccc,ddd" aria-label="friends" id="friends" aria-describedby="addon-wrapping" onChange = {this.onChange.bind(this)}/>
+              <button type="button" className= "btn btn-danger my-2 my-sm-0 " id="inviteTwitterFriends">Invite!</button>
             </div>
-            <input type="text" className="form-control" placeholder="Usernames separate by ',', eg: aaa,bbb,ccc,ddd" aria-label="friends" id="friends" aria-describedby="addon-wrapping" onChange = {this.onChange.bind(this)}/>
-            <button type="button" className= "btn btn-danger my-2 my-sm-0 " id="inviteTwitterFriends">Invite!</button>
-          </div>
-        </div>
+          </div>)
           :
           null
         }
@@ -207,7 +210,7 @@ class GameRoom extends Component {
                       <div className="form-check">
                         <input type="checkbox" className="form-check-input" disabled/>
                         <label className="form-check-label">private room?</label>
-                        <h5> Please sign in with Twitter to get this advanced feature </h5>
+                        <p> Please sign in with Twitter to get this advanced feature </p>
                       </div>}
                     <div>
                       {this.state.privateRoom ? inviteTwitterFriends :null}
