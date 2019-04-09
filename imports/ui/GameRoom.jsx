@@ -21,7 +21,8 @@ class GameRoom extends Component {
       privateRoom: false,
       twitterLinked: 0,
       friends:[],//screenNames
-      accessCode: ""
+      accessCode: "",
+      gameWithCode: null
     };
     this.onChange = this.onChange.bind(this);
     this.onClick = this.onClick.bind(this);
@@ -150,7 +151,13 @@ class GameRoom extends Component {
     if (search !== "") {
       filteredGames = this.props.games.filter( game => {
         return (
-          game.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1
+          game.accessCode.toLowerCase()==this.state.search.toLowerCase()
+        );
+      });
+    } else {
+      filteredGames = this.props.games.filter( game => {
+        return (
+          game.privateRoom != true
         );
       });
     }
@@ -189,7 +196,8 @@ class GameRoom extends Component {
         <div className="row part ">
           <h1>GameRoom</h1>
           <form className="form-inline col-4">
-            <input className="form-control mr-sm-2" type="search" placeholder="🔍 Search..." aria-label="Search" value={this.state.search}
+            <label>if you have an accessCode, please enter HERE:</label>
+            <input className="form-control mr-sm-2" type="search" placeholder="5 digit accessCode" aria-label="Search" value={this.state.search}
               onChange={this.updateSearch}></input>
           </form>
           <button type="button" className= "btn btn-danger my-2 my-sm-0 " data-toggle="modal" data-target="#myModal" id="createRoom" onClick={this.onClick.bind(this)}>Add Game</button>
@@ -234,7 +242,7 @@ class GameRoom extends Component {
         <div className="row">
           {paginatedGames.map(game => (
             <div key={game._id} className="card col-xs-6 col-s-3" id="room">
-              {game.privateRoom === false ?
+              
                 <div className = "container">
                   <div className="card-body">
                     <h4 className = "card-text text-center">{game.name}</h4>
@@ -248,7 +256,7 @@ class GameRoom extends Component {
                     {game.okToJoin === true ? <button type="button" className="btn btn-outline-dark center-block" id="joinGame" name={game.name} onClick = {this.onSubmit.bind(this)}>JoinUs</button>
                       : <button type="button" className="btn btn-outline-dark" disabled>InGame</button>}
                   </div>
-                </div> : null}
+                </div> 
             </div>
           ))}
         </div>
