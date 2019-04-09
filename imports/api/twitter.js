@@ -14,7 +14,7 @@ Meteor.methods({
       consumer_key: "YffJaGtYhAtJpA6LhurUL7IGP",
       consumer_secret: "r9U5zh1yX70ynN470aVLxfDipFHsLaTzOC3hs0XdPUQNDTbSga",
       access_token_key: Meteor.user().services.twitter.accessToken,
-      access_token_secret: Meteor.user().service.twitter.accessTokenSecret
+      access_token_secret: Meteor.user().services.twitter.accessTokenSecret
     });
 
     let data = "";

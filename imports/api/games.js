@@ -58,7 +58,9 @@ Meteor.methods({
       cards:info.cards[0],//arr of arr
       cardsOnDesk:[],
       cardsOnHand:info.cards[1],
-      isOver: false
+      isOver: false,
+      privateRoom: info.privateRoom,
+      accessCode: info.accessCode
     });
     for (var i = 0; i < info.number; i++) {
       Games.update({
