@@ -76,9 +76,9 @@ Meteor.methods({
       throw new Meteor.Error("not-authorized");
     }
     if (! Meteor.user().services.twitter) {
-      return false;
+      return 0;
     } else {
-      return true;
+      return 1;
     }
   },
 

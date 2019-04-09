@@ -1,4 +1,7 @@
 import { Meteor } from "meteor/meteor";
+//import { HTTP } from 'meteor/http';
+
+//HTTP.call(method, url, [options], [asyncCallback])
 
 let Twitter = require("twitter");
 // let config = require("../../data/twitter_config");
@@ -20,29 +23,27 @@ let Twitter = require("twitter");
 // let T = new Twitter(config);
 
 Meteor.methods({
-  "tweeter.invite"(info) {
-
+  "twitter.invite"(info) {
     if (info == null) {
       return;
     }
-
     let client = new Twitter({
       consumer_key: "YffJaGtYhAtJpA6LhurUL7IGP",
       consumer_secret: "r9U5zh1yX70ynN470aVLxfDipFHsLaTzOC3hs0XdPUQNDTbSga",
-      access_token_key: "1083795917638004741-ESEr71PiVtyQIM3dPuMtwPLzffMbcS",
-      access_token_secret: "ajIxwKfqjQCIuArLi9USTUqT7d42eJU7Ga4rSiaiAEXAO"
+      access_token_key: Meteor.user().services.twitter.accessToken,
+      access_token_secret: Meteor.user().service.twitter.accessTokenSecret
     });
 
     let data = "";
     if (info.friends !== null) {
       let friends = info.friends.split(",");
-      for (var i = 0; i < info.friends.length; i++) {
+      for (var i = 0; i < friends.length; i++) {
         data = data.concat("@",friends[i]," ");
       }
-      data = data.concat("Join my Dixit game! link: https://dixitgame2019.herokuapp.com/, accessCode: ", info.accessCode);
+      data = data.concat("Join my Dixit game! link: https://dixitgame2019.herokuapp.com/, accessCode: ", info.accessCode.toString());
     }
 
-    client.post("statuses/update", { status: "TESTTEST" }, function(
+    client.post("statuses/update", { status: data }, function(
       error,
       tweet,
       response
