@@ -218,6 +218,7 @@ class GameRoom extends Component {
                   </form>
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
+                <button type="button" className= "btn btn-danger my-2 my-sm-0 " id="inviteTwitterFriends">Invite!</button>
                   {this.state.privateRoom === false || this.state.twitterLinked ? <button className="btn btn-danger" data-dismiss="modal" id="newGame" onClick={this.onSubmit}>Start</button>:<button className="btn btn-danger" data-dismiss="modal" id="newGame" onClick={this.onSubmit} dis>Start</button>}
                 </div>
               </div>
