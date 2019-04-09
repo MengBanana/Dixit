@@ -19,7 +19,7 @@ class GameRoom extends Component {
       currentPage: 1,
       search: "",
       privateRoom: false,
-      twitterLinked: false,
+      twitterLinked: 0,
       friends:[],//screenNames
       accessCode: ""
     };
@@ -48,6 +48,7 @@ class GameRoom extends Component {
   }
 
   onClick(e) {
+    e.preventDefault();
     if (e.target.id === "createRoom"){
       this.setState({
         privateRoom: !this.state.privateRoom
@@ -55,7 +56,6 @@ class GameRoom extends Component {
     }
     Meteor.call("games.checkTwitterConnection", (err, res) => {
       if (err) {
-        alert("There was error updating check the console");
         console.log(err);
         return;
       } else {
@@ -66,8 +66,9 @@ class GameRoom extends Component {
     });
 
     if (e.target.id === "inviteTwitterFriends") {
+      let code = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
       this.setState ({
-        accessCode: Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5)
+        accessCode: code
       });
 
       let data = {
@@ -76,7 +77,7 @@ class GameRoom extends Component {
       };
      
 
-      Meteor.call("tweeter.invite", data, (err, res) => {
+      Meteor.call("twitter.invite", data, (err, res) => {
         if (err) {
           alert("There was error updating check the console");
           console.log(err);
@@ -150,22 +151,33 @@ class GameRoom extends Component {
     const paginatedGames = paginate(filteredGames, currentPage, pageSize);
     const inviteTwitterFriends = (
       <div>
-        {this.state.twitterLinked ? <div>
-          <div className="input-group flex-nowrap">
-            <label>Invite My Twitter Friends:</label>
-            <div className="input-group-prepend">
-              <span className="input-group-text" id="addon-wrapping">@</span>
+        {this.state.twitterLinked == 1 ? 
+          (<div>
+            <div className="input-group flex-nowrap">
+              <label>Invite My Twitter Friends:</label>
+              <div className="input-group-prepend">
+                <span className="input-group-text" id="addon-wrapping">@</span>
+              </div>
+              <input type="text" className="form-control" placeholder="Usernames separate by ',', eg: aaa,bbb,ccc,ddd" aria-label="friends" id="friends" aria-describedby="addon-wrapping" onChange = {this.onChange.bind(this)}/>
+              <button type="button" className= "btn btn-danger my-2 my-sm-0 " id="inviteTwitterFriends" onClick={this.onClick.bind(this)}>Invite</button>
             </div>
-            <input type="text" className="form-control" placeholder="Usernames separate by ',', eg: aaa,bbb,ccc,ddd" aria-label="friends" id="friends" aria-describedby="addon-wrapping" onChange = {this.onChange.bind(this)}/>
-            <button type="button" className= "btn btn-danger my-2 my-sm-0 " id="inviteTwitterFriends">Invite!</button>
-          </div>
-        </div>
+          </div>)
           :
-          null
+          (<div>
+            <div className="input-group flex-nowrap">
+              <label>Invite My Twitter Friends:</label>
+              <div className="input-group-prepend">
+                <span className="input-group-text" id="addon-wrapping">@</span>
+              </div>
+              <input type="text" className="form-control" placeholder="Usernames separate by ',', eg: aaa,bbb,ccc,ddd" aria-label="friends" id="friends" aria-describedby="addon-wrapping" onChange = {this.onChange.bind(this)}/>
+              <button type="button" className= "btn btn-danger my-2 my-sm-0 " id="inviteTwitterFriends" onClick={this.onClick.bind(this)}>Invite!</button>
+            </div>
+          </div>)
         }
       </div>
     );
-    //console.log(this.state.privateRoom);
+    console.log("access code", this.state.accessCode);
+    console.log(this.state.friends);
     return (
 
       <div className = "container gameroom">
@@ -200,22 +212,24 @@ class GameRoom extends Component {
                       <label>Number Of Players (3~6)</label>
                       <input type="text" className="form-control" id="numberOfPlayers" onChange= {this.onChange.bind(this)}/>
                     </div>
-                    {this.state.twitterLinked ? <div className="form-check">
+                    <input type="checkbox" className="form-check-input"/>
+                    <label className="form-check-label">private room?</label>
+                    {this.state.twitterLinked == 1 ? <div className="form-check">
                       <input type="checkbox" className="form-check-input"/>
                       <label className="form-check-label">private room?</label>
                     </div> :
                       <div className="form-check">
                         <input type="checkbox" className="form-check-input" disabled/>
                         <label className="form-check-label">private room?</label>
-                        <h5> Please sign in with Twitter to get this advanced feature </h5>
+                        <p> Please sign in with Twitter to get this advanced feature </p>
                       </div>}
-                    <div>
+                    <div> 
                       {this.state.privateRoom ? inviteTwitterFriends :null}
                     </div>
                   </form>
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
-                  {this.state.privateRoom === false || this.state.twitterLinked ? <button className="btn btn-danger" data-dismiss="modal" id="newGame" onClick={this.onSubmit}>Start</button>:<button className="btn btn-danger" data-dismiss="modal" id="newGame" onClick={this.onSubmit} dis>Start</button>}
+                  {this.state.privateRoom === false || this.state.twitterLinked == 1 ? <button className="btn btn-danger" data-dismiss="modal" id="newGame" onClick={this.onSubmit}>Start</button>:<button className="btn btn-danger" data-dismiss="modal" id="newGame" onClick={this.onSubmit} disabled>Start</button>}
                 </div>
               </div>
             </div>
