@@ -125,9 +125,7 @@ Meteor.methods({
       username = Meteor.user().services.twitter.screenName;
     } else {
       username = Meteor.user().username;
-    }//current Game players
-    // console.log(res);
-    // console.log("HELLO",array.indexOf(Meteor.user().username));
+    }
     return array.indexOf(username);
   },
 

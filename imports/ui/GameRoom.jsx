@@ -54,6 +54,7 @@ class GameRoom extends Component {
         privateRoom: !this.state.privateRoom
       });
     }
+
     if (e.target.id === "createRoom"){
       Meteor.call("games.checkTwitterConnection", (err, res) => {
         if (err) {
@@ -75,7 +76,7 @@ class GameRoom extends Component {
 
       let data = {
         friends: this.state.friends,
-        accessCode: this.state.accessCode
+        accessCode: code
       };
      
 
@@ -139,6 +140,7 @@ class GameRoom extends Component {
   }
 
   render() {
+    console.log(this.state.accessCode);
     const {
       currentPage,
       pageSize,
@@ -172,6 +174,8 @@ class GameRoom extends Component {
         }
       </div>
     );
+
+
     return (
 
       <div className = "container gameroom">
@@ -230,20 +234,21 @@ class GameRoom extends Component {
         <div className="row">
           {paginatedGames.map(game => (
             <div key={game._id} className="card col-xs-6 col-s-3" id="room">
-              <div className = "container">
-                <div className="card-body">
-                  <h4 className = "card-text text-center">{game.name}</h4>
-                  <p className = "card-text text-center">Status: {game.players.length}/{game.numberOfPlayers}</p>
-                  <div className = "card-text text-center">
-                    <p>
-                  Players:
-                      {game.players.map(player => (<span className="player" key ={player}>    {player}</span>))}
-                    </p>
+              {game.privateRoom === false ?
+                <div className = "container">
+                  <div className="card-body">
+                    <h4 className = "card-text text-center">{game.name}</h4>
+                    <p className = "card-text text-center">Status: {game.players.length}/{game.numberOfPlayers}</p>
+                    <div className = "card-text text-center">
+                      <p>
+                    Players:
+                        {game.players.map(player => (<span className="player" key ={player}>    {player}</span>))}
+                      </p>
+                    </div>
+                    {game.okToJoin === true ? <button type="button" className="btn btn-outline-dark center-block" id="joinGame" name={game.name} onClick = {this.onSubmit.bind(this)}>JoinUs</button>
+                      : <button type="button" className="btn btn-outline-dark" disabled>InGame</button>}
                   </div>
-                  {game.okToJoin === true ? <button type="button" className="btn btn-outline-dark center-block" id="joinGame" name={game.name} onClick = {this.onSubmit.bind(this)}>JoinUs</button>
-                    : <button type="button" className="btn btn-outline-dark" disabled>InGame</button>}
-                </div>
-              </div>
+                </div> : null}
             </div>
           ))}
         </div>
@@ -269,7 +274,7 @@ export default withTracker(() => {
   const handle2 = Meteor.subscribe("cards");
   
   return {
-    games: Games.find({privateRoom: false}).fetch(), 
+    games: Games.find({}).fetch(), 
     user: Meteor.user(),
     cards: Cards.find({}).fetch(),
     ready : handle.ready() && handle2.ready()
