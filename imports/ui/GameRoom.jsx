@@ -19,7 +19,9 @@ class GameRoom extends Component {
       currentPage: 1,
       search: "",
       privateRoom: false,
-      twitterLinked: false
+      twitterLinked: false,
+      friends:[],//screenNames
+      accessCode: ""
     };
     this.onChange = this.onChange.bind(this);
     this.onClick = this.onClick.bind(this);
@@ -46,7 +48,7 @@ class GameRoom extends Component {
   }
 
   onClick(e) {
-    if (e.target.id === "private"){
+    if (e.target.id === "createRoom"){
       this.setState({
         privateRoom: !this.state.privateRoom
       });
@@ -62,12 +64,34 @@ class GameRoom extends Component {
         });
       }
     });
+
+    if (e.target.id === "inviteTwitterFriends") {
+      this.setState ({
+        accessCode: Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5)
+      });
+
+      let data = {
+        friends: this.state.friends,
+        accessCode: this.state.accessCode
+      };
+     
+
+      Meteor.call("tweeter.invite", data, (err, res) => {
+        if (err) {
+          alert("There was error updating check the console");
+          console.log(err);
+          return;
+        } else {
+          console.log("succeed",res);
+        }
+      });
+    }
   }
 
   onSubmit(e) {
     let method = e.target.id;
     let info = {
-      name: e.target.id === "joinGame"? e.target.name : this.state.newGameName,
+      name: e.target.id === "joinGame" ? e.target.name : this.state.newGameName,
       number: this.state.numberOfPlayers,
       cards: random(this.props.cards, this.state.numberOfPlayers)
     };
@@ -126,9 +150,18 @@ class GameRoom extends Component {
     const paginatedGames = paginate(filteredGames, currentPage, pageSize);
     const inviteTwitterFriends = (
       <div>
-        {this.state.twitterLinked ? <button type="button" className= "btn btn-danger my-2 my-sm-0 ">inviteTwitterFriends</button>
+        {this.state.twitterLinked ? <div>
+          <div className="input-group flex-nowrap">
+            <label>Invite My Twitter Friends:</label>
+            <div className="input-group-prepend">
+              <span className="input-group-text" id="addon-wrapping">@</span>
+            </div>
+            <input type="text" className="form-control" placeholder="Usernames separate by ',', eg: aaa,bbb,ccc,ddd" aria-label="friends" id="friends" aria-describedby="addon-wrapping" onChange = {this.onChange.bind(this)}/>
+            <button type="button" className= "btn btn-danger my-2 my-sm-0 " id="inviteTwitterFriends">Invite!</button>
+          </div>
+        </div>
           :
-          <button type="button" className= "btn btn-danger my-2 my-sm-0 ">Signin Twitter to invite</button>
+          null
         }
       </div>
     );
@@ -149,7 +182,7 @@ class GameRoom extends Component {
             <input className="form-control mr-sm-2" type="search" placeholder="🔍 Search..." aria-label="Search" value={this.state.search}
               onChange={this.updateSearch}></input>
           </form>
-          <button type="button" className= "btn btn-danger my-2 my-sm-0 " data-toggle="modal" data-target="#myModal">Add Game</button>
+          <button type="button" className= "btn btn-danger my-2 my-sm-0 " data-toggle="modal" data-target="#myModal" id="createRoom" onClick={this.onClick.bind(this)}>Add Game</button>
           <div id="myModal" className="modal fade" role="dialog">
             <div className="modal-dialog">
               <div className="modal-content">
@@ -167,17 +200,22 @@ class GameRoom extends Component {
                       <label>Number Of Players (3~6)</label>
                       <input type="text" className="form-control" id="numberOfPlayers" onChange= {this.onChange.bind(this)}/>
                     </div>
-                    <div className="form-check">
-                      <input type="checkbox" className="form-check-input" id="private" onClick={this.onClick.bind(this)}/>
+                    {this.state.twitterLinked ? <div className="form-check">
+                      <input type="checkbox" className="form-check-input"/>
                       <label className="form-check-label">private room?</label>
-                    </div>
+                    </div> :
+                      <div className="form-check">
+                        <input type="checkbox" className="form-check-input" disabled/>
+                        <label className="form-check-label">private room?</label>
+                        <h5> Please sign in with Twitter to get this advanced feature </h5>
+                      </div>}
                     <div>
                       {this.state.privateRoom ? inviteTwitterFriends :null}
                     </div>
                   </form>
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
-                  {this.state.privateRoom === false || this.state.twitterLinked ? <button className="btn btn-danger" data-dismiss="modal" id="newGame" onClick={this.onSubmit}>Start</button>:<button className="btn btn-danger" data-dismiss="modal" id="newGame" onClick={this.onSubmit} disabled>Start</button>}
+                  {this.state.privateRoom === false || this.state.twitterLinked ? <button className="btn btn-danger" data-dismiss="modal" id="newGame" onClick={this.onSubmit}>Start</button>:<button className="btn btn-danger" data-dismiss="modal" id="newGame" onClick={this.onSubmit} dis>Start</button>}
                 </div>
               </div>
             </div>
