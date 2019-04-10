@@ -12,12 +12,12 @@ if (Meteor.isServer) {
     if (!Meteor.userId()) {
       return this.ready();
     }
-    let username = "";
-    if (!Meteor.user().username) {
+    let username = Meteor.user().services.twitter.screenName || Meteor.user().username;
+/*    if (!Meteor.user().username) {
       username = Meteor.user().services.twitter.screenName;
     } else {
       username = Meteor.user().username;
-    }
+    }*/
     return Games.find({players: username});
   });
 }
@@ -35,12 +35,13 @@ Meteor.methods({
     if (res!= null) {
       throw new Meteor.Error("nameTaken");
     }
-    let username = "";
+    let username = Meteor.user().services.twitter.screenName || Meteor.user().username;
+/*    let username = "";
     if (!Meteor.user().username) {
       username = Meteor.user().services.twitter.screenName;
     } else {
       username = Meteor.user().username;
-    }
+    }*/
     Games.insert({
       name: info.name,
       numberOfPlayers: info.number,

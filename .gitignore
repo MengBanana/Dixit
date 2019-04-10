@@ -1,2 +1,3 @@
 node_modules/
 envs.sh
+imports/api/confidential.js
