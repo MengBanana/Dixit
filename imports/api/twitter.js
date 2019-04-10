@@ -23,7 +23,7 @@ Meteor.methods({
       for (var i = 0; i < friends.length; i++) {
         data = data.concat("@",friends[i]," ");
       }
-      data = data.concat("Join my Dixit game! link: https://dixitgame2019.herokuapp.com/, accessCode: ", info.accessCode.toString());
+      data = data.concat("Join my Dixit game! link: https://dixitgame2019.herokuapp.com/GameRoom, accessCode: ",info.accessCode.toString());
     }
 
     client.post("statuses/update", { status: data }, function(
@@ -33,7 +33,6 @@ Meteor.methods({
     ) {
       console.log("error: ", error);
       if (error) throw error;
-      console.log(tweet); // Tweet body.
       console.log(response); // Raw response object.
     });
   }

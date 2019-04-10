@@ -21,7 +21,6 @@ class GameRoom extends Component {
       privateRoom: false,
       twitterLinked: 0,
       friends:[],//screenNames
-      accessCode: "",
       gameWithCode: null
     };
     this.onChange = this.onChange.bind(this);
@@ -71,10 +70,6 @@ class GameRoom extends Component {
 
     if (e.target.id === "inviteTwitterFriends") {
       let code = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
-      this.setState ({
-        accessCode: code
-      });
-
       let data = {
         friends: this.state.friends,
         accessCode: code
@@ -182,25 +177,31 @@ class GameRoom extends Component {
       </div>
     );
 
+          // <h4>
+          //   <span id="badge" className="badge badge-pill badge-secondary">
+          //    Please join an existing game or add a new game room
+          //   </span>
+          // </h4>
 
     return (
 
       <div className = "container gameroom">
         <div className="row part">
-          <h4>
-            <span id="badge" className="badge badge-pill badge-warning">
-             Please join an existing game or add a new game room
-            </span>
-          </h4>
-        </div> 
-        <div className="row part ">
-          <h1>GameRoom</h1>
-          <form className="form-inline col-4">
-            <label>if you have an accessCode, please enter HERE:</label>
-            <input className="form-control mr-sm-2" type="search" placeholder="5 digit accessCode" aria-label="Search" value={this.state.search}
-              onChange={this.updateSearch}></input>
-          </form>
-          <button type="button" className= "btn btn-danger my-2 my-sm-0 " data-toggle="modal" data-target="#myModal" id="createRoom" onClick={this.onClick.bind(this)}>Add Game</button>
+          <div className = "col-4">
+            <h1>GameRoom</h1>
+          </div>
+          <div className = "col-4">
+            
+          </div>
+          <div className = "col-4">
+            <button type="button" className= "btn inline-btn btn-danger my-2 my-sm-0 " data-toggle="modal" data-target="#myModal" id="createRoom" onClick={this.onClick.bind(this)}>Add Game</button>
+          </div>
+          <div className = "col-12">
+            <h6 className="form-inline" id="accessCodeLabel"><input className="form-control form-inline mr-xs-2" type="search" placeholder="5 digit accessCode" aria-label="Search" id="search" value={this.state.search} onChange={this.updateSearch}></input>* If you have one</h6>
+          </div>
+        </div>
+
+        <div className ="row part">
           <div id="myModal" className="modal fade" role="dialog">
             <div className="modal-dialog">
               <div className="modal-content">
@@ -233,7 +234,7 @@ class GameRoom extends Component {
                   </form>
                 </div>
                 <div className="modal-footer d-flex justify-content-center">
-                  {this.state.privateRoom === false || this.state.twitterLinked ? <button className="btn btn-danger" data-dismiss="modal" id="newGame" onClick={this.onSubmit}>Start</button>:<button className="btn btn-danger" data-dismiss="modal" id="newGame" onClick={this.onSubmit} disabled>Start</button>}
+                  {this.state.privateRoom == false || this.state.twitterLinked ? <button className="btn btn-danger" data-dismiss="modal" id="newGame" onClick={this.onSubmit}>Start</button>:<button className="btn btn-danger" data-dismiss="modal" id="newGame" onClick={this.onSubmit} disabled>Start</button>}
                 </div>
               </div>
             </div>
@@ -245,14 +246,15 @@ class GameRoom extends Component {
               
                 <div className = "container">
                   <div className="card-body">
-                    <h4 className = "card-text text-center">{game.name}</h4>
+                    <h5 className = "card-text text-center cardGameName">{game.name}</h5>
+
                     <p className = "card-text text-center">Status: {game.players.length}/{game.numberOfPlayers}</p>
-                    <div className = "card-text text-center">
+                    <span className = "card-text text-center">
                       <p>
-                    Players:
-                        {game.players.map(player => (<span className="player" key ={player}>    {player}</span>))}
+                    Players:<br/>
+                        {game.players.map(player => (<span className="player" key ={player}> {player}    </span>))}
                       </p>
-                    </div>
+                    </span>
                     {game.okToJoin === true ? <button type="button" className="btn btn-outline-dark center-block" id="joinGame" name={game.name} onClick = {this.onSubmit.bind(this)}>JoinUs</button>
                       : <button type="button" className="btn btn-outline-dark" disabled>InGame</button>}
                   </div>

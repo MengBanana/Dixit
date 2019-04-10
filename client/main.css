@@ -1,26 +1,70 @@
 body {
-	// background-color: rgb(22, 22, 19);
+	background-color: #f9f6ea !important;
+  color:#222026 !important;
 }
 
 * {
   font-family: 'Germania One';
 
+}/*
+h1 {
+  color: #cc7000 !important;
+}*/
+#search {
+  width: 155px;
+  text-align: center;
 }
-
 .homepage {
-  margin-top: 40px;
+  margin-top: 2%;
   background-image: url(https://i-h2.pinimg.com/564x/4c/81/83/4c8183bc3d2d37b0cd64a4dfb0df8195.jpg);
   background-size: cover;
   height: 600px;
 }
 
+.btn-danger {
+ /* background-color: #bf2709 !important;
+  border-color:#bf2709 !important;*/
+  background-color: #cc5e00 !important;
+  border-color: #cc5e00 !important;
+
+}
+
+.btn-outline-dark {
+  background-color: #e09d23 !important;
+  color:white !important;
+  border-color: white;
+}
+
+.cardGameName {
+  border-bottom: 1px solid #f9f6ea;
+  padding-bottom: 5px;
+}
+
+h6 {
+  color: #bb964e;
+}
+
+/*.btn-dark {
+  background-color: #464f75 !important;
+  border-color: #596595 !important;
+}*/
 .content {
   padding-top: 40px;
 }
 
 .navbar {
   padding: .1rem .1rem;
-  height: 100px;
+  height: 2%;
+}
+
+.bg-dark,.navbar-dark {
+  color: #f9f6ea !important;
+  background-color:#413C47 !important;
+
+}
+.navbar-content {
+   height: 2%;
+   
 }
 
 .navbar-header {
@@ -37,7 +81,15 @@ body {
   line-height: inherit;
   white-space: nowrap;
 }
+.modal-title, .modal-header {
+  background-color:#cc5e00 !important;
+  color:#f9f6ea !important;
 
+}
+.modal-content {
+  background-color: #f9f6ea !important;
+  color:#222026 !important;
+}
 .signin {
 	color: white;
 }
@@ -52,7 +104,7 @@ body {
 #gameBoard .card {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   margin: 1%;
-  padding: 5px;
+  padding: 8px;
   overflow: hidden;
   transition: 0.3s;
   width : 120px;
@@ -80,6 +132,13 @@ body {
   height: 45px;
 }
 
+.boardInfo {
+  color: #bb964e;
+}
+
+.gameInfo {
+  color: #e09d23;
+}
 
 
 #gameBoard .card:hover {
@@ -127,7 +186,7 @@ body {
   margin: 20px;
   width: 195px;
   height: 230px;
-  border: 1px solid black;
+  border: 1.3px solid #222026 !important;
 }
 
 .gameroom button {
@@ -140,7 +199,7 @@ body {
 }
 
 .gameroom .player {
-  color: orange;
+  color: #bb964e;
 }
 
 .gameroom .card:hover {
@@ -161,10 +220,6 @@ body {
 
 .gameroom .cardbody {
   padding: 10px;
-}
-
-.gameroom .player {
-  color: orange;
 }
 
 .gameroom .card:hover {
