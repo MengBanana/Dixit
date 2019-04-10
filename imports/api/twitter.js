@@ -3,6 +3,8 @@ import { Meteor } from "meteor/meteor";
 
 //HTTP.call(method, url, [options], [asyncCallback])
 
+let consumer = require("./confidential.js");
+
 let Twitter = require("twitter");
 
 Meteor.methods({
@@ -11,7 +13,9 @@ Meteor.methods({
       return;
     }
     let client = new Twitter({
-      consumer_key: "YffJaGtYhAtJpA6LhurUL7IGP",
+      // consumer_key: process.env.consumer_key || consumer.consumer_key,
+      consumer_key:"YffJaGtYhAtJpA6LhurUL7IGP",
+      // consumer_secret: process.env.consumer_secret || consumer.consumer_secret,
       consumer_secret: "r9U5zh1yX70ynN470aVLxfDipFHsLaTzOC3hs0XdPUQNDTbSga",
       access_token_key: Meteor.user().services.twitter.accessToken,
       access_token_secret: Meteor.user().services.twitter.accessTokenSecret
