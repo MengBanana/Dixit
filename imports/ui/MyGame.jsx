@@ -120,6 +120,13 @@ class MyGame extends Component {
     this.setState({
       buttonClick: 1
     });
+
+    if (e.target.id === "final") {
+      this.setState ({
+        stage: 5
+      });
+    }
+
     if (e.target.id === "readyToStart") {
       if (this.state.stage === 0) {
         Meteor.call("games.updateReady", this.state.gameName, (err, res) => {
@@ -537,10 +544,11 @@ class MyGame extends Component {
                     </div>}
                 </div>
                 <div className = "col-2">
-                  {this.state.stage === 0 || this.state.isOver ? <button type="button" className="btn btn-dark" id = "exitGame" onClick = {this.onSubmit}>Exit</button>: null}
+                  {this.state.stage === 0 || this.state.stage == 5 ? <button type="button" className="btn btn-dark" id = "exitGame" onClick = {this.onSubmit}>Exit</button>: null}
                   {this.state.stage === 1 && this.state.isHost ? <button type="submit" className="btn btn-danger" id="descriptionDone" onClick={this.onSubmit} > Submit </button>:null}
                   {this.state.stage === 2 && !this.state.isHost && this.state.pickCount === 0? <button type="button" className="btn btn-danger" id = "pickCard" onClick = {this.onSubmit}>Pick</button> : null}
                   {(this.state.stage === 4 && this.state.hostIdx < this.state.players.length - 1) ? <button type="button" className="btn btn-dark" id = "readyToStart" onClick = {this.onSubmit}>Next Round</button>: null}     
+                  {(this.state.stage === 4 && this.state.hostIdx == this.state.players.length - 1) ? <button type="button" className="btn btn-dark" id = "final" onClick = {this.onSubmit}>Next</button>: null}     
                 </div>
               </div>
               {!this.state.cardsOnHand || this.state.cardsOnHand.length === 0 ? null 
