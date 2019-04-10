@@ -3,7 +3,7 @@ import { Meteor } from "meteor/meteor";
 
 //HTTP.call(method, url, [options], [asyncCallback])
 
-let consumer = require("./confidential.js");
+// let consumer = require("./confidential.js");
 
 let Twitter = require("twitter");
 
