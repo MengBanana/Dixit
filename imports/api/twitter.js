@@ -15,8 +15,8 @@ Meteor.methods({
     let client = new Twitter({
       // consumer_key:"YffJaGtYhAtJpA6LhurUL7IGP",
       // consumer_secret:"r9U5zh1yX70ynN470aVLxfDipFHsLaTzOC3hs0XdPUQNDTbSga",
-      consumer_key: process.env.consumer_key || consumer.key,
-      consumer_secret: process.env.consumer_secret || consumer.secret,
+      consumer_key: process.env.TWITTER_CONSUMER_KEY || consumer.key,
+      consumer_secret: process.env.TWITTER_CONSUMER_SECRET || consumer.secret,
       access_token_key: Meteor.user().services.twitter.accessToken,
       access_token_secret: Meteor.user().services.twitter.accessTokenSecret
     });
