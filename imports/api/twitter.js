@@ -1,4 +1,6 @@
 import { Meteor } from "meteor/meteor";
+
+import { UsersGames } from "./usersGames.js";
 //import { HTTP } from 'meteor/http';
 
 //HTTP.call(method, url, [options], [asyncCallback])
@@ -35,9 +37,18 @@ Meteor.methods({
       tweet,
       response
     ) {
-      console.log("error: ", error);
       if (error) throw error;
-      console.log(response); // Raw response object.
+      console.log(response);
+      let res = response.fetch();
+      console.log(res[0].id);
+
+      Meteor.call(
+        "usersGames.insertTwitterId",res[0].id,
+        (err, res) => {
+          if(err) console.log (err);
+          else {console.log (res);}
+        }
+      );
     });
   }
 });

@@ -86,6 +86,19 @@ Meteor.methods({
     }); 
   },
 
+  "usersGames.insertTwitterId"(id) {
+    if (!this.userId) {
+      throw new Meteor.Error("not-authorized");
+    }
+    UsersGames.update ({
+      _id: Meteor.userId()
+    }, {
+      $set: {
+        twitterId: id
+      }
+    }); 
+  },
+
   "usersGames.getPoints" (player){
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
