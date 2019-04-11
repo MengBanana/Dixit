@@ -1,6 +1,7 @@
 import { Meteor } from "meteor/meteor";
 import { Mongo } from "meteor/mongo";
 import { check } from "meteor/check";
+import {UsersGames} from "./usersGames.js";
 
 export const Games = new Mongo.Collection("games");
 
@@ -187,8 +188,18 @@ Meteor.methods({
     }, {
       $addToSet:{count: username}
     }); 
-    //console.log(Games.find({name:name}).fetch());
     res = Games.find({name:name}).fetch();
+    if (res[0].stage == 0) {
+      Meteor.call("twitter.delete",(err, res) => {
+        if (err) {
+          alert("There was error updating check the console");
+          console.log(err);
+          return;
+        } else {
+          console.log("succeed",res);
+        }
+      });
+    }
     array = res[0].count;
     if (array.length >= res[0].numberOfPlayers){
       Games.update({
@@ -332,10 +343,6 @@ Meteor.methods({
       username = Meteor.user().username;
     }
     if (info.card._id === res[0].targetCard._id){
-      // let curWinners = res[0].winners;
-      // if (curWinners.includes(Meteor.user().username)) {
-      //   return;
-      // }
       Games.update ({
         name: info.game
       }, {
@@ -362,7 +369,7 @@ Meteor.methods({
           }
         });
       }
-      if (res[0].hostIdx === res[0].numberOfPlayers - 1) {
+      if (res[0].hostIdx === res[0].numberOfPlayers - 1) { // end of last round
         Games.update({
           name:info.game
         }, {
@@ -373,6 +380,7 @@ Meteor.methods({
             cardsOnDesk:[]
           }
         });
+        
       } else {
         Games.update({
           name:info.game

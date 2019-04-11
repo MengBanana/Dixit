@@ -1,7 +1,5 @@
 import { Meteor } from "meteor/meteor";
-//import { HTTP } from 'meteor/http';
-
-//HTTP.call(method, url, [options], [asyncCallback])
+import {UsersGames} from "./usersGames.js";
 
 let client;
 let Twitter = require("twitter");
@@ -12,25 +10,23 @@ Meteor.methods({
       return;
     }
     if (process.env.TWITTER_CONSUMER_KEY) {
-    client = new Twitter({
-      // consumer_key:"YffJaGtYhAtJpA6LhurUL7IGP",
-      // consumer_secret:"r9U5zh1yX70ynN470aVLxfDipFHsLaTzOC3hs0XdPUQNDTbSga",
-      consumer_key: process.env.TWITTER_CONSUMER_KEY,
-      consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-      access_token_key: Meteor.user().services.twitter.accessToken,
-      access_token_secret: Meteor.user().services.twitter.accessTokenSecret
-    });
-  }
-  else {
-    let consumer = require("./confidential.js");
-     client = new Twitter({
-      consumer_key: consumer.key,
-      consumer_secret: consumer.secret,
-      access_token_key: Meteor.user().services.twitter.accessToken,
-      access_token_secret: Meteor.user().services.twitter.accessTokenSecret
-    });
+      client = new Twitter({
+        consumer_key: process.env.TWITTER_CONSUMER_KEY,
+        consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+        access_token_key: Meteor.user().services.twitter.accessToken,
+        access_token_secret: Meteor.user().services.twitter.accessTokenSecret
+      });
+    }
+    else {
+      let consumer = require("./confidential.js");
+      client = new Twitter({
+        consumer_key: consumer.key,
+        consumer_secret: consumer.secret,
+        access_token_key: Meteor.user().services.twitter.accessToken,
+        access_token_secret: Meteor.user().services.twitter.accessTokenSecret
+      });
 
-  }
+    }
 
     let data = "";
     if (info.friends !== null) {
@@ -46,9 +42,51 @@ Meteor.methods({
       tweet,
       response
     ) {
-      console.log("error: ", error);
+      if (error) {throw error;} else {
+        let id = response.id;
+        UsersGames.update ({
+          _id: Meteor.userId()
+        }, {
+          $set: {
+            twitterId: id
+          }
+        }); 
+      }
+    });
+  },
+
+  "twitter.delete"(info) {
+    if (info == null) {
+      return;
+    }
+    if (process.env.TWITTER_CONSUMER_KEY) {
+      client = new Twitter({
+        consumer_key: process.env.TWITTER_CONSUMER_KEY,
+        consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+        access_token_key: Meteor.user().services.twitter.accessToken,
+        access_token_secret: Meteor.user().services.twitter.accessTokenSecret
+      });
+    }
+    else {
+      let consumer = require("./confidential.js");
+      client = new Twitter({
+        consumer_key: consumer.key,
+        consumer_secret: consumer.secret,
+        access_token_key: Meteor.user().services.twitter.accessToken,
+        access_token_secret: Meteor.user().services.twitter.accessTokenSecret
+      });
+
+    }
+
+    let res = UsersGames.findOne({_id: Meteor.userId()});
+
+    let twitterId = res.twitterId;
+    client.post("statuses/destroy", { id: twitterId }, function(
+      error,
+      tweet,
+      response
+    ) {
       if (error) throw error;
-      console.log(response); // Raw response object.
     });
   }
 });

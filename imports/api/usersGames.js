@@ -68,7 +68,8 @@ Meteor.methods({
         ingame: true,
         gameName: name,
         totalPoints: 0,
-        totalRounds: 0
+        totalRounds: 0,
+        twitterId:""
       });
     }
   },
