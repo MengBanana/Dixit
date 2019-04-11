@@ -37,18 +37,96 @@ class MyGame extends Component {
       isOver: false,
       readyCount: 0,
       pickCount:0,
-      voteCount:0
+      voteCount:0,
+      timeId: ""
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.autoSelect = this.autoSelect.bind(this);
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.myGame != prevProps.myGame) {
       this.updateGame();
+      let cur = null;
+      let prev = null;
+      this.props.myGame.map(game => (cur=game.stage));
+      prevProps.myGame.map(game => (prev=game.stage));
+      if (cur != prev) {
+        if (this.state.timeId === "") {
+          if (this.state.stage === 1 && !this.state.isHost) {
+            return;
+          }
+          if ((this.state.stage === 2 || this.state.stage === 3) && this.state.isHost) {
+            return;
+          }
+          let timeId = setTimeout(this.autoSelect, 2000);
+          this.setState({
+            timeId:timeId
+          });
+        }
+      }
     }
     if (this.props.gameData != prevProps.gameData) {
       this.updatePoint();
+    }
+
+  }
+
+  eventFire(el, etype){
+    if (el.fireEvent) {
+      el.fireEvent("on" + etype);
+      console.log("clicked");
+    } else {
+      var evObj = document.createEvent("Events");
+      evObj.initEvent(etype, true, false);
+      el.dispatchEvent(evObj);
+    }
+  }
+
+  autoSelect() {
+    if (this.state.stage === 0) {
+      alert("Timeout! Game starts!");
+      this.setState({
+        timeId:""
+      });
+      let ready = document.getElementById("readyToStart");
+      ready.click();
+    }
+    if (this.state.stage === 1) {
+      alert("Timeout! System has selected a card and description for you!");
+      this.setState({
+        description : "Story Teller fell asleep, try your best to guess!",
+        timeId:""
+      });
+      let describe = document.getElementById("descriptionDone");
+      describe.click();
+    }
+    if (this.state.stage === 2) {
+      alert("Timeout! System has selected a card for you!");
+      this.setState({
+        selectedCard:this.state.cardsOnHand[0],
+        timeId:""
+      });
+      let pick = document.getElementById("pickCard");
+      pick.click();
+    }
+    if (this.state.stage === 3) {
+      alert("Timeout! System has voted a card for you!");
+      this.setState({
+        selectedCard:this.state.cardsOnDesk[0],
+        timeId:""
+      });
+      let vote = document.getElementById("voteCard");
+      vote.click();
+    }
+    if (this.state.stage === 4) {
+      alert("Timeout! Next round!");
+      this.setState({
+        timeId:""
+      });
+      let ready = document.getElementById("readyToStart");
+      ready.click();
     }
   }
 
@@ -281,7 +359,9 @@ class MyGame extends Component {
   // ALWAYS NO <div className="row">
   // {this.props.myGame.ingame ? "yes":"no"}
   // </div>
-
+/*  Meteor.setTimeout(function() {
+    console.log("Timeout called after three seconds...");
+  }, 3000);*/
   render() {
     // console.log("TEST: props.myGame.length:", this.props.myGame.length);
     // console.log("TEST: state.gameName: ", this.state.gameName);
@@ -355,11 +435,6 @@ class MyGame extends Component {
         )}</span>
       
     </div> );
-    Meteor.setTimeout(function() {
-   console.log("Timeout called after three seconds...");
-}, 1000);
-
-
     
     return (
 
