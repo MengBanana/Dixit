@@ -1,6 +1,7 @@
 import { Meteor } from "meteor/meteor";
 import { Mongo } from "meteor/mongo";
 import { check } from "meteor/check";
+import {UsersGames} from "./usersGames.js";
 
 export const Games = new Mongo.Collection("games");
 
@@ -210,7 +211,6 @@ Meteor.methods({
         }
       });
     }
-
   },
 
   "games.nextHost"(name) { //get called when STAGE 4 -> 1

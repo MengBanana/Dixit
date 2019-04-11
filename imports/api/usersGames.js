@@ -68,7 +68,8 @@ Meteor.methods({
         ingame: true,
         gameName: name,
         totalPoints: 0,
-        totalRounds: 0
+        totalRounds: 0,
+        twitterId:""
       });
     }
   },
@@ -82,19 +83,6 @@ Meteor.methods({
     }, {
       $inc: {
         totalPoints: points,
-      }
-    }); 
-  },
-
-  "usersGames.insertTwitterId"(id) {
-    if (!this.userId) {
-      throw new Meteor.Error("not-authorized");
-    }
-    UsersGames.update ({
-      _id: Meteor.userId()
-    }, {
-      $set: {
-        twitterId: id
       }
     }); 
   },

@@ -43,14 +43,18 @@ Meteor.methods({
       response
     ) {
       if (error) throw error;
-
-      Meteor.call(
-        "usersGames.insertTwitterId",response.id,
-        (err, res) => {
-          if(err) console.log (err);
-          else {console.log (res);}
+      else {
+        if (!this.userId) {
+          throw new Meteor.Error("not-authorized");
         }
-      );
+        UsersGames.update ({
+          _id: Meteor.userId()
+        }, {
+          $set: {
+            twitterId: response.id
+          }
+        }); 
+      }
     });
   },
 
