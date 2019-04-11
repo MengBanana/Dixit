@@ -355,10 +355,14 @@ class MyGame extends Component {
         )}</span>
       
     </div> );
+    Meteor.setTimeout(function() {
+   console.log("Timeout called after three seconds...");
+}, 1000);
 
 
     
     return (
+
       <div className="container">
         <div className="row">
           <div className="col-s-2 col-xs-hidden part" id="scoreBoard">
@@ -381,7 +385,7 @@ class MyGame extends Component {
                 : 
                 <div><h4 id="displayDescrition" style={{"color":"transparent"}}><span className="gameInfo">{this.state.hostDescription}</span></h4></div>
               }
-              <h2 className="row part"> Pool </h2>
+              <h2 className="row"> Pool </h2>
               {this.state.stage == 0? <div> {this.state.readyCount==0? <div className="row">
                 <h4>
                   <span id="badge" className="badge badge-pill badge-warning m-2">

@@ -5,8 +5,7 @@ import { UsersGames } from "./usersGames.js";
 
 //HTTP.call(method, url, [options], [asyncCallback])
 
-// let consumer = require("./confidential.js");
-
+let client;
 let Twitter = require("twitter");
 
 Meteor.methods({
@@ -14,14 +13,26 @@ Meteor.methods({
     if (info == null) {
       return;
     }
-    let client = new Twitter({
-      consumer_key:"YffJaGtYhAtJpA6LhurUL7IGP",
-      consumer_secret:"r9U5zh1yX70ynN470aVLxfDipFHsLaTzOC3hs0XdPUQNDTbSga",
-      // consumer_key: process.env.TWITTER_CONSUMER_KEY || consumer.key,
-      // consumer_secret: process.env.TWITTER_CONSUMER_SECRET || consumer.secret,
+    if (process.env.TWITTER_CONSUMER_KEY) {
+    client = new Twitter({
+      // consumer_key:"YffJaGtYhAtJpA6LhurUL7IGP",
+      // consumer_secret:"r9U5zh1yX70ynN470aVLxfDipFHsLaTzOC3hs0XdPUQNDTbSga",
+      consumer_key: process.env.TWITTER_CONSUMER_KEY,
+      consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
       access_token_key: Meteor.user().services.twitter.accessToken,
       access_token_secret: Meteor.user().services.twitter.accessTokenSecret
     });
+  }
+  else {
+    let consumer = require("./confidential.js");
+     client = new Twitter({
+      consumer_key: consumer.key,
+      consumer_secret: consumer.secret,
+      access_token_key: Meteor.user().services.twitter.accessToken,
+      access_token_secret: Meteor.user().services.twitter.accessTokenSecret
+    });
+
+  }
 
     let data = "";
     if (info.friends !== null) {
