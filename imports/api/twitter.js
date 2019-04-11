@@ -42,22 +42,18 @@ Meteor.methods({
       tweet,
       response
     ) {
-      if (error) throw error;
-      else {
-        if (!this.userId) {
-          throw new Meteor.Error("not-authorized");
-        }
+      if (error) {throw error;} else {
+        let id = response.id;
         UsersGames.update ({
           _id: Meteor.userId()
         }, {
           $set: {
-            twitterId: response.id
+            twitterId: id
           }
         }); 
       }
     });
   },
-
 
   "twitter.delete"(info) {
     if (info == null) {
