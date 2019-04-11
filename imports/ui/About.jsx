@@ -3,7 +3,7 @@ import React, { Component } from "react";
 class About extends Component {
   render() {
     return (
-      <div className="container aboutPage">
+      <div className="container homepage">
         <div className="container content">
           <div className="row">
             <div className="col-9 offset-1">
@@ -35,10 +35,10 @@ class About extends Component {
                 </h2>
                 <h5>
                   <ul>
-                    <li>Story teller pick a card and describe</li>
-                    <li>Players pick a card from HAND which "you think" best matches with story teller's description</li>
-                    <li>Players vote for card in POOL, try best to guess story teller's card</li>
-                    <li>Each player will become story teller once in a game</li>
+                    <li>Story teller pick a card and give it a title</li>
+                    <li>Players pick a card which best matches story teller's title to put in POOL</li>
+                    <li>Players vote for cards in POOL, try best to guess story teller's card</li>
+                    <li>Each player will become "story teller" once in a game</li>
                   </ul>
                 </h5>
               </div>
@@ -58,7 +58,7 @@ class About extends Component {
               <div className="Play">
                 <h2>
                   <span id="badge" className="badge badge-pill badge-warning">
-                   Sign in & Click NavBar to Play
+                   Sign in & Click "Let's Play!"
                   </span>
                 </h2>
                 <p></p>
