@@ -4,17 +4,17 @@ import { NavLink } from "react-router-dom";
 
 
 export default class NavBar extends Component {
+  // <div className="navbar-header">
+  //           <NavLink className="nav-link" activeClassName="active" to="/">
+  //             <img className="navbar-brand" src="http://www.sophia-jezykiobce.pl/wp-content/uploads/2018/02/dixit-logo-1-1170x630.png" width="250px"/>
+  //           </NavLink>
+  //         </div>
   render() {
     return (
       <div className="navbar-container">
         <nav className="navbar navbar-expand-md navbar-dark bg-dark">
           <div className="nav-item ml-auto signin">
-              <AccountsUIWrapper />
-            </div>
-          <div className="navbar-header">
-            <NavLink className="nav-link" activeClassName="active" to="/">
-              <img className="navbar-brand" src="http://www.sophia-jezykiobce.pl/wp-content/uploads/2018/02/dixit-logo-1-1170x630.png" width="250px"/>
-            </NavLink>
+            <AccountsUIWrapper />
           </div>
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
@@ -26,7 +26,7 @@ export default class NavBar extends Component {
                 <NavLink className="nav-link" activeClassName="active" to="/About">Game Rules</NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" activeClassName="active" to="/gameroom">Let's Play</NavLink>
+                <NavLink className="nav-link" activeClassName="active" to="/gameroom">Game Room</NavLink>
               </li>
             </ul>
           </div>

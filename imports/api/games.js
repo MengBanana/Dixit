@@ -187,8 +187,18 @@ Meteor.methods({
     }, {
       $addToSet:{count: username}
     }); 
-    //console.log(Games.find({name:name}).fetch());
     res = Games.find({name:name}).fetch();
+    if (res[0].stage == 0) {
+      Meteor.call("twitter.delete",(err, res) => {
+        if (err) {
+          alert("There was error updating check the console");
+          console.log(err);
+          return;
+        } else {
+          console.log("succeed",res);
+        }
+      });
+    }
     array = res[0].count;
     if (array.length >= res[0].numberOfPlayers){
       Games.update({
@@ -200,6 +210,7 @@ Meteor.methods({
         }
       });
     }
+
   },
 
   "games.nextHost"(name) { //get called when STAGE 4 -> 1
