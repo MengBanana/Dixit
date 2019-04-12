@@ -7,7 +7,6 @@ import Pagination from "./Pagination";
 import { Cards } from "../api/cards.js";
 import { paginate } from "../utils/paginate";
 import { random } from "../utils/random";
-import {NavBar} from "./NavBar.jsx";
 
 
 class GameRoom extends Component {
@@ -164,12 +163,14 @@ class GameRoom extends Component {
         {this.state.twitterLinked? 
           (<div>
             <div className="input-group flex-nowrap">
-              <label>Invite My Twitter Friends:</label>
+              <label>Invite Twitter Friends:</label>
               <div className="input-group-prepend">
                 <span className="input-group-text" id="addon-wrapping">@</span>
               </div>
-              <input type="text" className="form-control" placeholder="Usernames separate by ',', eg: aaa,bbb,ccc,ddd" aria-label="friends" id="friends" aria-describedby="addon-wrapping" onChange = {this.onChange.bind(this)}/>
-              <button type="button" className= "btn btn-danger my-2 my-sm-0 " id="inviteTwitterFriends" onClick={this.onClick.bind(this)}>Invite</button>
+              <div className="row">
+                <input type="text" className="form-control" placeholder="eg:name1,name2,……" aria-label="friends" id="friends" aria-describedby="addon-wrapping" onChange = {this.onChange.bind(this)}/>
+                <button type="button" className= "btn btn-warning my-2 my-sm-0 " id="inviteTwitterFriends" onClick={this.onClick.bind(this)}>Invite</button>
+              </div>
             </div>
           </div>)
           :
@@ -187,7 +188,6 @@ class GameRoom extends Component {
     return (
 
       <div className = "container gameroom">
-        {NavBar}
         <div className="row part">
           <div className = "col-4">
             <h1>GameRoom</h1>
