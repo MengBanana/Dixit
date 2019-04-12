@@ -76,7 +76,7 @@ class GameRoom extends Component {
       });
       let data = {
         friends: this.state.friends,
-        accessCode: this.state.accessCode
+        accessCode: code
       };
      
 
