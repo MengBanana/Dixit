@@ -155,9 +155,21 @@ Meteor.methods({
     res = Games.find({name:name}).fetch();
     array = res[0].players;
     if (array.length === 0) {
-      Games.remove({
+      let newName = "%".concat({name},"%");
+
+      Games.update({
         name: name
-      });
+      },
+      {
+        $set : {
+          name: newName,
+          isOver:true
+        }
+      }
+      );
+
+
+
     } else if (array.length < res[0].numberOfPlayers) {
       Games.update(
         {name: name}, 
@@ -374,7 +386,6 @@ Meteor.methods({
           name:info.game
         }, {
           $set:{
-            isOver:true,
             stage:4,
             count:[],
             cardsOnDesk:[]

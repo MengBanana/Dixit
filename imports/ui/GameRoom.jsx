@@ -152,7 +152,7 @@ class GameRoom extends Component {
     } else {
       filteredGames = this.props.games.filter( game => {
         return (
-          game.privateRoom != true
+          game.privateRoom != true || game.isOver != true
         );
       });
     }
@@ -243,22 +243,21 @@ class GameRoom extends Component {
         <div className="row">
           {paginatedGames.map(game => (
             <div key={game._id} className="card col-xs-6 col-s-3" id="room">
-              
-                <div className = "container">
-                  <div className="card-body">
-                    <h5 className = "card-text text-center cardGameName">{game.name}</h5>
-
-                    <p className = "card-text text-center">Status: {game.players.length}/{game.numberOfPlayers}</p>
-                    <span className = "card-text text-center">
-                      <p>
-                    Players:<br/>
-                        {game.players.map(player => (<span className="player" key ={player}> {player}    </span>))}
-                      </p>
-                    </span>
-                    {game.okToJoin === true ? <button type="button" className="btn btn-outline-dark center-block" id="joinGame" name={game.name} onClick = {this.onSubmit.bind(this)}>JoinUs</button>
-                      : <button type="button" className="btn btn-outline-dark" disabled>InGame</button>}
-                  </div>
-                </div> 
+              <div className = "container">
+                <div className="card-body">
+                  <h5 className = "card-text text-center cardGameName">{game.name}</h5>
+                  <p className = "card-text text-center">Status: {game.players.length}/{game.numberOfPlayers}</p>
+                  <span className = "card-text text-center">
+                    <p>
+                  Players:<br/>
+                      {game.players.map(player => (<span className="player" key ={player}> {player}    </span>))}
+                    </p>
+                  </span>
+                  {game.okToJoin === true ? <button type="button" className="btn btn-outline-dark center-block" id="joinGame" name={game.name} onClick = {this.onSubmit.bind(this)}>JoinUs</button>
+                    : <div> {game.isOver === true ? <button type="button" className="btn btn-outline-dark" disabled>GameOver</button> :
+                      <button type="button" className="btn btn-outline-dark" disabled>InGame</button>}</div>}
+                </div>
+              </div> 
             </div>
           ))}
         </div>

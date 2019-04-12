@@ -43,7 +43,15 @@ Meteor.methods({
       response
     ) {
       if (error) {throw error;} else {
-        let id = response.id;
+        // let id = response.id;
+        // UsersGames.update ({
+        //   _id: Meteor.userId()
+        // }, {
+        //   $set: {
+        //     twitterId: id
+        //   }
+        // }); 
+        let id = response.id.toString();
         UsersGames.update ({
           _id: Meteor.userId()
         }, {
