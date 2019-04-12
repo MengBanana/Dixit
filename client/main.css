@@ -238,7 +238,7 @@ h6 {
   height: 240px;
   border: 1px solid black;
 }
-
+/*
 .gameroom button {
   margin-left: auto;
   margin-right: auto;
@@ -251,7 +251,7 @@ h6 {
 
 .gameroom .card:hover {
   transform: scale(1.02);
-}
+}*/
 
 #footer {
    position:fixed;
