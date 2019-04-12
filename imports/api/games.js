@@ -1,7 +1,6 @@
 import { Meteor } from "meteor/meteor";
 import { Mongo } from "meteor/mongo";
 import { check } from "meteor/check";
-import {UsersGames} from "./usersGames.js";
 
 export const Games = new Mongo.Collection("games");
 
@@ -84,23 +83,18 @@ Meteor.methods({
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     }
-    let res = Games.find({name:name}).fetch();
-    let array = res[0].players;
     let username = "";
     if (!Meteor.user().username) {
       username = Meteor.user().services.twitter.screenName;
     } else {
       username = Meteor.user().username;
     }
-    if (array.includes(username)){
-      return;
-    }
     Games.update(
       {name: name}, 
       {$addToSet:{players: username}}
     );
-    res = Games.find({name:name}).fetch();
-    array = res[0].players;
+    let res = Games.find({name:name}).fetch();
+    let array = res[0].players;
     if (array.length == res[0].numberOfPlayers) {
       Games.update(
         {name: name}, 
@@ -150,7 +144,6 @@ Meteor.methods({
     array = res[0].players;
     if (array.length === 0) {
       let newName = "%".concat(name,"%");
-
       Games.update({
         name: name
       },
@@ -165,7 +158,8 @@ Meteor.methods({
     } else if (array.length < res[0].numberOfPlayers) {
       Games.update(
         {name: name}, 
-        {$set :{okToJoin: true
+        {$set :{
+          okToJoin: true
         }}
       );
     }
@@ -184,26 +178,12 @@ Meteor.methods({
     } else {
       username = Meteor.user().username;
     }
-    if (array.includes(username)){ //works!
-      return;
-    }
     Games.update ({
       name: name
     }, {
       $addToSet:{count: username}
     }); 
     res = Games.find({name:name}).fetch();
-    // if (res[0].stage == 0) {
-    //   Meteor.call("twitter.delete",(err, res) => {
-    //     if (err) {
-    //       alert("There was error updating check the console");
-    //       console.log(err);
-    //       return;
-    //     } else {
-    //       console.log("succeed",res);
-    //     }
-    //   });
-    // }
     array = res[0].count;
     if (array.length >= res[0].numberOfPlayers){
       if (res[0].stage == 0) {
@@ -232,7 +212,9 @@ Meteor.methods({
     Games.update ({
       name: name
     }, {
-      $addToSet:{count: username}
+      $addToSet:{
+        count: username
+      }
     });
     let res = Games.find({name:name}).fetch();
     if (res[0].hostIdx >= res[0].numberOfPlayers - 1) { //final stage 5
@@ -333,17 +315,6 @@ Meteor.methods({
         }
       });
     }
-
-    // let res = Games.find({name:name}).fetch();
-    // let cards = res["0"].cardsOnDesk;
-
-    // if (cards.length >= res["0"].numberOfPlayers){
-    //   Games.update ({
-    //     name: info.game
-    //   }, {
-    //     $set:{stage: 3}
-    //   });
-    // }
   },
 
   "games.updateWinners"(info) { // STAGE 3 -> 4
@@ -388,54 +359,15 @@ Meteor.methods({
           }
         });
       }
-      if (res[0].hostIdx === res[0].numberOfPlayers - 1) { // end of last round
-        Games.update({
-          name:info.game
-        }, {
-          $set:{
-            stage:4,
-            count:[],
-            cardsOnDesk:[]
-          }
-        });
-        
-      } else {
-        Games.update({
-          name:info.game
-        }, {
-          $set:{
-            stage: 4,
-            count:[],
-            cardsOnDesk:[]
-          }
-        });
-      }
+      Games.update({
+        name:info.game
+      }, {
+        $set:{
+          stage:4,
+          count:[],
+          cardsOnDesk:[]
+        }
+      });
     }
   },
-  // "games.final"(name) {
-  //   let username = null;
-  //   if (!Meteor.user().username) {
-  //     username = Meteor.user().services.twitter.screenName;
-  //   } else {
-  //     username = Meteor.user().username;
-  //   }
-  //   Games.update ({
-  //     name: name
-  //   }, {
-  //     $addToSet:{count: username}
-  //   }); 
-  //   res = Games.find({name:name}).fetch();
-  //   let array = res[0].count;
-  //   if (array.length >= res[0].numberOfPlayers){
-  //     Games.update({
-  //       name:name
-  //     }, {
-  //       $set:{
-  //         stage: 5,
-  //         count:[],
-  //         cardsOnDesk:[]
-  //       }
-  //     });
-  //   }
-  // }
 });
