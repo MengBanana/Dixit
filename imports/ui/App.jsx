@@ -33,7 +33,6 @@ class App extends Component {
       <Router>
         <NavBar />
         <div className = "container">
-          <div className = "row">
               <Switch>
                 <Route exact path="/" component={HomePage} />
                 <Route exact path="/AddCard" component={AddCard} />
@@ -47,7 +46,6 @@ class App extends Component {
 
               </Switch>
             </div>
-        </div>
         <Footer />
       </Router>
     );

@@ -5,6 +5,7 @@ import { withTracker } from "meteor/react-meteor-data";
 import PropTypes from "prop-types";
 import { UsersGames } from "../api/usersGames.js";
 import { Cards } from "../api/cards.js";
+import {NavBar} from "./NavBar.jsx";
 
 class MyGame extends Component {
   constructor(props) {
@@ -185,16 +186,16 @@ class MyGame extends Component {
       buttonClick: 1
     });
 
-    if (e.target.id === "final") {
-      Meteor.call("games.final", this.state.gameName, (err, res) => {
-        if (err) {
-          alert("There was error updating check the console");
-          console.log(err);
-        } else {
-          console.log("succeed", res);
-        }
-      });
-    }
+    // if (e.target.id === "final") {
+    //   Meteor.call("games.final", this.state.gameName, (err, res) => {
+    //     if (err) {
+    //       alert("There was error updating check the console");
+    //       console.log(err);
+    //     } else {
+    //       console.log("succeed", res);
+    //     }
+    //   });
+    // }
 
     if (e.target.id === "readyToStart") {
       if (this.state.stage === 0) {
@@ -435,6 +436,7 @@ class MyGame extends Component {
     return (
 
       <div className="container">
+        {NavBar}
         <div className="row">
           <div className="col-s-2 col-xs-hidden part" id="scoreBoard">
             <h2 className="row"> GameRoom </h2>
@@ -623,7 +625,7 @@ class MyGame extends Component {
                   {this.state.stage === 1 && this.state.isHost ? <button type="submit" className="btn btn-danger" id="descriptionDone" onClick={this.onSubmit} > Submit </button>:null}
                   {this.state.stage === 2 && !this.state.isHost && this.state.pickCount === 0? <button type="button" className="btn btn-danger" id = "pickCard" onClick = {this.onSubmit}>Pick</button> : null}
                   {(this.state.stage === 4 && this.state.hostIdx < this.state.players.length - 1) ? <button type="button" className="btn btn-dark" id = "readyToStart" onClick = {this.onSubmit}>Next Round</button>: null}     
-                  {(this.state.stage === 4 && this.state.hostIdx == this.state.players.length - 1) ? <button type="button" className="btn btn-dark" id = "final" onClick = {this.onSubmit}>Next</button>: null}     
+                  {(this.state.stage === 4 && this.state.hostIdx == this.state.players.length - 1) ? <button type="button" className="btn btn-dark" id = "readyToStart" onClick = {this.onSubmit}>Next</button>: null}     
                 </div>
               </div>
               {!this.state.cardsOnHand || this.state.cardsOnHand.length === 0 ? null 
