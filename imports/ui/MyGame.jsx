@@ -48,10 +48,10 @@ class MyGame extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.myGame != prevProps.myGame) {
       this.updateGame();
-      if (this.state.stage === 1 && !this.state.isHost) {
+      if (this.state.stage === 1 && this.state.isHost === false) {
         return;
       }
-      if ((this.state.stage === 2 || this.state.stage === 3) && this.state.isHost) {
+      if ((this.state.stage === 2 || this.state.stage === 3) && this.state.isHost === true) {
         return;
       }
       let cur = null;
@@ -111,14 +111,6 @@ class MyGame extends Component {
       });
       let vote = document.getElementById("voteCard");
       vote.click();
-    }
-    if (this.state.stage === 4) {
-      alert("Timeout! Next round!");
-      this.setState({
-        timeId:""
-      });
-      let ready = document.getElementById("readyToStart");
-      ready.click();
     }
   }
 
