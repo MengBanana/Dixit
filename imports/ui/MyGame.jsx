@@ -48,17 +48,23 @@ class MyGame extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.myGame != prevProps.myGame) {
       this.updateGame();
-      // if ((this.state.stage === 1 && this.state.isHost === true)|| ((this.state.stage === 2 || this.state.stage === 3) && this.state.isHost === false)){
       let cur = null;
       let prev = null;
+      let host = null;
       this.props.myGame.map(game => (cur=game.stage));
+      this.props.myGame.map(game => (host=game.hostIdx));
       prevProps.myGame.map(game => (prev=game.stage));
+      if ((cur === 1 && this.state.playerIdx !== host)) {
+        return;
+      }
+      if ((cur === 2 || cur === 3) && this.state.playerIdx === host) {
+        return;
+      }
       if (cur != prev && this.state.timeId === "") {
         let timeId = setTimeout(this.autoSelect, 10000);
         this.setState({
           timeId:timeId
         });
-        //}
       }
     }
 
