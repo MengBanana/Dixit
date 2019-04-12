@@ -182,6 +182,9 @@ Meteor.methods({
     } else {
       username = Meteor.user().username;
     }
+    if (array.includes(username)){ //works!
+      return;
+    }
     Games.update ({
       name: name
     }, {
@@ -221,31 +224,34 @@ Meteor.methods({
       }
     });
     let res = Games.find({name:name}).fetch();
-    if (res[0].hostIdx >= res[0].numberOfPlayers - 1) { //final stage 5
-      Games.update ({
-        name: name
-      }, {
-        $set: {
-          stage: 5,
-          count:[],
-          winners:[],
-          description:""
-        }
-      }); 
-    } else {
-      Games.update ({
-        name: name
-      }, {
-        $inc:{
-          hostIdx: 1
-        },
-        $set: {
-          stage: 1,
-          count:[],
-          winners:[],
-          description:""
-        }
-      }); 
+    let array = res[0].count;
+    if (array.length >= res[0].numberOfPlayers){
+      if (res[0].hostIdx >= res[0].numberOfPlayers - 1) { //final stage 5
+        Games.update ({
+          name: name
+        }, {
+          $set: {
+            stage: 5,
+            count:[],
+            winners:[],
+            description:""
+          }
+        }); 
+      } else {
+        Games.update ({
+          name: name
+        }, {
+          $inc:{
+            hostIdx: 1
+          },
+          $set: {
+            stage: 1,
+            count:[],
+            winners:[],
+            description:""
+          }
+        }); 
+      }
     }
   },
 
