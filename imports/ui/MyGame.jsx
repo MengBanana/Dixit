@@ -48,7 +48,7 @@ class MyGame extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.myGame != prevProps.myGame) {
       this.updateGame();
-      if ((this.state.stage === 1 && this.state.isHost === false)|| ((this.state.stage === 2 || this.state.stage === 3) && this.state.isHost === true)){
+      if ((this.state.stage === 1 && this.state.isHost === true)|| ((this.state.stage === 2 || this.state.stage === 3) && this.state.isHost === false)){
         let cur = null;
         let prev = null;
         this.props.myGame.map(game => (cur=game.stage));
