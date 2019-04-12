@@ -198,7 +198,8 @@ class MyGame extends Component {
         this.setState({
           readyCount:1,
           voteCount:0,
-          pickCount:0
+          pickCount:0,
+          timeId:""
         });
       }
       let curPoint = 0;
@@ -228,7 +229,8 @@ class MyGame extends Component {
         });
         this.setState({
           voteCount:0,
-          pickCount:0
+          pickCount:0,
+          timeId:""
         });
       }
     }
@@ -261,7 +263,8 @@ class MyGame extends Component {
         });
         this.setState({
           selectedCard: null,
-          description: ""
+          description: "",
+          timeId:""
         });
       }
     }
@@ -284,7 +287,8 @@ class MyGame extends Component {
         });
         this.setState({
           selectedCard: null,
-          pickCount:1
+          pickCount:1,
+          timeId:""
         });
       }
     }
@@ -306,7 +310,8 @@ class MyGame extends Component {
         });
         this.setState({
           selectedCard: null,
-          voteCount: 1
+          voteCount: 1,
+          timeId:""
         });
       }
     }
