@@ -180,8 +180,13 @@ class MyGame extends Component {
     });
 
     if (e.target.id === "final") {
-      this.setState ({
-        stage: 5
+      Meteor.call("games.final", this.state.gameName, (err, res) => {
+        if (err) {
+          alert("There was error updating check the console");
+          console.log(err);
+        } else {
+          console.log("succeed", res);
+        }
       });
     }
 
