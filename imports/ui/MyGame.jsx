@@ -88,28 +88,28 @@ class MyGame extends Component {
 
   autoSelect() {
     if (this.state.stage === 1) {
-      // alert("Timeout! System has selected a card and description for you!");
+      alert("Timeout! System has selected a card and description for you!");
       this.setState({
         description : "Story Teller fell asleep, try your best to guess!",
-        selectedCard:this.state.cardsOnHand[0],
+        selectedCard:this.state.cardsOnHand[1],
         timeId:""
       });
       let describe = document.getElementById("descriptionDone");
       describe.click();
     }
     if (this.state.stage === 2) {
-      // alert("Timeout! System has selected a card for you!");
+      alert("Timeout! System has selected a card for you!");
       this.setState({
-        selectedCard:this.state.cardsOnHand[0],
+        selectedCard:this.state.cardsOnHand[1],
         timeId:""
       });
       let pick = document.getElementById("pickCard");
       pick.click();
     }
     if (this.state.stage === 3) {
-      // alert("Timeout! System has voted a card for you!");
+      alert("Timeout! System has voted a card for you!");
       this.setState({
-        selectedCard:this.state.cardsOnDesk[0],
+        selectedCard:this.state.cardsOnDesk[1],
         timeId:""
       });
       let vote = document.getElementById("voteCard");
