@@ -45,6 +45,10 @@ Meteor.methods({
     } else {
       username = Meteor.user().username;
     }
+    let accessCode = "";
+    if (info.privateRoom === true) {
+      accessCode = info.accessCode;
+    }
     Games.insert({
       name: info.name,
       numberOfPlayers: info.number,
@@ -63,7 +67,7 @@ Meteor.methods({
       cardsOnHand:info.cards[1],
       isOver: false,
       privateRoom: info.privateRoom,
-      accessCode: info.accessCode
+      accessCode: accessCode
     });
   },
 

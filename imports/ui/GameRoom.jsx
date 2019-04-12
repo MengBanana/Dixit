@@ -21,7 +21,8 @@ class GameRoom extends Component {
       privateRoom: false,
       twitterLinked: 0,
       friends:[],//screenNames
-      gameWithCode: null
+      accessCode:"",
+
     };
     this.onChange = this.onChange.bind(this);
     this.onClick = this.onClick.bind(this);
@@ -70,9 +71,12 @@ class GameRoom extends Component {
 
     if (e.target.id === "inviteTwitterFriends") {
       let code = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
+      this.setState({
+        accessCode: code
+      });
       let data = {
         friends: this.state.friends,
-        accessCode: code
+        accessCode: this.state.accessCode
       };
      
 
@@ -146,7 +150,7 @@ class GameRoom extends Component {
     if (search !== "") {
       filteredGames = this.props.games.filter( game => {
         return (
-          game.accessCode.toLowerCase()==this.state.search.toLowerCase()
+          game.accessCode===this.state.search
         );
       });
     } else {
