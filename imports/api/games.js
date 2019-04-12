@@ -163,13 +163,10 @@ Meteor.methods({
       {
         $set : {
           name: newName,
-          isOver:true
+          isOver:true,
         }
       }
       );
-
-
-
     } else if (array.length < res[0].numberOfPlayers) {
       Games.update(
         {name: name}, 
@@ -201,17 +198,17 @@ Meteor.methods({
       $addToSet:{count: username}
     }); 
     res = Games.find({name:name}).fetch();
-    if (res[0].stage == 0) {
-      Meteor.call("twitter.delete",(err, res) => {
-        if (err) {
-          alert("There was error updating check the console");
-          console.log(err);
-          return;
-        } else {
-          console.log("succeed",res);
-        }
-      });
-    }
+    // if (res[0].stage == 0) {
+    //   Meteor.call("twitter.delete",(err, res) => {
+    //     if (err) {
+    //       alert("There was error updating check the console");
+    //       console.log(err);
+    //       return;
+    //     } else {
+    //       console.log("succeed",res);
+    //     }
+    //   });
+    // }
     array = res[0].count;
     if (array.length >= res[0].numberOfPlayers){
       Games.update({
@@ -403,6 +400,32 @@ Meteor.methods({
           }
         });
       }
+    }
+  },
+  "games.final"(name) {
+    let username = null;
+    if (!Meteor.user().username) {
+      username = Meteor.user().services.twitter.screenName;
+    } else {
+      username = Meteor.user().username;
+    }
+    Games.update ({
+      name: name
+    }, {
+      $addToSet:{count: username}
+    }); 
+    res = Games.find({name:name}).fetch();
+    let array = res[0].count;
+    if (array.length >= res[0].numberOfPlayers){
+      Games.update({
+        name:name
+      }, {
+        $set:{
+          stage: 5,
+          count:[],
+          cardsOnDesk:[]
+        }
+      });
     }
   }
 });
