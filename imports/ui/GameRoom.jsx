@@ -152,7 +152,7 @@ class GameRoom extends Component {
     } else {
       filteredGames = this.props.games.filter( game => {
         return (
-          game.privateRoom != true || game.isOver != true
+          game.privateRoom != true && game.isOver != true
         );
       });
     }
@@ -254,8 +254,8 @@ class GameRoom extends Component {
                     </p>
                   </span>
                   {game.okToJoin === true ? <button type="button" className="btn btn-outline-dark center-block" id="joinGame" name={game.name} onClick = {this.onSubmit.bind(this)}>JoinUs</button>
-                    : <div> {game.isOver === true ? <button type="button" className="btn btn-outline-dark" disabled>GameOver</button> :
-                      <button type="button" className="btn btn-outline-dark" disabled>InGame</button>}</div>}
+                    : <div> {game.isOver === true ? <button type="button" className="btn btn-outline-secondary" disabled>GameOver</button> :
+                      <button type="button" className="btn btn-outline-secondary" disabled>InGame</button>}</div>}
                 </div>
               </div> 
             </div>
@@ -283,7 +283,11 @@ export default withTracker(() => {
   const handle2 = Meteor.subscribe("cards");
   
   return {
-    games: Games.find({}).fetch(), 
+    games: Games.find({},{
+      $sort: {
+        createdAt: -1
+      }
+    }).fetch(), 
     user: Meteor.user(),
     cards: Cards.find({}).fetch(),
     ready : handle.ready() && handle2.ready()

@@ -7,7 +7,11 @@ export const Games = new Mongo.Collection("games");
 
 if (Meteor.isServer) {
   Meteor.publish("games", function gamesPublication() {
-    return Games.find({});
+    return Games.find({},{
+      $sort: {
+        createdAt: -1
+      }
+    });
   });
   Meteor.publish("myGame", function f() {
     if (!Meteor.userId()) {
@@ -53,7 +57,6 @@ Meteor.methods({
       hostIdx:0,
       winners:[],
       players:[],
-      playerPoints:[],
       createdAt: Date.now(),
       owner: username,
       cards:info.cards[0],//arr of arr
@@ -63,15 +66,6 @@ Meteor.methods({
       privateRoom: info.privateRoom,
       accessCode: info.accessCode
     });
-    for (var i = 0; i < info.number; i++) {
-      Games.update({
-        name:info.name
-      }, {
-        $push:{
-          playerPoints:0
-        }
-      });
-    }
   },
 
   "games.checkTwitterConnection"(){
@@ -155,7 +149,7 @@ Meteor.methods({
     res = Games.find({name:name}).fetch();
     array = res[0].players;
     if (array.length === 0) {
-      let newName = "%".concat({name},"%");
+      let newName = "%".concat(name,"%");
 
       Games.update({
         name: name
@@ -164,6 +158,7 @@ Meteor.methods({
         $set : {
           name: newName,
           isOver:true,
+          okToJoin:false
         }
       }
       );
@@ -211,14 +206,16 @@ Meteor.methods({
     // }
     array = res[0].count;
     if (array.length >= res[0].numberOfPlayers){
-      Games.update({
-        name:name
-      }, {
-        $set:{
-          stage: 1,
-          count:[]
-        }
-      });
+      if (res[0].stage == 0) {
+        Games.update({
+          name:name
+        }, {
+          $set:{
+            stage: 1,
+            count:[]
+          }
+        });
+      }
     }
   },
 
@@ -238,8 +235,18 @@ Meteor.methods({
       $addToSet:{count: username}
     });
     let res = Games.find({name:name}).fetch();
-    let array = res[0].count;
-    if (array.length >= res[0].numberOfPlayers){
+    if (res[0].hostIdx >= res[0].numberOfPlayers - 1) { //final stage 5
+      Games.update ({
+        name: name
+      }, {
+        $set: {
+          stage: 5,
+          count:[],
+          winners:[],
+          description:""
+        }
+      }); 
+    } else {
       Games.update ({
         name: name
       }, {
@@ -249,7 +256,8 @@ Meteor.methods({
         $set: {
           stage: 1,
           count:[],
-          winners:[]
+          winners:[],
+          description:""
         }
       }); 
     }
@@ -306,9 +314,11 @@ Meteor.methods({
     }, {
       $push:{
         cardsOnDesk: info.card,
-        count: username,
         ["cardsOnHand."+index]:newCard
       },
+      $addToSet:{
+        count:username
+      }
     });
 
     let res = Games.find({name:info.game}).fetch();
@@ -402,30 +412,30 @@ Meteor.methods({
       }
     }
   },
-  "games.final"(name) {
-    let username = null;
-    if (!Meteor.user().username) {
-      username = Meteor.user().services.twitter.screenName;
-    } else {
-      username = Meteor.user().username;
-    }
-    Games.update ({
-      name: name
-    }, {
-      $addToSet:{count: username}
-    }); 
-    res = Games.find({name:name}).fetch();
-    let array = res[0].count;
-    if (array.length >= res[0].numberOfPlayers){
-      Games.update({
-        name:name
-      }, {
-        $set:{
-          stage: 5,
-          count:[],
-          cardsOnDesk:[]
-        }
-      });
-    }
-  }
+  // "games.final"(name) {
+  //   let username = null;
+  //   if (!Meteor.user().username) {
+  //     username = Meteor.user().services.twitter.screenName;
+  //   } else {
+  //     username = Meteor.user().username;
+  //   }
+  //   Games.update ({
+  //     name: name
+  //   }, {
+  //     $addToSet:{count: username}
+  //   }); 
+  //   res = Games.find({name:name}).fetch();
+  //   let array = res[0].count;
+  //   if (array.length >= res[0].numberOfPlayers){
+  //     Games.update({
+  //       name:name
+  //     }, {
+  //       $set:{
+  //         stage: 5,
+  //         count:[],
+  //         cardsOnDesk:[]
+  //       }
+  //     });
+  //   }
+  // }
 });
