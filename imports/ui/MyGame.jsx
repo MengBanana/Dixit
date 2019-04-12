@@ -48,25 +48,24 @@ class MyGame extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.myGame != prevProps.myGame) {
       this.updateGame();
+      if (this.state.stage === 1 && !this.state.isHost) {
+        return;
+      }
+      if ((this.state.stage === 2 || this.state.stage === 3) && this.state.isHost) {
+        return;
+      }
       let cur = null;
       let prev = null;
       this.props.myGame.map(game => (cur=game.stage));
       prevProps.myGame.map(game => (prev=game.stage));
-      if (cur != prev) {
-        if (this.state.timeId === "") {
-          if (this.state.stage === 1 && !this.state.isHost) {
-            return;
-          }
-          if ((this.state.stage === 2 || this.state.stage === 3) && this.state.isHost) {
-            return;
-          }
-          let timeId = setTimeout(this.autoSelect, 2000);
-          this.setState({
-            timeId:timeId
-          });
-        }
+      if (cur != prev && this.state.timeId === "") {
+        let timeId = setTimeout(this.autoSelect, 2000);
+        this.setState({
+          timeId:timeId
+        });
       }
     }
+
     if (this.props.gameData != prevProps.gameData) {
       this.updatePoint();
     }
@@ -453,7 +452,7 @@ class MyGame extends Component {
             </div>
           </div>
 
-          <div className="col-s-10 col-xs-12" id="gameBoard">
+          <div className="col-s-10" id="gameBoard">
             <div className="part">
               {this.state.stage > 1 ?
                 <div><h4 id="displayDescrition">Story teller description: <span className="gameInfo">{this.state.hostDescription}</span></h4></div> 
