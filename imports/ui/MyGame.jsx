@@ -5,6 +5,7 @@ import { withTracker } from "meteor/react-meteor-data";
 import PropTypes from "prop-types";
 import { UsersGames } from "../api/usersGames.js";
 import { Cards } from "../api/cards.js";
+import {NavBar} from "./NavBar.jsx";
 
 class MyGame extends Component {
   constructor(props) {
@@ -429,6 +430,7 @@ class MyGame extends Component {
     return (
 
       <div className="container">
+        {NavBar}
         <div className="row">
           <div className="col-s-2 col-xs-hidden part" id="scoreBoard">
             <h2 className="row"> GameRoom </h2>

@@ -7,6 +7,7 @@ import Pagination from "./Pagination";
 import { Cards } from "../api/cards.js";
 import { paginate } from "../utils/paginate";
 import { random } from "../utils/random";
+import {NavBar} from "./NavBar.jsx";
 
 
 class GameRoom extends Component {
@@ -186,6 +187,7 @@ class GameRoom extends Component {
     return (
 
       <div className = "container gameroom">
+        {NavBar}
         <div className="row part">
           <div className = "col-4">
             <h1>GameRoom</h1>
