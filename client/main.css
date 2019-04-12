@@ -217,7 +217,7 @@ h6 {
 
 .gameroom button {
   margin-left: 31px;
-  margin-top: 5p;
+  margin-top: 5px;
 }
 
 .gameroom .cardbody {
@@ -226,27 +226,6 @@ h6 {
 
 .gameroom .player {
   color: #bb964e;
-}
-
-.gameroom .card:hover {
-  transform: scale(1.02);
-}
-
-.gameroom .card {
-  margin: 20px;
-  width: 195px;
-  height: 240px;
-  border: 1px solid black;
-}
-
-.gameroom button {
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 5px;
-}
-
-.gameroom .cardbody {
-  padding: 10px;
 }
 
 .gameroom .card:hover {

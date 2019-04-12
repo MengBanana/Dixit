@@ -51,7 +51,7 @@ Meteor.methods({
         //     twitterId: id
         //   }
         // }); 
-        let id = response.id.toString();
+        let id = tweet.id;
         UsersGames.update ({
           _id: Meteor.userId()
         }, {

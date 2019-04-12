@@ -51,6 +51,12 @@ class MyGame extends Component {
       this.updateGame();
       let cur = null;
       let prev = null;
+<<<<<<< HEAD
+      let cur2 = null;
+      let prev2 = null;
+      this.props.myGame.map(game => (cur=game.stage, cur2 = game.targetCard));
+      prevProps.myGame.map(game => (prev=game.stage, prev2 = game.targetCard));
+=======
       let host = null;
       this.props.myGame.map(game => (cur=game.stage));
       this.props.myGame.map(game => (host=game.hostIdx));
@@ -61,18 +67,23 @@ class MyGame extends Component {
       if ((cur === 2 || cur === 3) && this.state.playerIdx === host) {
         return;
       }
+>>>>>>> 16f4c4e80108725bbc43fa0214dde71b05768efb
       if (cur != prev && this.state.timeId === "") {
         let timeId = setTimeout(this.autoSelect, 10000);
         this.setState({
           timeId:timeId
         });
       }
-    }
+      if (cur2 != prev2) {
+        this.setState({
+          timeId:""
+        });
+      }
 
+    }
     if (this.props.gameData != prevProps.gameData) {
       this.updatePoint();
     }
-
   }
 
   eventFire(el, etype){
@@ -217,7 +228,7 @@ class MyGame extends Component {
       let curPoint = 0;
       if (this.state.stage === 4) {
         if (this.state.winners.includes(this.state.playerName)){
-          if (this.state.isHost){
+          if (this.state.isHost === true){
             curPoint = 3;
           } else {
             curPoint = 1;
