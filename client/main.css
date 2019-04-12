@@ -232,6 +232,30 @@ h6 {
   transform: scale(1.02);
 }
 
+<<<<<<< HEAD
+=======
+.gameroom .card {
+  margin: 20px;
+  width: 195px;
+  height: 240px;
+  border: 1px solid black;
+}
+/*
+.gameroom button {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5px;
+}
+
+.gameroom .cardbody {
+  padding: 10px;
+}
+
+.gameroom .card:hover {
+  transform: scale(1.02);
+}*/
+
+>>>>>>> 61f944c4f85362b484f5fa7da4bb68eb67b67c90
 #footer {
    position:fixed;
    left:0px;

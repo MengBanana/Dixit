@@ -51,8 +51,16 @@ class MyGame extends Component {
       this.updateGame();
       let cur = null;
       let prev = null;
+      let host = null;
       this.props.myGame.map(game => (cur=game.stage));
+      this.props.myGame.map(game => (host=game.hostIdx));
       prevProps.myGame.map(game => (prev=game.stage));
+      if ((cur === 1 && this.state.playerIdx !== host)) {
+        return;
+      }
+      if ((cur === 2 || cur === 3) && this.state.playerIdx === host) {
+        return;
+      }
       if (cur != prev && this.state.timeId === "") {
         let timeId = setTimeout(this.autoSelect, 10000);
         this.setState({
@@ -60,9 +68,11 @@ class MyGame extends Component {
         });
       }
     }
+
     if (this.props.gameData != prevProps.gameData) {
       this.updatePoint();
     }
+
   }
 
   eventFire(el, etype){
@@ -78,28 +88,28 @@ class MyGame extends Component {
 
   autoSelect() {
     if (this.state.stage === 1) {
-      alert("Timeout! System has selected a card and description for you!");
+      // alert("Timeout! System has selected a card and description for you!");
       this.setState({
         description : "Story Teller fell asleep, try your best to guess!",
-        selectedCard:this.state.cardsOnHand[1],
+        selectedCard:this.state.cardsOnHand[0],
         timeId:""
       });
       let describe = document.getElementById("descriptionDone");
       describe.click();
     }
     if (this.state.stage === 2) {
-      alert("Timeout! System has selected a card for you!");
+      // alert("Timeout! System has selected a card for you!");
       this.setState({
-        selectedCard:this.state.cardsOnHand[1],
+        selectedCard:this.state.cardsOnHand[0],
         timeId:""
       });
       let pick = document.getElementById("pickCard");
       pick.click();
     }
     if (this.state.stage === 3) {
-      alert("Timeout! System has voted a card for you!");
+      // alert("Timeout! System has voted a card for you!");
       this.setState({
-        selectedCard:this.state.cardsOnDesk[1],
+        selectedCard:this.state.cardsOnDesk[0],
         timeId:""
       });
       let vote = document.getElementById("voteCard");

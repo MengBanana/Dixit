@@ -167,8 +167,8 @@ class GameRoom extends Component {
               <div className="input-group-prepend">
                 <span className="input-group-text" id="addon-wrapping">@</span>
               </div>
-                <input type="text" className="form-control" placeholder="eg:name1,name2,……" aria-label="friends" id="friends" aria-describedby="addon-wrapping" onChange = {this.onChange.bind(this)}/>
-                <button type="button" className= "btn btn-warning my-2 my-sm-0 " id="inviteTwitterFriends" onClick={this.onClick.bind(this)}>Invite</button>
+              <input type="text" className="form-control" placeholder="eg:name1,name2,……" aria-label="friends" id="friends" aria-describedby="addon-wrapping" onChange = {this.onChange.bind(this)}/>
+              <button type="button" className= "btn btn-warning my-2 my-sm-0 " id="inviteTwitterFriends" onClick={this.onClick.bind(this)}>Invite</button>
             </div>
           </div>)
           :
