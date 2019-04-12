@@ -55,13 +55,18 @@ Author: [Yanwen Huangxu](https://github.com/YHuangxu)
 Here's the link to [Dixit](https://dixitgame2019.herokuapp.com/)
 
 ## Preview
-#### Home Page
-![Home Page]()
-#### Register
-![Register]()
-#### Login
-![Login]()
-
+#### Rule
+![Rule](https://github.com/MengBanana/Dixit/blob/master/demo/rule.png)
+#### Ready
+![Ready](https://github.com/MengBanana/Dixit/blob/master/demo/ready.png)
+#### Story Teller
+![Story Teller](https://github.com/MengBanana/Dixit/blob/master/demo/storyteller.png)
+#### Pick
+![Pick](https://github.com/MengBanana/Dixit/blob/master/demo/pick.png)
+#### Vote
+![Vote](https://github.com/MengBanana/Dixit/blob/master/demo/vote.png)
+#### Next Round
+![Next Round](https://github.com/MengBanana/Dixit/blob/master/demo/next.png)
 
 ## VideoDemonstration
 [Youtube]()
