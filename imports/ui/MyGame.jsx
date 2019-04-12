@@ -84,14 +84,6 @@ class MyGame extends Component {
   }
 
   autoSelect() {
-/*    if (this.state.stage === 0) {
-      alert("Timeout! Game starts!");
-      this.setState({
-        timeId:""
-      });
-      let ready = document.getElementById("readyToStart");
-      ready.click();
-    }*/
     if (this.state.stage === 1) {
       alert("Timeout! System has selected a card and description for you!");
       this.setState({
