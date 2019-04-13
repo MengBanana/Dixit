@@ -13,6 +13,7 @@ class About extends Component {
                    About
                   </span>
                 </h2>
+                {/* should escape quote here */}
                 <h5>Dixit is a card game using a deck of cards illustrated with dreamlike images, 
                      players select cards that match a title suggestsed by the "storyteller", and 
                      attempt to vote which card the "storyteller" selected...</h5> 
