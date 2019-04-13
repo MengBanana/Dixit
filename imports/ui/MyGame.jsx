@@ -475,6 +475,7 @@ class MyGame extends Component {
               </div>
                 : 
                 <div>
+                  {/* TargetCard might be null */}
                   {this.state.stage === 2 && this.state.isHost? 
                     <div className="row">
                       <h4>
@@ -660,7 +661,7 @@ MyGame.propTypes = {
   cards: PropTypes.arrayOf(PropTypes.object).isRequired,
   ready: PropTypes.bool.isRequired
 };
-
+/* Is it better to pass myGame from App into MyGame? */
 export default withTracker(() => {
   const handle = Meteor.subscribe("myGame");
   const handle2 = Meteor.subscribe("gameData");

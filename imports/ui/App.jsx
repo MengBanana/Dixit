@@ -35,6 +35,7 @@ class App extends Component {
         <div className = "container">
               <Switch>
                 <Route exact path="/" component={HomePage} />
+                {/* How to get to this page */}
                 <Route exact path="/AddCard" component={AddCard} />
                  <Route exact path="/About" component={About} />
                 <Fragment>
