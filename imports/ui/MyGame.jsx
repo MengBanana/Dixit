@@ -115,6 +115,15 @@ class MyGame extends Component {
       let vote = document.getElementById("voteCard");
       vote.click();
     }
+
+    if (this.state.stage === 4) {
+      // alert("Timeout! Next round.");
+      this.setState({
+        timeId:""
+      });
+      let next = document.getElementById("readyToStart");
+      next.click();
+    }
   }
 
   getPlayerIndex() {
