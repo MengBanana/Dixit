@@ -168,7 +168,7 @@ Meteor.methods({
             isOver:true
           }
         });
-      } else if (array.length < res[0].numberOfPlayers && res[0].stage == 0) {
+      } else if (array.length > 0 && array.length < res[0].numberOfPlayers && res[0].stage == 0) {
         Games.update(
           {name: name}, 
           {$set :{

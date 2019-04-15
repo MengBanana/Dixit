@@ -454,15 +454,27 @@ class MyGame extends Component {
               {this.props.gameData.map(game => (
                 <div key = {game._id}>{game.username} : <span className="boardInfo">{game.totalPoints}</span></div>
               ))}
+            </div><br/>
+
+            <h2 className="row"> Collected: </h2>
+            <div>
+              {this.props.gameData.map(data => (
+                <div key = {data._id}>
+                  {data._id === Meteor.userId()? 
+                    <div className="row">
+                      {data.temp.map(card => (<div key = {card._id} className="card" style={{backgroundImage: `url(${card.url})`, backgroundSize: "cover"}}></div>))}
+                    </div>
+                    : null}
+                </div>))} 
             </div>
           </div>
 
           <div className="col-sm-10 col-xs-12" id="gameBoard">
-            <h2 className="row"> Pool </h2>
-            {this.state.stage > 1 ?
+            {this.state.stage == 5? null: <h2 className="row"> Pool </h2>}
+            {this.state.stage > 1 && this.state.stage < 5 ?
               <div><h4 id="displayDescrition">Story teller description: <span className="gameInfo">{this.state.hostDescription}</span></h4></div> 
               : 
-              <div><h4 id="displayDescrition" style={{"color":"transparent"}}><span className="gameInfo">{this.state.hostDescription}</span></h4></div>
+              null
             }
             {this.state.stage == 0? <div> {this.state.readyCount==0? <div className="row">
               <h4>
@@ -493,7 +505,29 @@ class MyGame extends Component {
                 }
                 {
                   this.state.stage === 5 ? 
-                    <div><h4>GAME OVER!</h4></div>
+                    <div className=" text-center"id="gameOver">
+                      <br/><br/><h1>GAME OVER!</h1>
+
+
+
+                      <h6>Click "Exit" to go back to Game Lobby</h6>
+                      <h4 className="row"> Players ScoreBoard:</h4><br/><br/>
+                      <h4 className="row"> Cards you've winned in this game:</h4>
+                      <div>
+                        {this.props.gameData.map(data => (
+                          <div key = {data._id}>
+                            {data._id === Meteor.userId()? <div className="row">{
+                              data.temp.map(card => (
+                                <div key = {card._id}
+                                  className="card "
+                                  style={{
+                                    backgroundImage: `url(${card.url})`,
+                                    backgroundSize: "cover"
+                                  }}></div>
+                              ))}</div>:null}</div>
+                        ))}
+                      </div>
+                    </div>
                     :
                     null
                 }
@@ -631,8 +665,8 @@ class MyGame extends Component {
                 {this.state.stage === 0 || this.state.stage == 5 ? <button type="button" className="btn btn-dark" id = "exitGame" onClick = {this.onSubmit}>Exit</button>: null}
                 {this.state.stage === 1 && this.state.isHost ? <button type="submit" className="btn btn-danger" id="descriptionDone" onClick={this.onSubmit} > Submit </button>:null}
                 {this.state.stage === 2 && !this.state.isHost && this.state.pickCount === 0? <button type="button" className="btn btn-danger" id = "pickCard" onClick = {this.onSubmit}>Pick</button> : null}
-                {(this.state.stage === 4 && this.state.hostIdx < this.state.players.length - 1) ? <button type="button" className="btn btn-dark" id = "readyToStart" onClick = {this.onSubmit}>Next Round</button>: null}     
-                {(this.state.stage === 4 && this.state.hostIdx == this.state.players.length - 1) ? <button type="button" className="btn btn-dark" id = "readyToStart" onClick = {this.onSubmit}>Next</button>: null}     
+                {(this.state.stage === 4 && this.state.hostIdx < this.state.players.length - 1) ? <button type="button" className="btn btn-outline-dark" id = "readyToStart" onClick = {this.onSubmit}>Next Round</button>: null}     
+                {(this.state.stage === 4 && this.state.hostIdx == this.state.players.length - 1) ? <button type="button" className="btn btn-outline-dark" id = "readyToStart" onClick = {this.onSubmit}>Next</button>: null}     
               </div>
             </div>
             {!this.state.cardsOnHand || this.state.cardsOnHand.length === 0 ? null 
