@@ -184,14 +184,14 @@ class GameRoom extends Component {
     return (
 
       <div className = "container gameroom">
-        <div className="row part">
+        <div className="row part rooms">
           <div className = "col-4">
             <h1>GameRoom</h1>
           </div>
-          <div className = "col-4">
+          <div className = "col-5">
             
           </div>
-          <div className = "col-4">
+          <div className = "col-3 addNewBtn">
             <button type="button" className= "btn inline-btn btn-danger my-2 my-sm-0 " data-toggle="modal" data-target="#myModal" id="createRoom" onClick={this.onClick.bind(this)}>Add Game</button>
           </div>
           <div className = "col-12">
@@ -238,10 +238,10 @@ class GameRoom extends Component {
             </div>
           </div>
         </div>
-        <div className="row part">
+        <div className="row part rooms">
           {paginatedGames.map(game => (
-            <div key={game._id} className="card col-xs-12 col-s-6 col-m-4" id="room">
-              <div>
+            <div key={game._id}  id="room" className = "card">
+              <div >
                 <div className="card-body">
                   <h5 className = "card-text text-center cardGameName">{game.name}</h5>
                   <p className = "card-text text-center">Status: {game.players.length}/{game.numberOfPlayers}</p>
@@ -282,9 +282,6 @@ export default withTracker(() => {
   
   return {
     games: Games.find({},{
-      $sort: {
-        createdAt: -1
-      }
     }).fetch(), 
     user: Meteor.user(),
     cards: Cards.find({}).fetch(),

@@ -100,11 +100,19 @@ h6 {
 	color: white;
 }
 
-#scoreBoard {
-	padding: 5%;
+#scoreBoard{
+	padding-top: 20px;
 	border-right: 2px dotted black;
-  margin-left: 0;
-  padding-left: 0;
+  padding-left: 30px;
+  padding-right: 30px;
+  overflow: hidden;
+}
+
+#gameBoard {
+  padding-top: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
+  overflow: hidden;
 }
 
 #gameBoard .card {
@@ -115,6 +123,13 @@ h6 {
   transition: 0.3s;
   width : 120px;
   height: 180px;
+}
+
+#gameBoard button {
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #addcard .card {
@@ -171,10 +186,18 @@ h6 {
 }
 
 .gameroom .card {
-  margin: 20px;
-  width: 200px;
-  height: 250px;
+  margin-right: 3%;
+  margin-bottom: 30px;
+  width: 180px;
+  height: 230px;
   border: 1.3px solid #222026 !important;
+}
+
+.addNewBtn {
+  align-items: right;
+}
+.rooms {
+  margin-left: 20px ;
 }
 
 .gameRoomBtn {
@@ -189,6 +212,11 @@ h6 {
 
 .gameroom .player {
   color: #bb964e;
+  overflow: hidden
+}
+
+.gameroom .card-text {
+  overflow: hidden
 }
 
 .gameroom .card:hover {

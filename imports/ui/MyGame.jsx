@@ -5,7 +5,6 @@ import { withTracker } from "meteor/react-meteor-data";
 import PropTypes from "prop-types";
 import { UsersGames } from "../api/usersGames.js";
 import { Cards } from "../api/cards.js";
-import {NavBar} from "./NavBar.jsx";
 
 class MyGame extends Component {
   constructor(props) {
@@ -445,9 +444,8 @@ class MyGame extends Component {
     return (
 
       <div className="container">
-        {NavBar}
         <div className="row">
-          <div className="col-s-2 col-xs-hidden part" id="scoreBoard">
+          <div className="d-none d-sm-block col-sm-2" id="scoreBoard">
             <h2 className="row"> GameRoom </h2>
             <p> NAME: <br/><span className="boardInfo">{this.state.gameName}</span></p>
             <p> ROUND: <span className="boardInfo">{this.state.hostIdx + 1}</span></p>
@@ -460,208 +458,202 @@ class MyGame extends Component {
             </div>
           </div>
 
-          <div className="col-s-10" id="gameBoard">
-            <div className="part">
-              {this.state.stage > 1 ?
-                <div><h4 id="displayDescrition">Story teller description: <span className="gameInfo">{this.state.hostDescription}</span></h4></div> 
-                : 
-                <div><h4 id="displayDescrition" style={{"color":"transparent"}}><span className="gameInfo">{this.state.hostDescription}</span></h4></div>
-              }
-              <h2 className="row"> Pool </h2>
-              {this.state.stage == 0? <div> {this.state.readyCount==0? <div className="row">
-                <h4>
-                  <span id="badge" className="badge badge-pill badge-warning m-2">
-                    Click the Ready Button to start game!
-                  </span>
-                </h4>
-              </div> : <div className="row">
-                <h4>
-                  <span id="badge" className="badge badge-pill badge-warning m-2">
-                    Waiting for other players to Start!
-                  </span>
-                </h4>
-              </div>} 
-              </div>
-                : 
-                <div>
-                  {this.state.stage === 2 && this.state.isHost? 
-                    <div className="row">
-                      <h4>
-                        <span id="badge" className="badge badge-pill badge-warning m-2">
-                          Waiting for other players to Pick!
-                        </span>
-                      </h4>
-                    </div>
-                    : 
+          <div className="col-sm-10 col-xs-12" id="gameBoard">
+            <h2 className="row"> Pool </h2>
+            {this.state.stage > 1 ?
+              <div><h4 id="displayDescrition">Story teller description: <span className="gameInfo">{this.state.hostDescription}</span></h4></div> 
+              : 
+              <div><h4 id="displayDescrition" style={{"color":"transparent"}}><span className="gameInfo">{this.state.hostDescription}</span></h4></div>
+            }
+            {this.state.stage == 0? <div> {this.state.readyCount==0? <div className="row">
+              <h4>
+                <span id="badge" className="badge badge-pill badge-warning m-2">
+                  Click the Ready Button to start game!
+                </span>
+              </h4>
+            </div> : <div className="row">
+              <h4>
+                <span id="badge" className="badge badge-pill badge-warning m-2">
+                  Waiting for other players to Start!
+                </span>
+              </h4>
+            </div>} 
+            </div>
+              : 
+              <div>
+                {this.state.stage === 2 && this.state.isHost? 
+                  <div className="row">
+                    <h4>
+                      <span id="badge" className="badge badge-pill badge-warning m-2">
+                        Waiting for other players to Pick!
+                      </span>
+                    </h4>
+                  </div>
+                  : 
+                  null
+                }
+                {
+                  this.state.stage === 5 ? 
+                    <div><h4>GAME OVER!</h4></div>
+                    :
                     null
-                  }
-                  {
-                    this.state.stage === 5 ? 
-                      <div><h4>GAME OVER!</h4></div>
-                      :
-                      null
-                  }
-                  {this.state.stage === 4?
-                    <div>
-                      <div><h4>Answer:</h4>
-                        {this.props.myGame.map(game => (
-                          <div key = {game._id}
-                            className="card col-xs-4 col-s-3"
-                            style={{
-                              backgroundImage: `url(${game.targetCard.url})`,
-                              backgroundSize: "cover"
-                            }}></div>))}</div>
-                      <div><h4>Winners:</h4>
-                        {this.props.myGame.map(game => (
-                          <div key = {game._id}
-                            className="col-xs-4 col-s-3">
-                            {game.winners.map(winner =>(
-                              <div key = {winner}>{winner}</div>
-                            ))}
-                          </div>))}</div>
-                    </div>
-                    : null
-                  }
-
-                  {this.state.stage === 3 && this.state.isHost ?
-                    <div className="row">
-                      <h4>
-                        <span id="badge" className="badge badge-pill badge-warning m-2">
-                          Waiting for other players to Vote!
-                        </span>
-                      </h4>
-                    </div> : null
-                  }
-
-                  {this.state.stage === 3 && !this.state.isHost && this.state.voteCount===0?
-                    <div className="row">
-                      <div className = "col-7">
-                        <h4>
-                          <span id="badge" className="badge badge-pill badge-warning m-2">
-                           Please vote for a card in POOL!
-                          </span>
-                        </h4>
-                      </div>
-                      <div className = "col-3">
-                        {pickCard}
-                      </div>
-                      <div className ="col-2">
-                        <button type="button" className="btn btn-danger" id = "voteCard" onClick = {this.onSubmit}>Vote</button> 
-                      </div>
-                    </div> : null
-                  }
-
-                  {this.state.cardsOnDesk.length === this.state.players.length? 
-                    (<div className="row" id="cardsOnDesk">
-                      {this.state.cardsOnDesk.map(cardOnDesk => (
-                        <div key={cardOnDesk._id}
+                }
+                {this.state.stage === 4?
+                  <div>
+                    <div><h4>Answer:</h4>
+                      {this.props.myGame.map(game => (
+                        <div key = {game._id}
                           className="card col-xs-4 col-s-3"
                           style={{
-                            backgroundImage: `url(${cardOnDesk.url})`,
+                            backgroundImage: `url(${game.targetCard.url})`,
                             backgroundSize: "cover"
-                          }}
-                          onClick={() =>
-                            this.setState({ selectedCard: cardOnDesk })
-                          }
-                        >
-                        </div>
-                      ))}
-                    </div>)
-                    : 
-                    <div>{(this.state.stage === 1 && this.state.cardsOnDesk.length === 0) ? 
-                      (<div className="row">
-                        <h4>
-                          <span id="badge" className="badge badge-pill badge-warning m-2">
-                          Waiting for "{this.state.players[this.state.hostIdx]}" to pick a card and describe...
-                          </span>
-                        </h4>
-                      </div>)
-                      : 
-                      (<div className="row">
-                        {this.state.stage === 2 ?
-                          <h4>
-                            <span id="badge" className="badge badge-pill badge-warning m-2">
-                            Waiting for { this.state.players.length - this.state.cardsOnDesk.length} player(s) to pick card!
-                            </span> </h4>: null}
-                      </div>       
-                      )
-                    }</div>
-                  }</div>}
-
-              <div className = "row part">
-                <div className = "col-12">
-                  <h2 className="row"> Cards In Hand </h2>
-                </div>
-                <div className = "col-4">
-                  <div>{(this.state.stage === 2 && !this.state.isHost && this.state.pickCount===0 ? 
+                          }}></div>))}</div>
+                    <div><h4>Winners:</h4>
+                      {this.props.myGame.map(game => (
+                        <div key = {game._id}
+                          className="col-xs-4 col-s-3">
+                          {game.winners.map(winner =>(
+                            <div key = {winner}>{winner}</div>
+                          ))}
+                        </div>))}</div>
+                  </div>
+                  : null
+                }
+                {this.state.stage === 3 && this.state.isHost ?
+                  <div className="row">
+                    <h4>
+                      <span id="badge" className="badge badge-pill badge-warning m-2">
+                        Waiting for other players to Vote!
+                      </span>
+                    </h4>
+                  </div> : null
+                }
+                {this.state.stage === 3 && !this.state.isHost && this.state.voteCount===0?
+                  <div className="row">
+                    <div className = "col-7">
+                      <h4>
+                        <span id="badge" className="badge badge-pill badge-warning m-2">
+                         Please vote for a card in POOL!
+                        </span>
+                      </h4>
+                    </div>
+                    <div className = "col-3">
+                      {pickCard}
+                    </div>
+                    <div className ="col-2">
+                      <button type="button" className="btn btn-danger" id = "voteCard" onClick = {this.onSubmit}>Vote</button> 
+                    </div>
+                  </div> : null
+                }
+                {this.state.cardsOnDesk.length === this.state.players.length? 
+                  (<div className="row" id="cardsOnDesk">
+                    {this.state.cardsOnDesk.map(cardOnDesk => (
+                      <div key={cardOnDesk._id}
+                        className="card col-xs-6 col-s-3"
+                        style={{
+                          backgroundImage: `url(${cardOnDesk.url})`,
+                          backgroundSize: "cover"
+                        }}
+                        onClick={() =>
+                          this.setState({ selectedCard: cardOnDesk })
+                        }
+                      >
+                      </div>
+                    ))}
+                  </div>)
+                  : 
+                  <div>{(this.state.stage === 1 && this.state.cardsOnDesk.length === 0) ? 
                     (<div className="row">
                       <h4>
                         <span id="badge" className="badge badge-pill badge-warning m-2">
-                        Please pick a card from your HAND!
+                        Waiting for "{this.state.players[this.state.hostIdx]}" to pick a card and describe...
                         </span>
                       </h4>
                     </div>)
                     : 
-                    null)}</div>
-                  <div>
-                    {this.state.stage == 1 && this.state.isHost ? 
-                      <div className="row" id="textbox">
-                        <form>
-                          <div className="form-group from -inline">
-                            <input
-                              type=""
-                              className="form-control"
-                              id="description"
-                              aria-describedby="description"
-                              value={this.state.description}
-                              onChange={this.onChange}
-                              placeholder="Enter Description..."
-                            />
-                            <small id="detail" className="form-text text-muted">
-                              Tips: You get points when at least ONE but not ALL guess right
-                            </small>
-                          </div>
-                        </form>
-                      </div>: null}
-                  </div>
-                </div>
-                
-                <div className = "col-3">
-                  
-                </div>
-                <div className = "col-3">
-                  {this.state.stage === 0 && this.state.readyCount === 0? (<button type="button" className="btn btn-danger" id = "readyToStart" onClick = {this.onSubmit.bind(this)}>Ready!</button>):
-                    <div className="row" >
-                      {(this.state.isHost && this.state.stage === 1) || (!this.state.isHost && this.state.stage == 2)? pickCard :null}
-                    </div>}
-                </div>
-                <div className = "col-2">
-                  {this.state.stage === 0 || this.state.stage == 5 ? <button type="button" className="btn btn-dark" id = "exitGame" onClick = {this.onSubmit}>Exit</button>: null}
-                  {this.state.stage === 1 && this.state.isHost ? <button type="submit" className="btn btn-danger" id="descriptionDone" onClick={this.onSubmit} > Submit </button>:null}
-                  {this.state.stage === 2 && !this.state.isHost && this.state.pickCount === 0? <button type="button" className="btn btn-danger" id = "pickCard" onClick = {this.onSubmit}>Pick</button> : null}
-                  {(this.state.stage === 4 && this.state.hostIdx < this.state.players.length - 1) ? <button type="button" className="btn btn-dark" id = "readyToStart" onClick = {this.onSubmit}>Next Round</button>: null}     
-                  {(this.state.stage === 4 && this.state.hostIdx == this.state.players.length - 1) ? <button type="button" className="btn btn-dark" id = "readyToStart" onClick = {this.onSubmit}>Next</button>: null}     
+                    (<div className="row">
+                      {this.state.stage === 2 ?
+                        <h4>
+                          <span id="badge" className="badge badge-pill badge-warning m-2">
+                          Waiting for { this.state.players.length - this.state.cardsOnDesk.length} player(s) to pick card!
+                          </span> </h4>: null}
+                    </div>       
+                    )
+                  }</div>
+                }</div>}
+            <div className = "row">
+              <div className = "col-12">
+                <h2 className="row"> Cards In Hand </h2>
+              </div>
+              <div className = "col-4">
+                <div>{(this.state.stage === 2 && !this.state.isHost && this.state.pickCount===0 ? 
+                  (<div className="row">
+                    <h4>
+                      <span id="badge" className="badge badge-pill badge-warning m-2">
+                      Please pick a card from your HAND!
+                      </span>
+                    </h4>
+                  </div>)
+                  : 
+                  null)}</div>
+                <div>
+                  {this.state.stage == 1 && this.state.isHost ? 
+                    <div className="row" id="textbox">
+                      <form>
+                        <div className="form-group from -inline">
+                          <input
+                            type=""
+                            className="form-control"
+                            id="description"
+                            aria-describedby="description"
+                            value={this.state.description}
+                            onChange={this.onChange}
+                            placeholder="Enter Description..."
+                          />
+                          <small id="detail" className="form-text text-muted">
+                            Tips: You get points when at least ONE but not ALL guess right
+                          </small>
+                        </div>
+                      </form>
+                    </div>: null}
                 </div>
               </div>
-              {!this.state.cardsOnHand || this.state.cardsOnHand.length === 0 ? null 
-                : (
-                  <div className="row" id="cardsInHand">
-                    {this.state.cardsOnHand.map(cardOnHand => (
-                      <div
-                        key={cardOnHand._id}
-                        className="card col-xs-6 col-s-3"
-                        onClick={() =>
-                          this.setState({ selectedCard: cardOnHand })
-                        }
-                        style={{
-                          backgroundImage: `url(${cardOnHand.url})`,
-                          backgroundSize: "cover"
-                        }}
-                      />
-                    ))}
-                  </div>
-                )}
+              
+              <div className = "col-2">
+                
+              </div>
+              <div className = "col-3">
+                {this.state.stage === 0 && this.state.readyCount === 0? (<button type="button" className="btn btn-danger" id = "readyToStart" onClick = {this.onSubmit.bind(this)}>Ready!</button>):
+                  <div className="row" >
+                    {(this.state.isHost && this.state.stage === 1) || (!this.state.isHost && this.state.stage == 2)? pickCard :null}
+                  </div>}
+              </div>
+              <div className = "col-3">
+                {this.state.stage === 0 || this.state.stage == 5 ? <button type="button" className="btn btn-dark" id = "exitGame" onClick = {this.onSubmit}>Exit</button>: null}
+                {this.state.stage === 1 && this.state.isHost ? <button type="submit" className="btn btn-danger" id="descriptionDone" onClick={this.onSubmit} > Submit </button>:null}
+                {this.state.stage === 2 && !this.state.isHost && this.state.pickCount === 0? <button type="button" className="btn btn-danger" id = "pickCard" onClick = {this.onSubmit}>Pick</button> : null}
+                {(this.state.stage === 4 && this.state.hostIdx < this.state.players.length - 1) ? <button type="button" className="btn btn-dark" id = "readyToStart" onClick = {this.onSubmit}>Next Round</button>: null}     
+                {(this.state.stage === 4 && this.state.hostIdx == this.state.players.length - 1) ? <button type="button" className="btn btn-dark" id = "readyToStart" onClick = {this.onSubmit}>Next</button>: null}     
+              </div>
             </div>
+            {!this.state.cardsOnHand || this.state.cardsOnHand.length === 0 ? null 
+              : (
+                <div className="row" id="cardsInHand">
+                  {this.state.cardsOnHand.map(cardOnHand => (
+                    <div
+                      key={cardOnHand._id}
+                      className="card col-xs-6 col-s-3"
+                      onClick={() =>
+                        this.setState({ selectedCard: cardOnHand })
+                      }
+                      style={{
+                        backgroundImage: `url(${cardOnHand.url})`,
+                        backgroundSize: "cover"
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
           </div>
         </div>
       </div>
