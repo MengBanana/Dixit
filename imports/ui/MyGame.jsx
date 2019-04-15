@@ -77,7 +77,6 @@ class MyGame extends Component {
   eventFire(el, etype){
     if (el.fireEvent) {
       el.fireEvent("on" + etype);
-      console.log("clicked");
     } else {
       var evObj = document.createEvent("Events");
       evObj.initEvent(etype, true, false);

@@ -148,28 +148,35 @@ Meteor.methods({
     );
     res = Games.find({name:name}).fetch();
     array = res[0].players;
-    if (array.length === 0) {
-      let newName = "%".concat(name,"%");
+    if (res[0].stage == 5) {
       Games.update({
         name: name
       },
       {
         $set : {
-          name: newName,
-          isOver:true,
           okToJoin:false
         }
+      });
+      if (array.length == 0) {
+        let newName = "%".concat(name,"%");
+        Games.update({
+          name: name
+        },
+        {
+          $set : {
+            name: newName,
+            isOver:true
+          }
+        });
+      } else if (array.length < res[0].numberOfPlayers && res[0].stage == 0) {
+        Games.update(
+          {name: name}, 
+          {$set :{
+            okToJoin: true
+          }}
+        );
       }
-      );
-    } else if (array.length < res[0].numberOfPlayers) {
-      Games.update(
-        {name: name}, 
-        {$set :{
-          okToJoin: true
-        }}
-      );
     }
-    
   },
 
   "games.updateReady"(name) { //STAGE 0 -> 1 && STAGE 4 -> 1 (continue button)
@@ -350,6 +357,13 @@ Meteor.methods({
       }, {
         $addToSet:{winners: username}
       });
+      UsersGames.update({
+        _id: Meteor.userId()
+      }, {
+        $addToSet:{
+          temp: info.card
+        }
+      });
     }
     Games.update ({
       name: info.game
@@ -371,21 +385,19 @@ Meteor.methods({
             winners: hostName
           }
         });
-        // TODO: ADD good description to Cards, TO BE TESTED !!!
-        let card = Cards.find({_id:info.card._id}).fetch();
-        if (!card[0].titles) {
-          Cards.update({
-            _id: info.card._id
-          }, {
-            $set:{
-              titles:[]
-            }
-          });
-        }
+
+        UsersGames.update({
+          _id: Meteor.userId()
+        }, {
+          $addToSet:{
+            temp: info.card
+          }
+        });
+       
         Cards.update({
           _id: info.card._id
         }, {
-          addToSet:{
+          $addToSet:{
             titles: description
           }
         });

@@ -98,8 +98,6 @@ Meteor.methods({
 
 
   "usersGames.exit"() {//upate points, round++, exit game
-    console.log(this.userId);
-    console.log(Meteor.userId());
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     }

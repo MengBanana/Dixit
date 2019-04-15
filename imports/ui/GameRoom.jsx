@@ -37,7 +37,6 @@ class GameRoom extends Component {
 
   updateSearch(event) {
     this.setState({ search: event.target.value.substring(0, 20) });
-    console.log(event.target.value);
   }
 
   onChange(e){
@@ -140,7 +139,6 @@ class GameRoom extends Component {
   }
 
   render() {
-    console.log(this.state.accessCode);
     const {
       currentPage,
       pageSize,
