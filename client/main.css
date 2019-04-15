@@ -38,6 +38,9 @@ h1 {
 .cardGameName {
   border-bottom: 1px solid #f9f6ea;
   padding-bottom: 5px;
+  height: 30px;
+  max-height: 30px;
+  overflow: hidden;
 }
 
 h6 {
@@ -126,7 +129,7 @@ h6 {
 }
 
 #gameBoard button {
-  
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -193,6 +196,13 @@ h6 {
   border: 1.3px solid #222026 !important;
 }
 
+.gameroom .playerNames{
+  height: 70px;
+  max-height: 70px;
+  font-size: relative;
+  overflow: hidden;
+}
+
 .addNewBtn {
   align-items: right;
 }
@@ -212,11 +222,6 @@ h6 {
 
 .gameroom .player {
   color: #bb964e;
-  overflow: hidden
-}
-
-.gameroom .card-text {
-  overflow: hidden
 }
 
 .gameroom .card:hover {

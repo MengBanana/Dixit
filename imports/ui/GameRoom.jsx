@@ -243,14 +243,14 @@ class GameRoom extends Component {
             <div key={game._id}  id="room" className = "card">
               <div >
                 <div className="card-body">
-                  <h5 className = "card-text text-center cardGameName">{game.name}</h5>
+                  <h5 className = "card-text text-center cardGameName">{game.name.length <= 13 ? game.name : game.name.substring(0,12).concat("..")}</h5>
                   <p className = "card-text text-center">Status: {game.players.length}/{game.numberOfPlayers}</p>
-                  <span className = "card-text text-center">
+                  <div className = "card-text text-center playerNames">
                     <p>
                   Players:<br/>
-                      {game.players.map(player => (<span className="player" key ={player}> {player}    </span>))}
+                      {game.players.map(player => (<span className="player" key ={player}> {player.length < 6 ? player : player.substring(0,5).concat("..")}    </span>))}
                     </p>
-                  </span>
+                  </div>
                   {game.okToJoin === true ? <div className="gameRoomBtn"><button type="button" className="btn btn-outline-dark" id="joinGame" name={game.name} onClick = {this.onSubmit.bind(this)}>JoinUs</button></div>
                     : <div> {game.isOver === true ?  <div className="gameRoomBtn"><button type="button" className="btn btn-outline-secondary" disabled>GameOver</button></div> :
                       <div className="gameRoomBtn"><button type="button" className="btn btn-outline-secondary" disabled>InGame</button></div>}</div>}
