@@ -32,20 +32,19 @@ class App extends Component {
     return (
       <Router>
         <NavBar />
-        <div className = "container">
-              <Switch>
-                <Route exact path="/" component={HomePage} />
-                <Route exact path="/AddCard" component={AddCard} />
-                 <Route exact path="/About" component={About} />
-                <Fragment>
-                  {this.props.myData.length === 0 ? <Route exact path="/gameroom" component= {GameRoom} /> : <div>
-                    {this.props.myData[0].ingame ? <Route exact path="/gameroom" component={MyGame} /> :
-                      <Route exact path="/gameroom" component= {GameRoom} />}</div>
-                  }
-                </Fragment>
-
-              </Switch>
-            </div>
+        <div>
+          <Switch>
+            <Route exact path="/" component={HomePage} />
+            <Route exact path="/AddCard" component={AddCard} />
+            <Route exact path="/About" component={About} />
+            <Fragment>
+              {this.props.myData.length === 0 ? <Route exact path="/gameroom" component= {GameRoom} /> : <div>
+                {this.props.myData[0].ingame ? <Route exact path="/gameroom" component={MyGame} /> :
+                  <Route exact path="/gameroom" component= {GameRoom} />}</div>
+              }
+            </Fragment>
+          </Switch>
+        </div>
         <Footer />
       </Router>
     );

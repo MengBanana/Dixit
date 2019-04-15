@@ -495,6 +495,9 @@ class MyGame extends Component {
                     : 
                     null
                   }
+                  {
+                    this.state.stage === 5 ? <div><h4>GAME OVER!</h4></div>:null
+                  }
                   {this.state.stage === 4?
                     <div>
                       <div><h4>Answer:</h4>

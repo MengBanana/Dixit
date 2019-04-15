@@ -1,6 +1,8 @@
 import { Meteor } from "meteor/meteor";
 import { Mongo } from "meteor/mongo";
 import { check } from "meteor/check";
+import { Cards } from "./cards.js";
+import { UsersGames } from "./usersGames.js";
 
 export const Games = new Mongo.Collection("games");
 
@@ -356,6 +358,7 @@ Meteor.methods({
     });
     res = Games.find({name:info.game}).fetch();
     let array = res[0].count;
+    let description = res[0].description;
     if (array.length >= res[0].numberOfPlayers - 1){ //all votes
       let winners = res[0].winners;
       let players = res[0].players;
@@ -366,6 +369,24 @@ Meteor.methods({
         }, {
           $addToSet:{
             winners: hostName
+          }
+        });
+        // TODO: ADD good description to Cards, TO BE TESTED !!!
+        let card = Cards.find({_id:info.card._id}).fetch();
+        if (!card[0].titles) {
+          Cards.update({
+            _id: info.card._id
+          }, {
+            $set:{
+              titles:[]
+            }
+          });
+        }
+        Cards.update({
+          _id: info.card._id
+        }, {
+          addToSet:{
+            titles: description
           }
         });
       }
