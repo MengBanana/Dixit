@@ -181,12 +181,6 @@ class GameRoom extends Component {
       </div>
     );
 
-          // <h4>
-          //   <span id="badge" className="badge badge-pill badge-secondary">
-          //    Please join an existing game or add a new game room
-          //   </span>
-          // </h4>
-
     return (
 
       <div className = "container gameroom">
@@ -244,10 +238,10 @@ class GameRoom extends Component {
             </div>
           </div>
         </div>
-        <div className="row">
+        <div className="row part">
           {paginatedGames.map(game => (
-            <div key={game._id} className="card col-xs-6 col-s-3" id="room">
-              <div className = "container">
+            <div key={game._id} className="card col-xs-12 col-s-6 col-m-4" id="room">
+              <div>
                 <div className="card-body">
                   <h5 className = "card-text text-center cardGameName">{game.name}</h5>
                   <p className = "card-text text-center">Status: {game.players.length}/{game.numberOfPlayers}</p>
@@ -257,9 +251,9 @@ class GameRoom extends Component {
                       {game.players.map(player => (<span className="player" key ={player}> {player}    </span>))}
                     </p>
                   </span>
-                  {game.okToJoin === true ? <button type="button" className="btn btn-outline-dark center-block" id="joinGame" name={game.name} onClick = {this.onSubmit.bind(this)}>JoinUs</button>
-                    : <div> {game.isOver === true ? <button type="button" className="btn btn-outline-secondary" disabled>GameOver</button> :
-                      <button type="button" className="btn btn-outline-secondary" disabled>InGame</button>}</div>}
+                  {game.okToJoin === true ? <div className="gameRoomBtn"><button type="button" className="btn btn-outline-dark" id="joinGame" name={game.name} onClick = {this.onSubmit.bind(this)}>JoinUs</button></div>
+                    : <div> {game.isOver === true ?  <div className="gameRoomBtn"><button type="button" className="btn btn-outline-secondary" disabled>GameOver</button></div> :
+                      <div className="gameRoomBtn"><button type="button" className="btn btn-outline-secondary" disabled>InGame</button></div>}</div>}
                 </div>
               </div> 
             </div>

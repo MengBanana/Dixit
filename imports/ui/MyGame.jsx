@@ -62,7 +62,7 @@ class MyGame extends Component {
         return;
       }
       if (cur != prev && this.state.timeId === "") {
-        let timeId = setTimeout(this.autoSelect, 10000);
+        let timeId = setTimeout(this.autoSelect, 20000);
         this.setState({
           timeId:timeId
         });
@@ -496,7 +496,10 @@ class MyGame extends Component {
                     null
                   }
                   {
-                    this.state.stage === 5 ? <div><h4>GAME OVER!</h4></div>:null
+                    this.state.stage === 5 ? 
+                      <div><h4>GAME OVER!</h4></div>
+                      :
+                      null
                   }
                   {this.state.stage === 4?
                     <div>
