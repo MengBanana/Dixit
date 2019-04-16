@@ -121,6 +121,10 @@ h6 {
   height: 45px;
 }
 
+.pool {
+  min-height: 280px;
+}
+
 #gameBoard {
   padding-top: 20px;
   padding-left: 30px;

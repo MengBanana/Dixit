@@ -439,6 +439,8 @@ class MyGame extends Component {
         )}</span>
       
     </div> );
+    console.log("playerIdx",this.state.playerIdx);
+    console.log("hostIdx",this.state.hostIdx);
     
     return (
 
@@ -470,6 +472,7 @@ class MyGame extends Component {
           </div>
 
           <div className="col-sm-10 col-xs-12" id="gameBoard">
+          <div className="pool">
             {this.state.stage == 5? null: <h2 className="row"> Pool </h2>}
             {this.state.stage > 1 && this.state.stage < 5 ?
               <div><h4 id="displayDescrition">Story teller description: <span className="gameInfo">{this.state.hostDescription}</span></h4></div> 
@@ -614,7 +617,8 @@ class MyGame extends Component {
                     )
                   }</div>
                 }</div>}
-            <div className = "row">
+            </div>
+            <div className = "row hand">
               <div className = "col-12">
                 <h2 className="row"> Cards In Hand </h2>
               </div>
@@ -644,7 +648,7 @@ class MyGame extends Component {
                             placeholder="Enter Description..."
                           />
                           <small id="detail" className="form-text text-muted">
-                            Tips: You get points when at least ONE but not ALL guess right
+                            Tips: You get points when at least ONE but not ALL players guess right
                           </small>
                         </div>
                       </form>

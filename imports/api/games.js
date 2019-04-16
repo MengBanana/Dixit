@@ -114,7 +114,7 @@ Meteor.methods({
       throw new Meteor.Error("not-authorized");
     }
     let res = Games.find({name:name}).fetch(); 
-    let array = res["0"].players;
+    let array = res[0].players;
     let username = "";
     if (!Meteor.user().username) {
       username = Meteor.user().services.twitter.screenName;
@@ -148,34 +148,25 @@ Meteor.methods({
     );
     res = Games.find({name:name}).fetch();
     array = res[0].players;
-    if (res[0].stage == 5) {
+    if (array.length == 0) {
+      let newName = "%".concat(name,"%");
       Games.update({
         name: name
       },
       {
         $set : {
-          okToJoin:false
+          name: newName,
+          okToJoin:false,
+          isOver:true
         }
       });
-      if (array.length == 0) {
-        let newName = "%".concat(name,"%");
-        Games.update({
-          name: name
-        },
-        {
-          $set : {
-            name: newName,
-            isOver:true
-          }
-        });
-      } else if (array.length > 0 && array.length < res[0].numberOfPlayers && res[0].stage == 0) {
-        Games.update(
-          {name: name}, 
-          {$set :{
-            okToJoin: true
-          }}
-        );
-      }
+    } else if (array.length < res[0].numberOfPlayers && res[0].stage === 0) {
+      Games.update(
+        {name: name}, 
+        {$set :{
+          okToJoin: true
+        }}
+      );
     }
   },
 
@@ -387,7 +378,7 @@ Meteor.methods({
         });
 
         UsersGames.update({
-          _id: Meteor.userId()
+          username: hostName
         }, {
           $addToSet:{
             temp: info.card
