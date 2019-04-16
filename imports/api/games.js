@@ -156,6 +156,8 @@ Meteor.methods({
       {
         $set : {
           name: newName,
+          players:[],
+          stage:5,
           okToJoin:false,
           isOver:true
         }
