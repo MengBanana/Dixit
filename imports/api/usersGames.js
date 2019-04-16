@@ -69,7 +69,9 @@ Meteor.methods({
         gameName: name,
         totalPoints: 0,
         totalRounds: 0,
-        twitterId:""
+        twitterId:"",
+        temp:[],
+        collection:[]
       });
     }
   },
