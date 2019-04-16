@@ -55,7 +55,7 @@ export class AddCard extends Component {
           <div className="row">
             <div id="magic-button">
               <br/>
-              <button type="button" className= "btn btn-danger my-2 my-sm-0 " data-toggle="modal" data-target="#myModal">Add Card</button>
+              {Meteor.userId() == "DcRzfYmuDNyQrT3q4" ?<button type="button" className= "btn btn-danger my-2 my-sm-0 " data-toggle="modal" data-target="#myModal">Add Card</button>:null}
             </div>
             <div id="myModal" className="modal fade" role="dialog">
               <div className="modal-dialog">
