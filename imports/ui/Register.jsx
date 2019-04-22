@@ -56,7 +56,7 @@ class Register extends Component {
   }
 
   render() {
-    if (Meteor.user()) return <Redirect to="/" user={Meteor.user()}/>;
+    if (Meteor.user()) return <Redirect to="/gameroom" user={Meteor.user()}/>;
     return (
       <div className="container">
         <br/><br/>

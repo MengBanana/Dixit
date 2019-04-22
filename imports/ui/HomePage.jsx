@@ -10,7 +10,7 @@ class HomePage extends Component {
             <img className="d-block w-100" src="https://cultrbox.files.wordpress.com/2014/01/dixit-card-set.jpg" alt="First slide"/>
           </div>
           <div className="carousel-item">
-            <img className="d-block w-100" src="https://github.com/MengBanana/Dixit/blob/master/demo/GameRule.png?raw=true" alt="Second slide"/>
+            <img className="d-block w-100" src="https://github.com/MengBanana/Dixit/blob/master/demo/GameRules2.png?raw=true" alt="Second slide"/>
           </div>
         </div>
         <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
