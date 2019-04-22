@@ -13,7 +13,7 @@ class About extends Component {
                    About
                   </span>
                 </h2>
-                <h5>Dixit is a card game using a deck of cards illustrated with dreamlike images, 
+                <h5> Dixit is a card game using a deck of cards illustrated with dreamlike images, 
                      players select cards that match a title suggestsed by the "storyteller", and 
                      attempt to vote which card the "storyteller" selected...</h5> 
               </div>
@@ -24,7 +24,7 @@ class About extends Component {
                   </span>
                 </h2>
                 <h5>
-                3-6
+                  3-6
                 </h5>
               </div>
               <div className="Rules">
@@ -58,7 +58,7 @@ class About extends Component {
               <div className="Play">
                 <h2>
                   <span id="badge" className="badge badge-pill badge-warning">
-                   Sign in & Click "Game Room" to play!
+                   Sign in & Play!
                   </span>
                 </h2>
                 <p></p>

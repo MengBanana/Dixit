@@ -1,5 +1,7 @@
 body {
 	background-color: #f9f6ea !important;
+  //background-image: url(https://avatars.mds.yandex.net/get-pdb/471286/411d4c1d-cc39-42f7-a5d9-ff7253f6aa01/s1200);
+  //background-color: #cc5e00;
   color:#222026 !important;
 }
 
@@ -8,18 +10,22 @@ body {
 
 }
 
-.
-/*
-h1 {
-  color: #cc7000 !important;
-}*/
+.homepage {
+  margin-left: auto;
+  margin-right: auto;
+}
 
+.About h5{
+  margin-left: 20px;
+}
+.SetUP h5 {
+  margin-left: 20px;
+}
 
 #search {
   width: 155px;
   text-align: center;
 }
-
 
 .btn-danger {
  /* background-color: #bf2709 !important;
@@ -28,6 +34,8 @@ h1 {
   border-color: #cc5e00 !important;
 
 }
+
+
 
 .btn-outline-dark {
   background-color: #e09d23 !important;
@@ -99,8 +107,8 @@ h6 {
   background-color: #f9f6ea !important;
   color:#222026 !important;
 }
-.signin {
-	color: white;
+.signin a{
+	color: white !important;
 }
 
 #scoreBoard{
@@ -265,6 +273,151 @@ h6 {
    height: 60px;
    font-family: 'Germania One';
    text-align: center;
+}
+
+
+
+@import url('https://fonts.googleapis.com/css?family=Numans');
+
+html,body{
+background-size: cover;
+background-repeat: no-repeat;
+height: 100%;
+}
+
+.container{
+height: 100%;
+align-content: center;
+}
+
+.loginCard{
+height: 345px;
+margin-top: 5px;
+margin-bottom: 30px;
+width: 400px;
+background-color: rgba(0,0,0,0.6) !important;
+}
+
+
+
+.loginCard .card-header h3{
+color:  #f9f6ea !important;
+
+
+}
+
+.loginCard .card-footer {
+  color:  #f9f6ea !important;
+  font-size: 15px;
+}
+
+.loginCard .social_btn{
+  display: inline-block !important;
+  color: black;
+  background-color: #FFC312 !important;
+  width: 170px;
+}
+
+.loginCard .social_btn:hover{
+color: black;
+background-color: #f9f6ea !important;
+}
+
+
+.loginCard .input-group-prepend span{
+display: flex;
+align-items: center;
+justify-content: center;
+width: 50px;
+background-color: #FFC312;
+color: black;
+border:0 !important;
+}
+
+.loginCard .input-group-prepend input[type="text"]{
+background-color: #f9f6ea !important;
+}
+
+
+
+.loginCard input:focus{
+outline: 0 0 0 0  !important;
+box-shadow: 0 0 0 0 !important;
+
+}
+
+.loginCard .fa-twitter {
+  size:20px;
+}
+
+.loginCard .login_btn{
+color: black;
+background-color: #FFC312 !important;
+width: 100px;
+}
+
+.loginCard .login_btn:hover{
+color: black;
+background-color: #f9f6ea !important;
+}
+
+.loginCard .links{
+color: white !important;
+}
+
+.loginCard .links a{
+margin-left: 4px;
+color: #FFC312;
+}
+
+.loginCard .twitterLogin {
+  background-color:#0077cc !important;
+  border-color:transparent !important;
+  width: 100%;
+}
+.loginCard .twitterLogin:hover {
+  color: #0077cc !important;
+  background-color: #f9f6ea !important;
+}
+
+.loginCard .newSignup {
+  background-color: #cc5e00 !important;
+  border-color: transparent !important;
+  width: 100%;
+
+}
+
+.loginCard .newSignup:hover{
+  color: #cc5e00 !important;
+  background-color: #f9f6ea !important;
+}
+
+.dropbtn {
+  color: #FFC312;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: rgba(0,0,0,0.6) !important;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+  display:block;
+ 
+}
+
+.dropdown-content a{
+   color:white;
 }
 
 

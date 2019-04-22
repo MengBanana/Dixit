@@ -7,13 +7,10 @@ class HomePage extends Component {
         
         <div className="carousel-inner">
           <div className="carousel-item active">
-            <img className="d-block w-100" src="http://www.ultraboardgames.com/img/slideshow/dixit.jpg" alt="First slide"/>
+            <img className="d-block w-100" src="https://cultrbox.files.wordpress.com/2014/01/dixit-card-set.jpg" alt="First slide"/>
           </div>
           <div className="carousel-item">
-            <img className="d-block w-100" src="https://thebigbox.co.za/wp-content/uploads/2015/04/dixit-odyssey.jpg" alt="Second slide"/>
-          </div>
-          <div className="carousel-item">
-            <img className="d-block w-100" src="https://cultrbox.files.wordpress.com/2014/01/dixit-card-set.jpg" alt="Second slide"/>
+            <img className="d-block w-100" src="https://github.com/MengBanana/Dixit/blob/master/demo/GameRule.png?raw=true" alt="Second slide"/>
           </div>
         </div>
         <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -27,7 +24,6 @@ class HomePage extends Component {
         <ol className="carousel-indicators">
           <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
           <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
         </ol>
       </div>
     );
