@@ -17,7 +17,7 @@ export default class NavBar extends Component {
 
   render() {
                       //<NavLink className="nav-link" activeClassName="active" to="/Collection">My Collection</NavLink>
-
+    
 
     return (
       <div className="navbar-container">
@@ -33,7 +33,7 @@ export default class NavBar extends Component {
           </button>
           <div className="collapse navbar-collapse" id="navbarsExampleDefault">
             <div className="nav-item ml-auto signin">
-              {Meteor.user() ? <div className="nav-item dropdown"><span className="dropbtn">Welcome, <span className="user">{Meteor.user().username}</span>! </span>
+              {Meteor.user() ? <div className="nav-item dropdown"><span className="dropbtn">Welcome, <span className="user">{Meteor.user().username? Meteor.user().username: Meteor.user().services.twitter.screenName}</span>! </span>
                 <div className="dropdown-content">
                   <NavLink className="nav-link" activeClassName="active" to="/" onClick={this.logoutOnClick.bind(this)}>Log Out</NavLink>
                 </div>

@@ -39,6 +39,7 @@ class App extends Component {
             <Route exact path="/AddCard" component={AddCard} />
             <Route exact path="/About" component={About} />
             <Route exact path="/Login" component={Login} />
+            <Route exact path="/Register" component={Register} />
             <Fragment>
               {this.props.myData.length === 0 ? <Route exact path="/gameroom" component= {GameRoom} /> : <div>
                 {this.props.myData[0].ingame ? <Route exact path="/gameroom" component={MyGame} /> :

@@ -40,7 +40,7 @@ class Login extends Component {
           this.setState({ error: "Incorrect login" });
         } else {
           console.log(Meteor.user());
-          this.props.history.push("/");
+          //this.props.history.push("/");
         }
       });
     }
