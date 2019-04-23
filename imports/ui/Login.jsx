@@ -13,8 +13,7 @@ class Login extends Component {
     super(props);
     this.state = ({
       username : "",
-      password : "",
-      error: ""
+      password : ""
       
     });
     this.onSubmit = this.onSubmit.bind(this);
@@ -36,10 +35,10 @@ class Login extends Component {
       //let password = this.state.password.trim();
       Meteor.loginWithPassword({username: this.state.username}, this.state.password, function(error) {
         if (error) {
-          console.log(error);
-          this.setState({ error: "Incorrect login" });
+          alert(error);
         } else {
-          console.log(Meteor.user());
+          console.log("login successful");
+          //console.log(Meteor.user());
           //this.props.history.push("/");
         }
       });
@@ -50,20 +49,17 @@ class Login extends Component {
 
       },(err) => {
         if (err) {
-        console.log(err);
+          alert(err);
         } else {
-        console.log("login successful");// successful login!
+          console.log("login successful");// successful login!
         }
       });
     }
   }
   render() {
     if (Meteor.user()) return <Redirect to="/gameroom" user={Meteor.user()}/>;
-    console.log("username",this.state.username);
-    console.log("password",this.state.password);
-    console.log("error",this.state.error);
+    
     return (
-
       <div className="container">
         <br/><br/>
         {this.state.error ? (

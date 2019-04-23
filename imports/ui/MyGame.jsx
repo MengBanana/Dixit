@@ -508,52 +508,58 @@ class MyGame extends Component {
                   }
                   {
                     this.state.stage === 5 ? 
-                      <div className=" text-center"id="gameOver">
-                        <br/><br/><h1>GAME OVER!</h1>
-                        <h6>Click "Exit" to go back to Game Lobby</h6>
-                        <h4 className="row"> Players ScoreBoard:</h4><br/>
-                        <div>
-                          {this.props.gameData.map(game => (
-                            <div key = {game._id}>{game.username} : <span className="boardInfo">{game.tempPoints}</span></div>
-                          ))}
-                        </div><br/>
-                        <h4 className="row"> Cards you've winned in this game:</h4>
-                        <div>
-                          {this.props.gameData.map(data => (
-                            <div key = {data._id}>
-                              {data._id === Meteor.userId()? <div className="row">{
-                                data.temp.map(card => (
-                                  <div key = {card._id}
-                                    className="card "
-                                    style={{
-                                      backgroundImage: `url(${card.url})`,
-                                      backgroundSize: "cover"
-                                    }}></div>
-                                ))}</div>:null}</div>
-                          ))}
+                      <div id="gameOver" className = "text-center">
+                        <div className = "text-center" >
+                          <br/><br/><h1>GAME OVER!</h1>
+                          <h6>Click "Exit" to go back to Game Lobby</h6><br/><br/>
                         </div>
+                        <div className="row">
+                          <div className="col-6">
+                            <h4> Players ScoreBoard:</h4>
+                            {this.props.gameData.map(game => (
+                              <div key = {game._id}>{game.username} : <span className="boardInfo">{game.tempPoints}</span></div>
+                            ))}
+                            <br/>
+                          </div>
+                          <div className="col-6">
+                            <h4> Cards you've winned in this game:</h4>
+                            <div>{this.props.gameData.map(data => (
+                              <div key = {data._id}>
+                                {data._id === Meteor.userId()? <div className="row cards">{
+                                  data.temp.map(card => (
+                                    <div key = {card._id}
+                                      className="card"
+                                      style={{
+                                        backgroundImage: `url(${card.url})`,
+                                        backgroundSize: "cover"
+                                      }}></div>
+                                  ))}</div>:null}</div>
+                            ))}</div>
+                          </div>
+                        </div><br/><br/><br/><br/>
                       </div>
                       :
                       null
                   }
                   {this.state.stage === 4?
-                    <div>
-                      <div><h4>Answer:</h4>
+                    <div className = "row">
+                      <div className = "col-4"><h4>Answer:</h4>
                         {this.props.myGame.map(game => (
                           <div key = {game._id}
                             className="card col-xs-4 col-s-3"
                             style={{
                               backgroundImage: `url(${game.targetCard.url})`,
                               backgroundSize: "cover"
-                            }}></div>))}</div>
-                      <div><h4>Winners:</h4>
+                            }}></div>))}<br/></div>
+                      <div className = "col-4"><h4>Winners:</h4>
                         {this.props.myGame.map(game => (
                           <div key = {game._id}
-                            className="col-xs-4 col-s-3">
+                            className="col-xs-4 col-s-3 winners">
                             {game.winners.map(winner =>(
                               <div key = {winner}>{winner}</div>
                             ))}
                           </div>))}</div>
+                      <div className = "col-4"></div>
                     </div>
                     : null
                   }

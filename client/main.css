@@ -51,7 +51,7 @@ body {
   overflow: hidden;
 }
 
-h6 {
+h6, .winners {
   color: #bb964e !important;
 }
 
@@ -263,6 +263,12 @@ h6 {
   height: 90px;
 }
 
+#gameOver .cards{ 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 #footer {
    position:fixed;
    left:0px;
@@ -303,7 +309,6 @@ background-color: rgba(0,0,0,0.6) !important;
 
 
 .loginCard input{
-  background-color: #f9f6ea !important;
   border-color: #f9f6ea !important;
 }
 
@@ -342,12 +347,6 @@ color: black;
 border:0 !important;
 }
 
-.loginCard .input-group-prepend input[type="text"]{
-background-color: #f9f6ea !important;
-}
-
-
-
 .loginCard input:focus{
 outline: 0 0 0 0  !important;
 box-shadow: 0 0 0 0 !important;
@@ -381,7 +380,6 @@ color: #FFC312;
 .loginCard .twitterLogin {
   background-color:#0077cc !important;
   border-color:transparent !important;
-  color:#f9f6ea !important;;
   width: 100%;
 }
 .loginCard .twitterLogin:hover {
@@ -392,7 +390,6 @@ color: #FFC312;
 .loginCard .newSignup {
   background-color: #cc5e00 !important;
   border-color: transparent !important;
-  color:#f9f6ea !important;;
   width: 100%;
 
 }
