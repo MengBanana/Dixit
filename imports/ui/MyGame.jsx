@@ -543,6 +543,7 @@ class MyGame extends Component {
                   }
                   {this.state.stage === 4?
                     <div className = "row">
+                      <div className = "col-2"></div>
                       <div className = "col-4"><h4>Answer:</h4>
                         {this.props.myGame.map(game => (
                           <div key = {game._id}
@@ -551,7 +552,7 @@ class MyGame extends Component {
                               backgroundImage: `url(${game.targetCard.url})`,
                               backgroundSize: "cover"
                             }}></div>))}<br/></div>
-                      <div className = "col-4"><h4>Winners:</h4>
+                      <div className = "col-6"><h4>Winners:</h4>
                         {this.props.myGame.map(game => (
                           <div key = {game._id}
                             className="col-xs-4 col-s-3 winners">
@@ -559,7 +560,6 @@ class MyGame extends Component {
                               <div key = {winner}>{winner}</div>
                             ))}
                           </div>))}</div>
-                      <div className = "col-4"></div>
                     </div>
                     : null
                   }

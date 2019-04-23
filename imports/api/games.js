@@ -236,7 +236,8 @@ Meteor.methods({
             stage: 5,
             count:[],
             winners:[],
-            description:""
+            description:"",
+            targetCard:null
           }
         }); 
       } else {
@@ -250,7 +251,8 @@ Meteor.methods({
             stage: 1,
             count:[],
             winners:[],
-            description:""
+            description:"",
+            targetCard:null
           }
         }); 
       }
