@@ -83,13 +83,13 @@ class Register extends Component {
                   <div className="input-group-prepend">
                     <span className="input-group-text"><i className="fas fa-key"></i></span>
                   </div>
-                  <input id="password" type="password" autoComplete="current-password" className="form-control" placeholder="password, at least 6 digits"  min-length="6" required onChange = {this.onChange.bind(this)}/>
+                  <input id="password" type="password" autoComplete="current-password" className="form-control" placeholder="password" required onChange = {this.onChange.bind(this)}/>
                 </div>
                 <div className="input-group form-group">
                   <div className="input-group-prepend">
                     <span className="input-group-text"><i className="fas fa-key"></i></span>
                   </div>
-                  <input id="password2" type="password" autoComplete="current-password" className="form-control" placeholder="confirm password"  min-length="6" required onChange = {this.onChange.bind(this)}/>
+                  <input id="password2" type="password" autoComplete="current-password" className="form-control" placeholder="confirm password" required onChange = {this.onChange.bind(this)}/>
                 </div>
                 <div className="card-footer">
                   <div className="form-group">

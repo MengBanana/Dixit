@@ -165,7 +165,7 @@ class MyGame extends Component {
   updatePoint() {
     this.props.gameData.map(userGame => {
       this.setState({
-        points: userGame.totalPoints
+        points: userGame.tempPoints
       });
     });
   }
@@ -454,7 +454,7 @@ class MyGame extends Component {
             <h2 className="row"> ScoreBoard </h2>
             <div>
               {this.props.gameData.map(game => (
-                <div key = {game._id}>{game.username} : <span className="boardInfo">{game.totalPoints}</span></div>
+                <div key = {game._id}>{game.username} : <span className="boardInfo">{game.tempPoints}</span></div>
               ))}
             </div><br/>
 

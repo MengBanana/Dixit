@@ -58,7 +58,7 @@ class Login extends Component {
     }
   }
   render() {
-    if (Meteor.user()) return <Redirect to="/" user={Meteor.user()}/>;
+    if (Meteor.user()) return <Redirect to="/gameroom" user={Meteor.user()}/>;
     console.log("username",this.state.username);
     console.log("password",this.state.password);
     console.log("error",this.state.error);
@@ -89,7 +89,7 @@ class Login extends Component {
                   <div className="input-group-prepend">
                     <span className="input-group-text"><i className="fas fa-key"></i></span>
                   </div>
-                  <input id="password" type="password" autoComplete="current-password" className="form-control" placeholder="password"  min-length="6" required onChange = {this.onChange.bind(this)}/>
+                  <input id="password" type="password" autoComplete="current-password" className="form-control" placeholder="password" required onChange = {this.onChange.bind(this)}/>
                 </div>
                 <div className="form-group">
                   <button className="btn float-right login_btn" id="login" onClick={this.onSubmit.bind(this)} >Login</button>

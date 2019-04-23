@@ -67,10 +67,11 @@ Meteor.methods({
         username: username,
         ingame: true,
         gameName: name,
+        tempPoints: 0, //score in one game
         totalPoints: 0,
         totalRounds: 0,
         twitterId:"",
-        temp:[],
+        temp:[],//cards winned in one game
         collection:[]
       });
     }
@@ -84,7 +85,7 @@ Meteor.methods({
       _id: Meteor.userId()
     }, {
       $inc: {
-        totalPoints: points,
+        tempPoints: points,
       }
     }); 
   },
@@ -94,7 +95,7 @@ Meteor.methods({
       throw new Meteor.Error("not-authorized");
     }
     let data = UsersGames.findOne({username: player});
-    return data.totalPoints;
+    return data.tempPoints;
   },
 
 
@@ -103,15 +104,25 @@ Meteor.methods({
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     }
+    let data = UsersGames.findOne({_id: Meteor.userId()});
+    let tempPoints = data.tempPoints;
+    let temp = data.temp; //cards earned
+
     UsersGames.update ({
       _id: this.userId,
     }, { 
       $set:{
         ingame: false,
         gameName: "",
+        tempPoints:0,
+        temp:[]
       },
       $inc: {
-        totalRounds: 1
+        totalRounds: 1,
+        totalPoints:tempPoints
+      },
+      $addToSet: {
+        collection: {$each: temp}
       }
     }); 
   }
