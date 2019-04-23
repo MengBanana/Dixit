@@ -107,6 +107,20 @@ Meteor.methods({
     let data = UsersGames.findOne({_id: Meteor.userId()});
     let tempPoints = data.tempPoints;
     let temp = data.temp; //cards earned
+    let collection = data.collection;
+    for (var i = 0; i < temp.length; i++) {
+      if (collection.some(card => card["_id"] == temp[i]._id)) {
+        continue;
+      } else {
+        let newCard = ({
+          _id: temp[i]._id,
+          url: temp[i].url,
+          gameName: data.gameName, //first collected at game
+          createdAt: Date.now()// first collected at date
+        });
+        collection.push(newCard);
+      }
+    }
 
     UsersGames.update ({
       _id: this.userId,
@@ -115,14 +129,12 @@ Meteor.methods({
         ingame: false,
         gameName: "",
         tempPoints:0,
-        temp:[]
+        temp:[],
+        collection:collection
       },
       $inc: {
         totalRounds: 1,
         totalPoints:tempPoints
-      },
-      $addToSet: {
-        collection: {$each: temp}
       }
     }); 
   }

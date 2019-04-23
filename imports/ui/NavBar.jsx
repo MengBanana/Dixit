@@ -27,7 +27,7 @@ export default class NavBar extends Component {
           </button>
           <div className="collapse navbar-collapse" id="navbarsExampleDefault">
             <div className="nav-item ml-auto signin">
-              {Meteor.user() ? <div className="nav-item btn dropdown"><span className="dropbtn"><i className="fas fa-user"></i><span className="user"> {Meteor.user().username? Meteor.user().username : <span> {Meteor.user().services ? Meteor.user().services.twitter.screenName:""}</span>} </span> </span>
+              {Meteor.user() ? <div className="nav-item btn dropdown"><span className="dropbtn"><i className="fas fa-user"></i><span className="user"> {Meteor.user().username? Meteor.user().username : <span> {Meteor.user().services.twitter ? Meteor.user().services.twitter.screenName:"TEST"}</span>} </span> </span>
                 <div className="dropdown-content">
                   <NavLink className="nav-link" activeClassName="active" to="/" onClick={this.logoutOnClick.bind(this)}>Log Out</NavLink>
                 </div>
