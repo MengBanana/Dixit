@@ -17,7 +17,7 @@ export default class NavBar extends Component {
 
   render() {
     let username = "";
-    if (Meteor.user()) {
+    if (Meteor.user() && Meteor.user().services) {
       if (!Meteor.user().username) {
         username = Meteor.user().services.twitter.screenName;
       } else {

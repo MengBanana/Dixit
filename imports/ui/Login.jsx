@@ -50,9 +50,9 @@ class Login extends Component {
 
       },(err) => {
         if (err) {
-        // handle error
+        console.log(err);
         } else {
-        // successful login!
+        console.log("login successful");// successful login!
         }
       });
     }

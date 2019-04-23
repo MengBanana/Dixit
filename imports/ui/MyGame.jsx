@@ -472,151 +472,153 @@ class MyGame extends Component {
           </div>
 
           <div className="col-sm-10 col-xs-12" id="gameBoard">
-          <div className="pool">
-            {this.state.stage == 5? null: <h2 className="row"> Pool </h2>}
-            {this.state.stage > 1 && this.state.stage < 5 ?
-              <div><h4 id="displayDescrition">Story teller description: <span className="gameInfo">{this.state.hostDescription}</span></h4></div> 
-              : 
-              null
-            }
-            {this.state.stage == 0? <div> {this.state.readyCount==0? <div className="row">
-              <h4>
-                <span id="badge" className="badge badge-pill badge-warning m-2">
-                  Click the Ready Button to start game!
-                </span>
-              </h4>
-            </div> : <div className="row">
-              <h4>
-                <span id="badge" className="badge badge-pill badge-warning m-2">
-                  Waiting for other players to Start!
-                </span>
-              </h4>
-            </div>} 
-            </div>
-              : 
-              <div>
-                {this.state.stage === 2 && this.state.isHost? 
-                  <div className="row">
-                    <h4>
-                      <span id="badge" className="badge badge-pill badge-warning m-2">
-                        Waiting for other players to Pick!
-                      </span>
-                    </h4>
-                  </div>
-                  : 
-                  null
-                }
-                {
-                  this.state.stage === 5 ? 
-                    <div className=" text-center"id="gameOver">
-                      <br/><br/><h1>GAME OVER!</h1>
-
-
-
-                      <h6>Click "Exit" to go back to Game Lobby</h6>
-                      <h4 className="row"> Players ScoreBoard:</h4><br/><br/>
-                      <h4 className="row"> Cards you've winned in this game:</h4>
-                      <div>
-                        {this.props.gameData.map(data => (
-                          <div key = {data._id}>
-                            {data._id === Meteor.userId()? <div className="row">{
-                              data.temp.map(card => (
-                                <div key = {card._id}
-                                  className="card "
-                                  style={{
-                                    backgroundImage: `url(${card.url})`,
-                                    backgroundSize: "cover"
-                                  }}></div>
-                              ))}</div>:null}</div>
-                        ))}
-                      </div>
-                    </div>
-                    :
-                    null
-                }
-                {this.state.stage === 4?
-                  <div>
-                    <div><h4>Answer:</h4>
-                      {this.props.myGame.map(game => (
-                        <div key = {game._id}
-                          className="card col-xs-4 col-s-3"
-                          style={{
-                            backgroundImage: `url(${game.targetCard.url})`,
-                            backgroundSize: "cover"
-                          }}></div>))}</div>
-                    <div><h4>Winners:</h4>
-                      {this.props.myGame.map(game => (
-                        <div key = {game._id}
-                          className="col-xs-4 col-s-3">
-                          {game.winners.map(winner =>(
-                            <div key = {winner}>{winner}</div>
-                          ))}
-                        </div>))}</div>
-                  </div>
-                  : null
-                }
-                {this.state.stage === 3 && this.state.isHost ?
-                  <div className="row">
-                    <h4>
-                      <span id="badge" className="badge badge-pill badge-warning m-2">
-                        Waiting for other players to Vote!
-                      </span>
-                    </h4>
-                  </div> : null
-                }
-                {this.state.stage === 3 && !this.state.isHost && this.state.voteCount===0?
-                  <div className="row">
-                    <div className = "col-7">
+            <div className="pool">
+              {this.state.stage == 5? null: <h2 className="row"> Pool </h2>}
+              {this.state.stage > 1 && this.state.stage < 5 ?
+                <div><h4 id="displayDescrition">Story teller description: <span className="gameInfo">{this.state.hostDescription}</span></h4></div> 
+                : 
+                null
+              }
+              {this.state.stage == 0? <div> {this.state.readyCount==0? <div className="row">
+                <h4>
+                  <span id="badge" className="badge badge-pill badge-warning m-2">
+                    Click the Ready Button to start game!
+                  </span>
+                </h4>
+              </div> : <div className="row">
+                <h4>
+                  <span id="badge" className="badge badge-pill badge-warning m-2">
+                    Waiting for other players to Start!
+                  </span>
+                </h4>
+              </div>} 
+              </div>
+                : 
+                <div>
+                  {this.state.stage === 2 && this.state.isHost? 
+                    <div className="row">
                       <h4>
                         <span id="badge" className="badge badge-pill badge-warning m-2">
-                         Please vote for a card in POOL!
+                          Waiting for other players to Pick!
                         </span>
                       </h4>
                     </div>
-                    <div className = "col-3">
-                      {pickCard}
-                    </div>
-                    <div className ="col-2">
-                      <button type="button" className="btn btn-danger" id = "voteCard" onClick = {this.onSubmit}>Vote</button> 
-                    </div>
-                  </div> : null
-                }
-                {this.state.cardsOnDesk.length === this.state.players.length? 
-                  (<div className="row" id="cardsOnDesk">
-                    {this.state.cardsOnDesk.map(cardOnDesk => (
-                      <div key={cardOnDesk._id}
-                        className="card col-xs-6 col-s-3"
-                        style={{
-                          backgroundImage: `url(${cardOnDesk.url})`,
-                          backgroundSize: "cover"
-                        }}
-                        onClick={() =>
-                          this.setState({ selectedCard: cardOnDesk })
-                        }
-                      >
-                      </div>
-                    ))}
-                  </div>)
-                  : 
-                  <div>{(this.state.stage === 1 && this.state.cardsOnDesk.length === 0) ? 
-                    (<div className="row">
-                      <h4>
-                        <span id="badge" className="badge badge-pill badge-warning m-2">
-                        Waiting for "{this.state.players[this.state.hostIdx]}" to pick a card and describe...
-                        </span>
-                      </h4>
-                    </div>)
                     : 
-                    (<div className="row">
-                      {this.state.stage === 2 ?
+                    null
+                  }
+                  {
+                    this.state.stage === 5 ? 
+                      <div className=" text-center"id="gameOver">
+                        <br/><br/><h1>GAME OVER!</h1>
+                        <h6>Click "Exit" to go back to Game Lobby</h6>
+                        <h4 className="row"> Players ScoreBoard:</h4><br/>
+                        <div>
+                          {this.props.gameData.map(game => (
+                            <div key = {game._id}>{game.username} : <span className="boardInfo">{game.tempPoints}</span></div>
+                          ))}
+                        </div><br/>
+                        <h4 className="row"> Cards you've winned in this game:</h4>
+                        <div>
+                          {this.props.gameData.map(data => (
+                            <div key = {data._id}>
+                              {data._id === Meteor.userId()? <div className="row">{
+                                data.temp.map(card => (
+                                  <div key = {card._id}
+                                    className="card "
+                                    style={{
+                                      backgroundImage: `url(${card.url})`,
+                                      backgroundSize: "cover"
+                                    }}></div>
+                                ))}</div>:null}</div>
+                          ))}
+                        </div>
+                      </div>
+                      :
+                      null
+                  }
+                  {this.state.stage === 4?
+                    <div>
+                      <div><h4>Answer:</h4>
+                        {this.props.myGame.map(game => (
+                          <div key = {game._id}
+                            className="card col-xs-4 col-s-3"
+                            style={{
+                              backgroundImage: `url(${game.targetCard.url})`,
+                              backgroundSize: "cover"
+                            }}></div>))}</div>
+                      <div><h4>Winners:</h4>
+                        {this.props.myGame.map(game => (
+                          <div key = {game._id}
+                            className="col-xs-4 col-s-3">
+                            {game.winners.map(winner =>(
+                              <div key = {winner}>{winner}</div>
+                            ))}
+                          </div>))}</div>
+                    </div>
+                    : null
+                  }
+                  {this.state.stage === 3 && this.state.isHost ?
+                    <div className="row">
+                      <h4>
+                        <span id="badge" className="badge badge-pill badge-warning m-2">
+                          Waiting for other players to Vote!
+                        </span>
+                      </h4>
+                    </div> : null
+                  }
+                  {this.state.stage === 3 && !this.state.isHost && this.state.voteCount===0?
+                    <div className="row">
+                      <div className = "col-7">
                         <h4>
                           <span id="badge" className="badge badge-pill badge-warning m-2">
-                          Waiting for { this.state.players.length - this.state.cardsOnDesk.length} player(s) to pick card!
-                          </span> </h4>: null}
-                    </div>       
-                    )
-                  }</div>
-                }</div>}
+                           Please vote for a card in POOL!
+                          </span>
+                        </h4>
+                      </div>
+                      <div className = "col-3">
+                        {pickCard}
+                      </div>
+                      <div className ="col-2">
+                        <button type="button" className="btn btn-danger" id = "voteCard" onClick = {this.onSubmit}>Vote</button> 
+                      </div>
+                    </div> : null
+                  }
+                  {this.state.cardsOnDesk.length === this.state.players.length? 
+                    (<div className="row" id="cardsOnDesk">
+                      {this.state.cardsOnDesk.map(cardOnDesk => (
+                        <div key={cardOnDesk._id}
+                          className="card col-xs-6 col-s-3"
+                          style={{
+                            backgroundImage: `url(${cardOnDesk.url})`,
+                            backgroundSize: "cover"
+                          }}
+                          onClick={() =>
+                            this.setState({ selectedCard: cardOnDesk })
+                          }
+                        >
+                        </div>
+                      ))}
+                    </div>)
+                    : 
+                    <div>{(this.state.stage === 1 && this.state.cardsOnDesk.length === 0) ? 
+                      (<div className="row">
+                        <h4>
+                          <span id="badge" className="badge badge-pill badge-warning m-2">
+                          Waiting for "{this.state.players[this.state.hostIdx]}" to pick a card and describe...
+                          </span>
+                        </h4>
+                      </div>)
+                      : 
+                      (<div className="row">
+                        {this.state.stage === 2 ?
+                          <h4>
+                            <span id="badge" className="badge badge-pill badge-warning m-2">
+                            Waiting for { this.state.players.length - this.state.cardsOnDesk.length} player(s) to pick card!
+                            </span> </h4>: null}
+                      </div>       
+                      )
+                    }</div>
+                  }</div>}
             </div>
             <div className = "row hand">
               <div className = "col-12">

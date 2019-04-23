@@ -52,7 +52,7 @@ body {
 }
 
 h6 {
-  color: #bb964e;
+  color: #bb964e !important;
 }
 
 /*.btn-dark {
@@ -221,15 +221,18 @@ h6 {
 .gameroom .playerNames{
   height: 70px;
   max-height: 70px;
-  font-size: relative;
+  font-size: relative;s
   overflow: hidden;
 }
 
 .addNewBtn {
+  display: flex;
   align-items: right;
+  justify-content: center;
 }
+
 .rooms {
-  margin-left: 20px ;
+  margin-left: 15px !important;
 }
 
 .gameRoomBtn {

@@ -183,13 +183,12 @@ class GameRoom extends Component {
 
       <div className = "container gameroom">
         <div className="row part rooms">
-          <div className = "col-4">
+          <div className = "col-3">
             <h1>GameRoom</h1>
           </div>
           <div className = "col-5">
-            
           </div>
-          <div className = "col-3 addNewBtn">
+          <div className = "col-4 addNewBtn">
             <button type="button" className= "btn inline-btn btn-danger my-2 my-sm-0 " data-toggle="modal" data-target="#myModal" id="createRoom" onClick={this.onClick.bind(this)}>Add Game</button>
           </div>
           <div className = "col-12">
