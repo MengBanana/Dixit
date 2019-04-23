@@ -201,7 +201,8 @@ Meteor.methods({
         }, {
           $set:{
             stage: 1,
-            count:[]
+            count:[],
+            targetCard: null
           }
         });
       }
@@ -236,8 +237,7 @@ Meteor.methods({
             stage: 5,
             count:[],
             winners:[],
-            description:"",
-            targetCard:null
+            description:""
           }
         }); 
       } else {
@@ -251,8 +251,7 @@ Meteor.methods({
             stage: 1,
             count:[],
             winners:[],
-            description:"",
-            targetCard:null
+            description:""
           }
         }); 
       }
@@ -352,13 +351,6 @@ Meteor.methods({
       }, {
         $addToSet:{winners: username}
       });
-      UsersGames.update({
-        _id: Meteor.userId()
-      }, {
-        $addToSet:{
-          temp: info.card
-        }
-      });
     }
     Games.update ({
       name: info.game
@@ -380,15 +372,19 @@ Meteor.methods({
             winners: hostName
           }
         });
+        res = Games.find({name:info.game}).fetch();
+        winners = res[0].winners;
 
-        UsersGames.update({
-          username: hostName
-        }, {
-          $addToSet:{
-            temp: info.card
-          }
-        });
-       
+        for (var i = 0; i < winners.length; i++) {
+          UsersGames.update({
+            username: winners[i]
+          }, {
+            $addToSet:{
+              temp: info.card
+            }
+          });
+        }
+
         Cards.update({
           _id: info.card._id
         }, {
@@ -408,4 +404,36 @@ Meteor.methods({
       });
     }
   },
+  "games.emergencyExit"(name) {
+    check(name, String);
+    if (!this.userId) {
+      throw new Meteor.Error("not-authorized");
+    }
+    let data = UsersGames.find({gameName: name}).fetch();
+    data.forEach(function (arrayItem) {
+      UsersGames.update ({
+        username: arrayItem.username,
+      }, { 
+        $set:{
+          ingame: false,
+          gameName: "",
+          tempPoints:0,
+          temp:[]
+        }
+      }); 
+    });
+    let newName = "%".concat(name,"%");
+    Games.update({
+      name: name
+    },
+    {
+      $set : {
+        name: newName,
+        players:[],
+        stage:5,
+        okToJoin:false,
+        isOver:true
+      }
+    });
+  }
 });

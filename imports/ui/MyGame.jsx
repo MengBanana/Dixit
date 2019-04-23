@@ -38,7 +38,8 @@ class MyGame extends Component {
       readyCount: 0,
       pickCount:0,
       voteCount:0,
-      timeId: ""
+      timeId: "",
+//      emergencyExit: false
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -65,14 +66,24 @@ class MyGame extends Component {
         this.setState({
           timeId:timeId
         });
-      }
+      } 
     }
+
+    // if (this.props.myGame == prevProps.myGame && this.state.timeId === "" && this.state.stage != 0) {
+    //   setTimeout(this.emergencyExit(), 20000);
+    // }
 
     if (this.props.gameData != prevProps.gameData) {
       this.updatePoint();
     }
 
   }
+
+  // emergencyExit() {
+  //   this.setState({
+  //     emergencyExit:true
+  //   });
+  // }
 
   eventFire(el, etype){
     if (el.fireEvent) {
@@ -192,6 +203,17 @@ class MyGame extends Component {
     this.setState({
       buttonClick: 1
     });
+
+    if (e.target.id === "emergencyExit") {
+      Meteor.call("games.emergencyExit", this.state.gameName, (err, res) => {
+        if (err) {
+          alert("There was error updating check the console");
+          console.log(err);
+        } else {
+          console.log("succeed", res);
+        }
+      });
+    }
 
     // if (e.target.id === "final") {
     //   Meteor.call("games.final", this.state.gameName, (err, res) => {
@@ -469,6 +491,9 @@ class MyGame extends Component {
                     : null}
                 </div>))} 
             </div>
+            <div className="row"><h6>Some player(s) is not responding, feel free to exit the game here.</h6><h2><button className = "btn btn-danger" id = "emergencyExit" onClick = {this.onSubmit}> EXIT </button></h2>
+              </div>
+
           </div>
 
           <div className="col-sm-10 col-xs-12" id="gameBoard">
