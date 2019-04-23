@@ -302,6 +302,11 @@ background-color: rgba(0,0,0,0.6) !important;
 }
 
 
+.loginCard input{
+  background-color: #f9f6ea !important;
+  border-color: #f9f6ea !important;
+}
+
 
 .loginCard .card-header h3{
 color:  #f9f6ea !important;
@@ -376,6 +381,7 @@ color: #FFC312;
 .loginCard .twitterLogin {
   background-color:#0077cc !important;
   border-color:transparent !important;
+  color:#f9f6ea !important;;
   width: 100%;
 }
 .loginCard .twitterLogin:hover {
@@ -386,6 +392,7 @@ color: #FFC312;
 .loginCard .newSignup {
   background-color: #cc5e00 !important;
   border-color: transparent !important;
+  color:#f9f6ea !important;;
   width: 100%;
 
 }
