@@ -45,6 +45,9 @@ export default class NavBar extends Component {
                 <li className="nav-item">
                   <NavLink className="nav-link" activeClassName="active" to="/About">Game Rules</NavLink>
                 </li>: null}
+              {Meteor.user() ?<li className="nav-item">
+                <NavLink className="nav-link" activeClassName="active" to="/Collection">My Collection</NavLink>
+              </li> :null}
             </ul>
           </div>
         </nav>

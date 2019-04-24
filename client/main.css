@@ -95,6 +95,7 @@ h6, .winners {
 .navbar-brand {
 	float:none;
   width: 250px;
+  margin-left: 250px;
 }
 
 
@@ -425,6 +426,11 @@ color: #FFC312;
 
 .dropdown-content a{
    color:white;
+}
+
+.collection {
+  margin-left: 7px;
+  margin-top: 40px;
 }
 
 

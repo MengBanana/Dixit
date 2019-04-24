@@ -5,6 +5,7 @@ import { UsersGames } from "../api/usersGames.js";
 import MyGame from "./MyGame.jsx";
 import Login from "./Login.jsx";
 import Register from "./Register.jsx";
+import MyCollection from "./MyCollection.jsx";
 import About from "./About.jsx";
 import NavBar from "./NavBar.jsx";
 import GameRoom from "./GameRoom.jsx";
@@ -38,6 +39,7 @@ class App extends Component {
             <Route exact path="/" component={HomePage} />
             <Route exact path="/AddCard" component={AddCard} />
             <Route exact path="/About" component={About} />
+            <Route exact path="/Collection" component={MyCollection} />
             <Route exact path="/Login" component={Login} />
             <Route exact path="/Register" component={Register} />
             <Fragment>
