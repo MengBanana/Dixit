@@ -201,8 +201,7 @@ Meteor.methods({
         }, {
           $set:{
             stage: 1,
-            count:[],
-            targetCard: null
+            count:[]
           }
         });
       }
@@ -380,7 +379,7 @@ Meteor.methods({
             username: winners[i]
           }, {
             $addToSet:{
-              temp: info.card
+              temp: res[0].targetCard
             }
           });
         }
