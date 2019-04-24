@@ -136,6 +136,7 @@ Meteor.methods({
       $set:{
         ingame: false,
         gameName: "",
+        playerIdx: -1,
         tempPoints:0,
         temp:[],
         collection:collection

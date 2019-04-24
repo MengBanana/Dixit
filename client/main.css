@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Numans');
 body {
 	background-color: #f9f6ea !important;
   //background-image: url(https://avatars.mds.yandex.net/get-pdb/471286/411d4c1d-cc39-42f7-a5d9-ff7253f6aa01/s1200);
@@ -93,9 +94,7 @@ h6, .winners {
   width: 100%;
 }
 .navbar-brand {
-	float:none;
   width: 250px;
-  margin-left: 250px;
 }
 
 
@@ -284,7 +283,7 @@ footer {
 
 
 
-@import url('https://fonts.googleapis.com/css?family=Numans');
+
 
 html,body{
 background-size: cover;

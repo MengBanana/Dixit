@@ -196,7 +196,7 @@ Meteor.methods({
     array = res[0].count;
 
     if (array.length >= res[0].numberOfPlayers){ //all votes
-      if (res[0].stage == 0) {
+      if (res[0].stage == 0) { //READY start
         let players = res[0].players;
         for (var i = 0; i < players.length; i++) {
           UsersGames.update({
@@ -445,6 +445,7 @@ Meteor.methods({
         $set:{
           ingame: false,
           gameName: "",
+          playerIdx: -1,
           tempPoints:0,
           temp:[]
         }
