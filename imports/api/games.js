@@ -109,20 +109,20 @@ Meteor.methods({
     }
   },
 
-  "games.getPlayerIndex"(name) {
-    if (!this.userId) {
-      throw new Meteor.Error("not-authorized");
-    }
-    let res = Games.find({name:name}).fetch(); 
-    let array = res[0].players;
-    let username = "";
-    if (!Meteor.user().username) {
-      username = Meteor.user().services.twitter.screenName;
-    } else {
-      username = Meteor.user().username;
-    }
-    return array.indexOf(username);
-  },
+  // "games.getPlayerIndex"(name) {
+  //   if (!this.userId) {
+  //     throw new Meteor.Error("not-authorized");
+  //   }
+  //   let res = Games.find({name:name}).fetch(); 
+  //   let array = res[0].players;
+  //   let username = "";
+  //   if (!Meteor.user().username) {
+  //     username = Meteor.user().services.twitter.screenName;
+  //   } else {
+  //     username = Meteor.user().username;
+  //   }
+  //   return array.indexOf(username);
+  // },
 
   "games.removePlayer"(name) {
     check(name, String);
@@ -194,8 +194,19 @@ Meteor.methods({
     }); 
     res = Games.find({name:name}).fetch();
     array = res[0].count;
-    if (array.length >= res[0].numberOfPlayers){
+
+    if (array.length >= res[0].numberOfPlayers){ //all votes
       if (res[0].stage == 0) {
+        let players = res[0].players;
+        for (var i = 0; i < players.length; i++) {
+          UsersGames.update({
+            username:players[i]
+          }, {
+            $set: {
+              playerIdx: i
+            }
+          });
+        }
         Games.update({
           name:name
         }, {
@@ -382,6 +393,24 @@ Meteor.methods({
               temp: res[0].targetCard
             }
           });
+          //if is host,
+          if (winners[i] == hostName) {
+            UsersGames.update ({
+              username: winners[i]
+            }, {
+              $inc: {
+                tempPoints: 3,
+              }
+            }); 
+          } else {
+            UsersGames.update ({
+              username: winners[i]
+            }, {
+              $inc: {
+                tempPoints: 1,
+              }
+            }); 
+          }
         }
 
         Cards.update({

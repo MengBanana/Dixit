@@ -77,18 +77,26 @@ Meteor.methods({
     }
   },
   
-  "usersGames.updateScore"(points) {
+  // "usersGames.updateScore"(points) {
+  //   if (!this.userId) {
+  //     throw new Meteor.Error("not-authorized");
+  //   }
+  //   UsersGames.update ({
+  //     _id: Meteor.userId()
+  //   }, {
+  //     $inc: {
+  //       tempPoints: points,
+  //     }
+  //   }); 
+  // },
+  "usersGames.getPlayerIndex" (){
     if (!this.userId) {
       throw new Meteor.Error("not-authorized");
     }
-    UsersGames.update ({
-      _id: Meteor.userId()
-    }, {
-      $inc: {
-        tempPoints: points,
-      }
-    }); 
+    let data = UsersGames.findOne({_id: Meteor.userId()});
+    return data.playerIdx;
   },
+
 
   "usersGames.getPoints" (player){
     if (!this.userId) {
