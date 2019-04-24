@@ -5,6 +5,7 @@ import { withTracker } from "meteor/react-meteor-data";
 import PropTypes from "prop-types";
 import { UsersGames } from "../api/usersGames.js";
 import { Cards } from "../api/cards.js";
+var shuffle = require("shuffle-array");
 
 class MyGame extends Component {
   constructor(props) {
@@ -162,7 +163,7 @@ class MyGame extends Component {
         stage: game.stage,
         hostIdx: game.hostIdx, //get hostName
         hostDescription: game.description,
-        cardsOnDesk: game.cardsOnDesk,
+        cardsOnDesk: shuffle(game.cardsOnDesk),
         winners: game.winners,
         cardsPool: game.cardsOnHand,
         players: game.players,
