@@ -10,37 +10,41 @@ class MyCollection extends Component {
   }
 
   render() {
-    console.log(this.props.gameData);
+    console.log(this.props.myData[0]);
     return (
       <div className="container">
         <h2 className="row collection"> My Collection </h2>
-        <div className="row" id="addcard">
-          {this.props.gameData.map(card => (
-            <div
-              key={card._id}
-              className="card col-xs-4 col-s-3"
-              style={{
-                backgroundImage: `url(${card.url})`,
-                backgroundSize: "cover"
-              }}
-            />
-          ))}
-        </div>
+        { this.props.myData.collection?
+          <div className="row" id="addcard">
+            {this.props.myData[0].collection.map(card => (
+              <div
+                key={card._id}
+                className="card col-xs-4 col-s-3"
+                style={{
+                  backgroundImage: `url(${card.url})`,
+                  backgroundSize: "cover"
+                }}
+              >
+                
+              </div>
+            ))}
+          </div> : null
+        }
       </div>
     );
   }
 }
 
 MyCollection.propTypes = {
-  gameData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  myData: PropTypes.arrayOf(PropTypes.object).isRequired,
   ready: PropTypes.bool.isRequired
 };
 
 export default withTracker(() => {
-  const handle = Meteor.subscribe("gameData");
+  const handle = Meteor.subscribe("myData");
   return {
     user: Meteor.user(),
-    gameData: UsersGames.find({}).fetch(),
+    myData: UsersGames.find({}).fetch(),
     ready: handle.ready(),
   };
 })(MyCollection);
