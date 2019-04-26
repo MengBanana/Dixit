@@ -206,6 +206,10 @@ h6, .winners {
 	margin-left:5%;
 }
 
+.collection .card:hover {
+  transform: scale(1.1);
+}
+
 #cardpool {
 	min-height: 150px;
 }

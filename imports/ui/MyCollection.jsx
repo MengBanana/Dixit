@@ -14,8 +14,15 @@ class MyCollection extends Component {
     console.log(this.props.myData[0]);
 
     return (
-      <div className="container">
-        <h2 className="row collection"> My Collection </h2>
+      <div className="container collection">
+        <h2 className="row collection"> My Collection 
+          {this.props.myData != []?
+            <h5>
+              <span id="badge" className="badge badge-pill badge-warning m-2">
+                {this.props.myData.map(m => (<h5 key={m}>    {m.collection.length} cards</h5>))}
+              </span>
+            </h5> : null}
+        </h2>
         { this.props.myData != []?
           <div className="row" id="addcard">
             {this.props.myData.map(m => m.collection.map(card => (
