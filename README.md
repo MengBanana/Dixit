@@ -30,6 +30,8 @@
 - [Meteor](https://www.meteor.com/) for collabrative, real-time design
 - [GitHub](https://github.com/) for development
 - [Heroku](https://www.heroku.com/home) for deployment
+- [Google Analytics](https://analytics.google.com/analytics/web/) for website analysis
+- [HotJar](https://www.hotjar.com/) for user analysis
 
 ## HowTo
 - Clone this repo
@@ -37,11 +39,9 @@
 - Run
 ```
 meteor npm install
-
 ```
 ```
 meteor run
-
 ```
 
 ## Author
@@ -55,21 +55,38 @@ Author: [Yanwen Huangxu](https://github.com/YHuangxu)
 Here's the link to [Dixit](https://dixitgame2019.herokuapp.com/)
 
 ## Preview
+#### Home Page
+![Home Page](https://github.com/MengBanana/Dixit/blob/master/demo/0-1.png)
 #### Rule
-![Rule](https://github.com/MengBanana/Dixit/blob/master/demo/rule.png)
-#### Ready
-![Ready](https://github.com/MengBanana/Dixit/blob/master/demo/ready.png)
-#### Story Teller
-![Story Teller](https://github.com/MengBanana/Dixit/blob/master/demo/storyteller.png)
+![Rule](https://github.com/MengBanana/Dixit/blob/master/demo/0-2.png)
+#### Sign in
+![Sign in](https://github.com/MengBanana/Dixit/blob/master/demo/1-1.png)
+#### Sign up
+![Sign up](https://github.com/MengBanana/Dixit/blob/master/demo/1-2.png)
+#### Game Lobby
+![Game Lobby](https://github.com/MengBanana/Dixit/blob/master/demo/3.png)
+#### Add New Game
+![Add New Game](https://github.com/MengBanana/Dixit/blob/master/demo/4-1.png)
+#### Ready Page
+![Ready Page](https://github.com/MengBanana/Dixit/blob/master/demo/5-1%20ready%20page.png)
+#### Story Teller Page
+![Story Teller](https://github.com/MengBanana/Dixit/blob/master/demo/5-2%20Storyteller%20page.png)
 #### Pick
-![Pick](https://github.com/MengBanana/Dixit/blob/master/demo/pick.png)
+![Pick](https://github.com/MengBanana/Dixit/blob/master/demo/5-4%20player%20pick%20page.png)
 #### Vote
-![Vote](https://github.com/MengBanana/Dixit/blob/master/demo/vote.png)
-#### Next Round
-![Next Round](https://github.com/MengBanana/Dixit/blob/master/demo/next.png)
+![Vote](https://github.com/MengBanana/Dixit/blob/master/demo/5-5%20player%20vote%20page.png)
+#### Round End
+![Round End](https://github.com/MengBanana/Dixit/blob/master/demo/5-6%20round%20end%20page.png)
+#### Game Over Page
+![Game Over](https://github.com/MengBanana/Dixit/blob/master/demo/5-7%20game%20over%20page.png)
+#### Card Collection Page
+
 
 ## VideoDemonstration
-[Youtube]()
+#### Youtube part1:
+[basic features](https://www.youtube.com/watch?v=lAZLEkL4uAM&feature=youtu.be)
+#### Youtube part2:
+[automation and twitter API](https://www.youtube.com/watch?v=fyL9C1HdC8E&feature=youtu.be)
 
 ## Presentation
 [Slides](https://docs.google.com/presentation/d/1fkfnC75fKTtWMfDX6Gm_PAkMh7ykKVILCq5lec_JILY/edit#slide=id.g35f391192_029) for the presentation
