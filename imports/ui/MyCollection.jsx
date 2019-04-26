@@ -14,8 +14,8 @@ class MyCollection extends Component {
   }
 
   render() {
-    console.log(this.props.myData);
-    console.log(this.props.myData[0]);
+    // console.log(this.props.myData);
+    // console.log(this.props.myData[0]);
 
     return (
       <div className="container collection">
