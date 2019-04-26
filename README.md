@@ -56,13 +56,11 @@ Here's the link to [Dixit](https://dixitgame2019.herokuapp.com/)
 
 ## Preview
 #### Home Page
-![Home Page](https://github.com/MengBanana/Dixit/blob/master/demo/0-1.png)
-#### Rule
-![Rule](https://github.com/MengBanana/Dixit/blob/master/demo/0-2.png)
-#### Sign in
-![Sign in](https://github.com/MengBanana/Dixit/blob/master/demo/1-1.png)
-#### Sign up
-![Sign up](https://github.com/MengBanana/Dixit/blob/master/demo/1-2.png)
+![Home Page](https://github.com/MengBanana/Dixit/blob/master/demo/homepage.gif)
+#### Game Rule
+![Game Rule](https://github.com/MengBanana/Dixit/blob/master/demo/0-2.png)
+#### Sign in & Register
+![Sign in & Register](https://github.com/MengBanana/Dixit/blob/master/demo/signin.gif)
 #### Game Lobby
 ![Game Lobby](https://github.com/MengBanana/Dixit/blob/master/demo/3.png)
 #### Add New Game
@@ -79,7 +77,8 @@ Here's the link to [Dixit](https://dixitgame2019.herokuapp.com/)
 ![Round End](https://github.com/MengBanana/Dixit/blob/master/demo/5-6%20round%20end%20page.png)
 #### Game Over Page
 ![Game Over](https://github.com/MengBanana/Dixit/blob/master/demo/5-7%20game%20over%20page.png)
-#### Card Collection Page
+#### Card Collection
+![Card Collection](https://github.com/MengBanana/Dixit/blob/master/demo/cardcollection.gif)
 
 
 ## VideoDemonstration
