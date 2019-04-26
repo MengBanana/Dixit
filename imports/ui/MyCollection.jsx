@@ -10,13 +10,15 @@ class MyCollection extends Component {
   }
 
   render() {
+    console.log(this.props.myData);
     console.log(this.props.myData[0]);
+
     return (
       <div className="container">
         <h2 className="row collection"> My Collection </h2>
-        { this.props.myData.collection?
+        { this.props.myData != []?
           <div className="row" id="addcard">
-            {this.props.myData[0].collection.map(card => (
+            {this.props.myData.map(m => m.collection.map(card => (
               <div
                 key={card._id}
                 className="card col-xs-4 col-s-3"
@@ -27,7 +29,7 @@ class MyCollection extends Component {
               >
                 
               </div>
-            ))}
+            )))}
           </div> : null
         }
       </div>
@@ -44,7 +46,7 @@ export default withTracker(() => {
   const handle = Meteor.subscribe("myData");
   return {
     user: Meteor.user(),
-    myData: UsersGames.find({}).fetch(),
+    myData: UsersGames.find().fetch(),
     ready: handle.ready(),
   };
 })(MyCollection);
