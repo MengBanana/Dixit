@@ -8,6 +8,7 @@ import { Cards } from "../api/cards.js";
 import { paginate } from "../utils/paginate";
 import { random } from "../utils/random";
 
+// I think there's some issue with an exit button not being available in the middle of the game and players being trapped - perhaps an update to the UI with a button that is always there would be helfpul
 
 class GameRoom extends Component {
   constructor(props) {
